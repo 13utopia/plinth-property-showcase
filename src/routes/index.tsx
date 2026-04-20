@@ -24,6 +24,18 @@ import {
   TrainFront,
   Check,
   Menu,
+  Sparkles,
+  AlertCircle,
+  Calendar,
+  Download,
+  Users,
+  ShieldCheck,
+  Phone,
+  Mail,
+  Instagram,
+  Facebook,
+  Linkedin,
+  Youtube,
 } from "lucide-react";
 import tower from "@/assets/plinth-tower.jpg";
 import office from "@/assets/plinth-office.jpg";

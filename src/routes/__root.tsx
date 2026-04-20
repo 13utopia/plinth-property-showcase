@@ -29,14 +29,14 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Plinth — Curated Real Estate" },
+      { name: "description", content: "Plinth is a boutique real estate studio crafting timeless homes and investment properties for discerning buyers." },
+      { name: "author", content: "Plinth" },
+      { property: "og:title", content: "Plinth — Curated Real Estate" },
+      { property: "og:description", content: "Boutique real estate studio crafting timeless homes for discerning buyers." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:site", content: "@Plinth" },
     ],
     links: [
       {

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useId, useMemo, useRef, useState, useEffect } from "react";
+import { Heart } from "lucide-react";
 import {
   ArrowRight,
   TrendingUp,
@@ -212,11 +213,11 @@ function Nav({ onEnquireClick }: { onEnquireClick?: () => void }) {
         </nav>
 
         <PremiumButton
-      onClick={onEnquireClick}
-      innerClassName="px-5 py-2.5 md:px-6 md:py-3 text-[10px] md:text-[11px] uppercase tracking-widest"
-    >
-      Enquire Now
-    </PremiumButton>
+          onClick={onEnquireClick}
+          innerClassName="px-5 py-2.5 md:px-6 md:py-3 text-[10px] md:text-[11px] uppercase tracking-widest"
+        >
+          Enquire Now
+        </PremiumButton>
       </div>
 
       {/* Mobile Menu Overlay */}
@@ -332,7 +333,7 @@ function Hero() {
                 100% { transform: translateX(0%); }
               }
             `}} />
-            
+
             <div className="absolute inset-0 rounded-[32px] overflow-hidden">
               <div className="absolute inset-0 w-[300%] flex h-full" style={{ animation: "hero-slide 18s cubic-bezier(0.8,0,0.2,1) infinite" }}>
                 {[tower, plinthOffice, plinthShowroom].map((src, i) => (
@@ -341,7 +342,7 @@ function Hero() {
                       src={src}
                       alt={`Plinth feature ${i + 1}`}
                       className="absolute inset-0 h-full w-full object-cover"
-                      
+
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/40" />
                   </div>
@@ -534,7 +535,7 @@ function Highlights() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-[1200px] mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7 max-w-[1200px] mx-auto">
           {items.map(({ icon: Icon, t, d }, i) => (
             <TiltCard
               key={t}
@@ -772,72 +773,72 @@ function WhyInvest() {
     { icon: Key, t: "Limited Entry Opportunity", d: "Exclusive availability with a limited number of units remaining in this premium phase. Rarity dictates value." },
   ];
   const { ref, inView } = useInView();
-return(
-  <section id="whyinvest" className="py-12 lg:py-16 overflow-hidden">
-  {/* Added 'flex flex-col items-center' to parent div to center everything */}
-  <div className="mx-auto max-w-[1120px] px-4 lg:px-6 xl:px-8 flex flex-col items-center">
-    
-    {/* Centering the Label and Title */}
-    <div className="flex flex-col items-center text-center">
-      <SectionLabel n="05" t="EXCLUSIVE OPPORTUNITY" />
-      <TypewriterTitle />
-      <p className="max-w-3xl text-foreground/70 text-[16px] leading-relaxed mb-12 text-center">
-        The convergence of strategic location, architectural brilliance, and optimal market timing creates an unprecedented window for discerning investors.
-      </p>
-    </div>
+  return (
+    <section id="whyinvest" className="py-12 lg:py-16 overflow-hidden">
+      {/* Added 'flex flex-col items-center' to parent div to center everything */}
+      <div className="mx-auto max-w-[1120px] px-4 lg:px-6 xl:px-8 flex flex-col items-center">
 
-    {/* Centering the Grid: Added 'mx-auto' and ensured max-width is controlled */}
-    <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 min-h-[410px] max-w-5xl mx-auto w-full">
-      {items.map(({ icon: Icon, t, d }, i) => {
-        const isActive = i === active;
-        return (
-          <div
-            key={t}
-            className={`h-full w-full flex flex-col transition-all duration-1000 transform ${inView ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'}`}
-            style={{ transitionDelay: `${i * 150}ms` }}
-          >
-            <TiltCard
-              className={[
-                "h-full group relative w-full rounded-[16px] p-5 min-h-[250px] flex flex-col transition-colors cursor-pointer",
-                isActive
-                  ? "bg-gradient-to-b from-[#D4A865] via-[#C69A57] to-[#9B7335] text-black shadow-[0_55px_170px_-140px_oklch(0.78_0.13_75/0.80)]"
-                  : "border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur text-foreground hover:border-[oklch(0.78_0.13_75/0.45)]",
-              ].join(" ")}
-              onMouseEnter={() => setActive(i)}
-              onMouseLeave={() => setActive(0)}
-              onClick={() => setActive(i)}
-              onTouchStart={() => setActive(i)}
-            >
-              {!isActive && (
-                <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.07)] opacity-55 group-hover:opacity-100 transition-opacity" />
-              )}
+        {/* Centering the Label and Title */}
+        <div className="flex flex-col items-center text-center">
+          <SectionLabel n="05" t="EXCLUSIVE OPPORTUNITY" />
+          <TypewriterTitle />
+          <p className="max-w-3xl text-foreground/70 text-[16px] leading-relaxed mb-12 text-center">
+            The convergence of strategic location, architectural brilliance, and optimal market timing creates an unprecedented window for discerning investors.
+          </p>
+        </div>
 
+        {/* Centering the Grid: Added 'mx-auto' and ensured max-width is controlled */}
+        <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 min-h-[410px] max-w-5xl mx-auto w-full">
+          {items.map(({ icon: Icon, t, d }, i) => {
+            const isActive = i === active;
+            return (
               <div
-                className={[
-                  "relative h-10 w-10 rounded-full flex items-center justify-center mb-5",
-                  isActive
-                    ? "bg-[oklch(0.16_0.012_60/0.18)] shadow-[0_26px_70px_-44px_oklch(0.16_0.012_60/0.35)]"
-                    : "bg-background/10 border border-[oklch(0.65_0.10_70/0.26)] shadow-[inset_0_0_0_1px_oklch(0.85_0.12_80/0.06)]",
-                ].join(" ")}
+                key={t}
+                className={`h-full w-full flex flex-col transition-all duration-1000 transform ${inView ? 'translate-y-0 opacity-100' : 'translate-y-24 opacity-0'}`}
+                style={{ transitionDelay: `${i * 150}ms` }}
               >
-                {isActive ? (
-                  <Icon className="h-4 w-4 text-[oklch(0.16_0.012_60)]" />
-                ) : (
-                  <Icon className="h-4 w-4 text-[#C69A57] drop-shadow-sm" strokeWidth={1.5} />
-                )}
+                <TiltCard
+                  className={[
+                    "h-full group relative w-full rounded-[16px] p-5 min-h-[250px] flex flex-col transition-colors cursor-pointer",
+                    isActive
+                      ? "bg-gradient-to-b from-[#D4A865] via-[#C69A57] to-[#9B7335] text-black shadow-[0_55px_170px_-140px_oklch(0.78_0.13_75/0.80)]"
+                      : "border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur text-foreground hover:border-[oklch(0.78_0.13_75/0.45)]",
+                  ].join(" ")}
+                  onMouseEnter={() => setActive(i)}
+                  onMouseLeave={() => setActive(0)}
+                  onClick={() => setActive(i)}
+                  onTouchStart={() => setActive(i)}
+                >
+                  {!isActive && (
+                    <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.07)] opacity-55 group-hover:opacity-100 transition-opacity" />
+                  )}
+
+                  <div
+                    className={[
+                      "relative h-10 w-10 rounded-full flex items-center justify-center mb-5",
+                      isActive
+                        ? "bg-[oklch(0.16_0.012_60/0.18)] shadow-[0_26px_70px_-44px_oklch(0.16_0.012_60/0.35)]"
+                        : "bg-background/10 border border-[oklch(0.65_0.10_70/0.26)] shadow-[inset_0_0_0_1px_oklch(0.85_0.12_80/0.06)]",
+                    ].join(" ")}
+                  >
+                    {isActive ? (
+                      <Icon className="h-4 w-4 text-[oklch(0.16_0.012_60)]" />
+                    ) : (
+                      <Icon className="h-4 w-4 text-[#C69A57] drop-shadow-sm" strokeWidth={1.5} />
+                    )}
+                  </div>
+                  <h3 className="relative font-serif text-[17px] mb-1.5 leading-snug mt-4">{t}</h3>
+                  <p className={`relative text-[12px] leading-relaxed ${isActive ? "text-[oklch(0.16_0.012_60/0.82)]" : "text-foreground/65"}`}>
+                    {d}
+                  </p>
+                </TiltCard>
               </div>
-              <h3 className="relative font-serif text-[17px] mb-1.5 leading-snug mt-4">{t}</h3>
-              <p className={`relative text-[12px] leading-relaxed ${isActive ? "text-[oklch(0.16_0.012_60/0.82)]" : "text-foreground/65"}`}>
-                {d}
-              </p>
-            </TiltCard>
-          </div>
-        );
-      })}
-    </div>
-  </div>
-  
-</section>
+            );
+          })}
+        </div>
+      </div>
+
+    </section>
   );
 }
 
@@ -1426,7 +1427,13 @@ function SiteFooter() {
         </div>
 
         <div className="mt-16 pt-8 border-t border-[oklch(0.65_0.10_70/0.16)] flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-foreground/45">
-          <span>© {new Date().getFullYear()} Sindhu Bhavan. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Sindhu Bhavan. All rights reserved.<br />Made with by <a href="https://13utopia.com">13UTOPiA</a></span>
+
+          <span className="flex items-center gap-1.5">
+            © {new Date().getFullYear()} Made with
+            <Heart className="h-3.5 w-3.5 text-red-500 fill-red-500 animate-pulse" />
+            by <a href="https://13utopia.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#C69A57] transition-colors">13UTOPiA</a>
+          </span>
           <div className="flex flex-wrap gap-x-8 gap-y-2">
             <a href="#" className="hover:text-[#E3C98B]">Privacy Policy</a>
             <a href="#" className="hover:text-[#E3C98B]">Terms</a>

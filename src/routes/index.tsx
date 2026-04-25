@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useId, useMemo, useRef, useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 import {
   ArrowRight,
@@ -40,6 +41,7 @@ import {
   Linkedin,
   Youtube,
   X,
+
 } from "lucide-react";
 import tower from "@/assets/Tower.jpeg";
 import office from "@/assets/Plinth-office.jpeg";
@@ -54,9 +56,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Plinth - Premium Commercial Space, Sindhu Bhavan Road" },
-      { name: "description", content: "Plinth on Sindhu Bhavan Road, Ahmedabad. G+38 storey landmark commercial tower with 15–18% expected annual ROI. Office and showroom spaces from 900 to 2700 sq.ft." },
+      { name: "description", content: "Plinth on Sindhu Bhavan Road, Ahmedabad. G+38 storey landmark commercial tower with 15â€“18% expected annual ROI. Office and showroom spaces from 900 to 2700 sq.ft." },
       { property: "og:title", content: "Plinth - Premium Commercial Space" },
-      { property: "og:description", content: "G+38 landmark commercial tower on Sindhu Bhavan Road, Ahmedabad. 15–18% expected ROI." },
+      { property: "og:description", content: "G+38 landmark commercial tower on Sindhu Bhavan Road, Ahmedabad. 15â€“18% expected ROI." },
     ],
   }),
 });
@@ -194,17 +196,20 @@ function Nav({ onEnquireClick }: { onEnquireClick?: () => void }) {
 
   return (
     <header className="absolute top-0 inset-x-0 z-30">
-      <div className="mx-auto max-w-[1200px] px-25 lg:px-24 xl:px-25 py-5 flex items-center justify-between md:grid md:grid-cols-[auto_1fr_auto]">
-        <button
-          className="md:hidden text-foreground p-2 -ml-2"
-          aria-label="Menu"
-          onClick={() => setIsMobileMenuOpen(true)}
-        >
-          <Menu className="h-6 w-6" />
-        </button>
-        <div className="hidden md:block" />
+      <div className="mx-auto max-w-[1200px] px-6 lg:px-24 xl:px-25 py-5 flex items-center justify-between">
 
-        <nav className="hidden md:flex gap-8 text-[14px] tracking-wide font-light text-foreground/80 justify-center">
+        {/* Left Side: Mobile Menu Trigger */}
+        <div className="flex-1 md:hidden">
+          <button
+            className="text-foreground p-2 -ml-2"
+            onClick={() => setIsMobileMenuOpen(true)}
+          >
+            <Menu className="h-6 w-6" />
+          </button>
+        </div>
+
+        {/* Center: Desktop Navigation */}
+        <nav className="hidden md:flex gap-8 text-[14px] tracking-wide font-light text-foreground/80 flex-1 justify-center">
           {navLinks.map((l) => (
             <a key={l} href={`#${l.toLowerCase()}`} className="hover:text-[#E3C98B] transition">
               {l}
@@ -212,34 +217,32 @@ function Nav({ onEnquireClick }: { onEnquireClick?: () => void }) {
           ))}
         </nav>
 
-        <PremiumButton
-          onClick={onEnquireClick}
-          innerClassName="px-5 py-2.5 md:px-6 md:py-3 text-[10px] md:text-[11px] uppercase tracking-widest"
-        >
-          Enquire Now
-        </PremiumButton>
+        {/* Right Side: Enquire Button */}
+        <div className="flex justify-end flex-1">
+          <PremiumButton
+            onClick={onEnquireClick}
+            innerClassName="px-5 py-2.5 md:px-6 md:py-3 text-[10px] md:text-[11px] uppercase tracking-widest whitespace-nowrap"
+          >
+            Enquire Now
+          </PremiumButton>
+        </div>
       </div>
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-background/95 backdrop-blur-xl px-6 py-5 md:hidden animate-in fade-in slide-in-from-top-2 duration-300">
+        <div className="fixed inset-0 z-[60] flex flex-col bg-black/95 backdrop-blur-xl px-6 py-5 md:hidden">
           <div className="flex items-center justify-between mb-10">
             <span className="font-serif text-xl tracking-widest text-[#E3C98B]">PLINTH</span>
             <button
-              className="text-foreground p-2 -mr-2 bg-background/20 rounded-full border border-white/10"
+              className="text-foreground p-2 bg-white/10 rounded-full"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <X className="h-6 w-6" />
             </button>
           </div>
-          <nav className="flex flex-col gap-6 text-lg font-light tracking-widest mt-4">
+          <nav className="flex flex-col gap-6 mt-4">
             {navLinks.map((l) => (
-              <a
-                key={l}
-                href={`#${l.toLowerCase()}`}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="hover:text-[#E3C98B] transition border-b border-white/5 pb-4 text-foreground/80 hover:text-foreground"
-              >
+              <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setIsMobileMenuOpen(false)} className="border-b border-white/5 pb-4 text-foreground/80">
                 {l}
               </a>
             ))}
@@ -249,7 +252,6 @@ function Nav({ onEnquireClick }: { onEnquireClick?: () => void }) {
     </header>
   );
 }
-
 /* ---------- 2. HERO ---------- */
 
 function Hero() {
@@ -286,7 +288,7 @@ function Hero() {
             <span className="text-[10px] tracking-[0.3em] text-[#C69A57]">EXPECTED ANNUAL ROI</span>
           </div>
           <div className="font-serif text-[62px] sm:text-[86px] lg:text-[98px] leading-[1.1] italic bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent drop-shadow-md mb-5">
-            15–18<span className="text-[42px] sm:text-[58px] lg:text-[70px]">%</span>
+            15-18<span className="text-[42px] sm:text-[58px] lg:text-[70px]">%</span>
           </div>
           <p className="text-white/70 text-[14px] leading-relaxed max-w-[390px] mb-10">
             A high-growth commercial investment opportunity in Ahmedabad's most prestigious business corridor.
@@ -307,7 +309,7 @@ function Hero() {
           {/* 3 Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 lg:max-w-[480px]">
             {[
-              { icon: TrendingUp, label: "STARTING", v: "₹65 Lakhs" },
+              { icon: TrendingUp, label: "STARTING", v: "â‚¹65 Lakhs" },
               { icon: Building2, label: "OFFICE FROM", v: "900 Sq.ft" },
               { icon: Store, label: "SHOWROOM FROM", v: "2700 Sq.ft" },
             ].map(({ icon: Icon, label, v }) => (
@@ -361,7 +363,7 @@ function Hero() {
             {/* floating PROPERTY APPRECIATION card */}
             <div className="absolute -left-3 sm:-left-10 top-24 rounded-2xl border border-[#E3C98B]/60  bg-background/15 backdrop-blur p-4 shadow-[0_40px_140px_-110px_oklch(0.78_0.13_75/0.40)] backdrop-blur z-10 w-52">
               <div className="text-[8px] tracking-[0.2em] text-[#C69A57] mb-2">PROPERTY APPRECIATION</div>
-              <div className="font-serif text-2xl text-[#C69A57] mb-1">15–18%</div>
+              <div className="font-serif text-2xl text-[#C69A57] mb-1">15-18%</div>
               <p className="text-[10px] text-white/40 leading-relaxed max-w-[150px]">Expected annual returns on investment</p>
             </div>
 
@@ -462,7 +464,7 @@ function ROISection() {
             <div className="mt-5 pt-5 border-t border-[#E3C98B]/20 grid grid-cols-3 gap-3">
               {[
                 { l: "ENTRY YIELD", v: "8%" },
-                { l: "STABILIZED", v: "15–18%" },
+                { l: "STABILIZED", v: "15-18%" },
                 { l: "HORIZON", v: "4 Yrs" },
               ].map((s) => (
                 <div key={s.l}>
@@ -478,28 +480,42 @@ function ROISection() {
             {[
               { icon: TrendingUp, v: "92%", t: "High Rental Demand Zone", d: "Occupancy rate in the corridor" },
               { icon: MapPin, v: "A+", t: "Prime Sindhu Bhavan Location", d: "Premium commercial grade" },
-              { icon: TrendingUp, v: "2.4×", t: "Property Appreciation", d: "Projected 5-year growth" },
+              { icon: TrendingUp, v: "2.4x", t: "Property Appreciation", d: "Projected 5-year growth" },
               { icon: Award, v: "IGBC", t: "Grade-A Commercial", d: "Green building certified" },
             ].map(({ icon: Icon, v, t, d }) => (
-              <TiltCard
+              <motion.div
                 key={t}
-                className="group relative rounded-[20px] border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-5 min-h-[200px] flex flex-col justify-center hover:border-[oklch(0.78_0.13_75/0.45)] hover:shadow-[0_40px_130px_-120px_oklch(0.78_0.13_75/0.65)]"
+                // 1. Framer Motion handles the 'press' feel for mobile
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="group relative rounded-[20px] border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-5 min-h-[200px] flex flex-col justify-center transition-all duration-300 
+      hover:border-[oklch(0.78_0.13_75/0.45)] 
+      active:border-[oklch(0.78_0.13_75/0.45)] 
+      hover:shadow-[0_40px_130px_-120px_oklch(0.78_0.13_75/0.65)]
+      active:shadow-[0_40px_130px_-120px_oklch(0.78_0.13_75/0.65)]"
               >
-                <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.06)] opacity-55 group-hover:opacity-100 transition-opacity" />
+                {/* 2. Ring effect: Added group-active for mobile glow */}
+                <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.06)] opacity-55 group-hover:opacity-100 group-active:opacity-100 transition-opacity" />
 
+                {/* Icon Container */}
                 <div className="relative h-8.5 w-8.5 rounded-full bg-[linear-gradient(135deg,oklch(0.86_0.12_80),oklch(0.65_0.13_65))] flex items-center justify-center mb-3 shadow-[0_22px_60px_-40px_oklch(0.78_0.13_75/0.80)]">
                   <div className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-[oklch(0.20_0.014_60/0.18)]" />
                   <Icon className="h-3.5 w-3.5 text-[oklch(0.16_0.012_60)]" />
                 </div>
+
+                {/* Stat Value with Gold Gradient */}
                 <div className="relative font-serif text-[20px] leading-none mb-1.5 bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent">
                   {v}
                 </div>
+
+                {/* Title */}
                 <div className="relative text-[12px] text-foreground/90 font-medium leading-snug">{t}</div>
+
+                {/* Description */}
                 <p className="relative text-[10px] text-foreground/55 mt-0.5 leading-snug">{d}</p>
-              </TiltCard>
-            ))
-            }
-          </div >
+              </motion.div>
+            ))}
+          </div>
         </div >
       </div >
     </section >
@@ -515,7 +531,7 @@ function Highlights() {
     { icon: ArrowUp, t: "18 Lifts", d: "High-speed vertical transport - no wait times, zero downtime." },
     { icon: Layers, t: "18 Offices / Floor", d: "Thoughtfully planned floor plates for productivity & flow." },
     { icon: MoveVertical, t: "11.5 ft Ceilings", d: "Double-volume interiors for a grand, open workspace." },
-    { icon: Car, t: "−4 Basement Parking", d: "Ample secured parking across four basement levels." },
+    { icon: Car, t: "-4 Basement Parking", d: "Ample secured parking across four basement levels." },
   ];
   return (
     <section id="highlights" className="py-12 lg:py-16">
@@ -579,7 +595,7 @@ function Spaces() {
       unit: "Sq.ft",
       title: "Starting ₹65 Lakhs",
       features: [
-        "18 offices per floor · customizable layouts",
+        "18 offices per floor· customizable layouts",
         "11.5 ft ceilings, floor-to-ceiling glass",
         "Dedicated high-speed elevators",
         "Central air-conditioning",
@@ -676,7 +692,7 @@ function Spaces() {
                   <h3 className="font-serif text-[17px] md:text-[19px] italic tracking-wide bg-gradient-to-r from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent leading-snug">
                     {c.title}
                   </h3>
-                  <span className="text-[10px] tracking-[0.2em] text-[#C69A57] font-bold uppercase">15–18% ROI</span>
+                  <span className="text-[10px] tracking-[0.2em] text-[#C69A57] font-bold uppercase">15-18% ROI</span>
                 </div>
 
                 <ul className="mt-3 space-y-2">
@@ -1107,7 +1123,7 @@ function InvestmentCTA() {
         <div
           className="font-serif leading-[1.1] text-[4rem] sm:text-[6rem] md:text-[7.5rem] lg:text-[9rem] bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent"
         >
-          15–18<span className="text-[2.3rem] sm:text-[3rem] md:text-[4.5rem] lg:text-[6.5rem]">%</span>
+          15-18<span className="text-[2.3rem] sm:text-[3rem] md:text-[4.5rem] lg:text-[6.5rem]">%</span>
         </div>
 
         <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-foreground mt-8">
@@ -1124,7 +1140,7 @@ function InvestmentCTA() {
         </div>
 
         <div className="mt-10 text-[10px] tracking-[0.30em] text-foreground/60">
-          SINDHU BHAVAN ROAD <span className="text-[#E3C98B]">·</span> AHMEDABAD <span className="text-[#E3C98B]">·</span> 380054
+          SINDHU BHAVAN ROAD <span className="text-[#E3C98B]">Â·</span> AHMEDABAD <span className="text-[#E3C98B]">Â·</span> 380054
         </div>
       </div>
     </section >
@@ -1239,8 +1255,8 @@ function EnquiryForm() {
             <div>
               <label className="text-[10px] tracking-[0.3em] text-foreground/70">BUDGET RANGE</label>
               <select name="budget" className="mt-3 w-full rounded-xl border border-[oklch(0.65_0.10_70/0.22)] bg-background/90 px-5 py-4 text-foreground shadow-[inset_0_0_0_1px_oklch(0.85_0.12_80/0.05)] focus:outline-none focus:border-[oklch(0.78_0.13_75/0.55)] transition">
-                <option value="₹65 L – ₹1 Cr">₹65 L – ₹1 Cr</option>
-                <option value="₹1 Cr – ₹2 Cr">₹1 Cr – ₹2 Cr</option>
+                <option value="₹65 L - ₹1 Cr">₹65 L - ₹1 Cr</option>
+                <option value="₹1 Cr - ₹2 Cr">₹1 Cr - ₹2 Cr</option>
                 <option value="₹2 Cr +">₹2 Cr +</option>
               </select>
             </div>
@@ -1327,7 +1343,7 @@ function EnquireNow() {
               <div
                 className="font-serif leading-[1.1] text-6xl sm:text-7xl md:text-[6rem] lg:text-[6rem] bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent"
               >
-                15–18<span className="text-5xl sm:text-6xl md:text-[4rem] lg:text-[4rem]">%</span>
+                15-18<span className="text-5xl sm:text-6xl md:text-[4rem] lg:text-[4rem]">%</span>
               </div>
               <p className="text-sm text-foreground/65 mt-4">
                 Expected annual ROI - rental yield + capital appreciation.
@@ -1362,7 +1378,7 @@ function SiteFooter() {
               Looking for{" "}
               <span className="text-[#E3C98B]">office space in Sindhu Bhavan Ahmedabad</span>?
               This premium commercial project offers modern office spaces and showroom units with{" "}
-              <span className="text-[#E3C98B]">high ROI potential (15–18% annual returns)</span>,
+              <span className="text-[#E3C98B]">high ROI potential (15-18% annual returns)</span>,
               G+38 storey landmark design, green building certification, 18 high-speed lifts, and
               4-level basement parking in Ahmedabad's most prestigious business corridor.
             </p>
@@ -1420,17 +1436,17 @@ function SiteFooter() {
               <div className="pointer-events-none absolute -top-12 -left-12 h-48 w-48 rounded-full transparent_68%)]" />
               <div className="relative text-[10px] tracking-[0.35em] text-[#E3C98B]/90 mb-3">EXPECTED ROI</div>
               <div className="relative font-serif text-4xl italic bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent">
-                15–18% p.a.
+                15-18% p.a.
               </div>
             </div>
           </div>
         </div>
 
         <div className="mt-16 pt-8 border-t border-[oklch(0.65_0.10_70/0.16)] flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-foreground/45">
-          <span>© {new Date().getFullYear()} Sindhu Bhavan. All rights reserved.<br />Made with by <a href="https://13utopia.com">13UTOPiA</a></span>
+          <span>Â© {new Date().getFullYear()} Sindhu Bhavan. All rights reserved.<br />Made with by <a href="https://13utopia.com">13UTOPiA</a></span>
 
           <span className="flex items-center gap-1.5">
-            © {new Date().getFullYear()} Made with
+            Â© {new Date().getFullYear()} Made with
             <Heart className="h-3.5 w-3.5 text-red-500 fill-red-500 animate-pulse" />
             by <a href="https://13utopia.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#C69A57] transition-colors">13UTOPiA</a>
           </span>

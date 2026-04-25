@@ -162,6 +162,7 @@
     transform: scale(1.02);
   }
 }
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -326,3 +327,4 @@
     transform: scale(1.02);
   }
 }
+

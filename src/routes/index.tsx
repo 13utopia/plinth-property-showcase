@@ -287,7 +287,7 @@ function Hero() {
             <span className="h-px w-8 bg-[#C69A57]/60" />
             <span className="text-[10px] tracking-[0.3em] text-[#C69A57]">EXPECTED ANNUAL ROI</span>
           </div>
-          <div className="font-serif text-[62px] sm:text-[86px] lg:text-[98px] leading-[1.1] italic bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent drop-shadow-md mb-5">
+          <div className="roi-display font-serif text-[62px] sm:text-[86px] lg:text-[98px] leading-[1.1] italic bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent drop-shadow-md mb-5">
             15-18<span className="text-[42px] sm:text-[58px] lg:text-[70px]">%</span>
           </div>
           <p className="text-white/70 text-[14px] leading-relaxed max-w-[390px] mb-10">
@@ -363,7 +363,7 @@ function Hero() {
             {/* floating PROPERTY APPRECIATION card */}
             <div className="absolute -left-3 sm:-left-10 top-24 rounded-2xl border border-[#E3C98B]/60  bg-background/15 backdrop-blur p-4 shadow-[0_40px_140px_-110px_oklch(0.78_0.13_75/0.40)] backdrop-blur z-10 w-52">
               <div className="text-[8px] tracking-[0.2em] text-[#C69A57] mb-2">PROPERTY APPRECIATION</div>
-              <div className="font-serif text-2xl text-[#C69A57] mb-1">15-18%</div>
+              <div className="roi-display font-serif text-2xl text-[#C69A57] mb-1">15-18%</div>
               <p className="text-[10px] text-white/40 leading-relaxed max-w-[150px]">Expected annual returns on investment</p>
             </div>
 
@@ -404,7 +404,7 @@ function ROISection() {
       <div className="mx-auto max-w-[1120px] px-4 lg:px-6 xl:px-8">
         <SectionLabel n="02" t="INVESTMENT OPPORTUNITY" />
         <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight text-foreground max-w-4xl">
-          Earn up to   <span className="italic bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent">
+          Earn up to   <span className="roi-display italic bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent">
             15-18%
           </span>
           <br />
@@ -1059,11 +1059,11 @@ function DeveloperLegacy() {
         </div>
 
         {/* Featured in strip */}
-        <div className="mt-10 rounded-full border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.40),oklch(0.17_0.012_60/0.25))] backdrop-blur px-5 py-4 flex flex-wrap items-center justify-between gap-5">
-          <div className="text-[13px] tracking-[0.28em] text-[#E3C98B]/90">FEATURED IN</div>
-          <div className="flex flex-wrap items-center gap-x-12 gap-y-3">
+        <div className="mt-10 rounded-3xl sm:rounded-full border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.40),oklch(0.17_0.012_60/0.25))] backdrop-blur px-4 sm:px-6 lg:px-8 py-4 sm:py-5 flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-between gap-4 sm:gap-5">
+          <div className="text-[10px] sm:text-[13px] tracking-[0.24em] sm:tracking-[0.28em] text-[#E3C98B]/90 text-center sm:text-left">FEATURED IN</div>
+          <div className="w-full sm:w-auto flex flex-wrap items-center justify-center sm:justify-start gap-x-6 sm:gap-x-12 gap-y-2 sm:gap-y-3">
             {press.map((p) => (
-              <span key={p} className="font-serif text-[18px] text-foreground/70">{p}</span>
+              <span key={p} className="font-serif text-[15px] sm:text-[18px] text-foreground/70 whitespace-nowrap">{p}</span>
             ))}
           </div>
         </div>
@@ -1120,7 +1120,7 @@ function InvestmentCTA() {
         <div className="text-[12px] tracking-[0.35em] text-[#E3C98B]/90 mb-3">EXPECTED ANNUAL ROI</div>
 
         <div
-          className="font-serif leading-[1.1] text-[2.9rem] sm:text-[6rem] md:text-[7.5rem] lg:text-[9rem] bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent"
+          className="roi-display font-serif leading-[1.1] text-[2.9rem] sm:text-[6rem] md:text-[7.5rem] lg:text-[9rem] bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent"
         >
           15-18<span className="text-[1.8rem] sm:text-[3rem] md:text-[4.5rem] lg:text-[6.5rem]">%</span>
         </div>
@@ -1434,7 +1434,7 @@ function SiteFooter() {
             <div className="mt-8 relative rounded-2xl border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.50),oklch(0.17_0.012_60/0.30))] backdrop-blur p-6 overflow-hidden">
               <div className="pointer-events-none absolute -top-12 -left-12 h-48 w-48 rounded-full transparent_68%)]" />
               <div className="relative text-[10px] tracking-[0.35em] text-[#E3C98B]/90 mb-3">EXPECTED ROI</div>
-              <div className="relative font-serif text-4xl italic bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent">
+              <div className="roi-display relative font-serif text-4xl italic bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent">
                 15-18% p.a.
               </div>
             </div>

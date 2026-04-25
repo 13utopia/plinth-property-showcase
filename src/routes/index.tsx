@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useId, useMemo, useRef, useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 import {
   ArrowRight,
@@ -483,12 +482,10 @@ function ROISection() {
               { icon: TrendingUp, v: "2.4x", t: "Property Appreciation", d: "Projected 5-year growth" },
               { icon: Award, v: "IGBC", t: "Grade-A Commercial", d: "Green building certified" },
             ].map(({ icon: Icon, v, t, d }) => (
-              <motion.div
+              <div
                 key={t}
-                // 1. Framer Motion handles the 'press' feel for mobile
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
                 className="group relative rounded-[20px] border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-5 min-h-[200px] flex flex-col justify-center transition-all duration-300 
+      transform-gpu hover:scale-[1.02] active:scale-[0.98]
       hover:border-[oklch(0.78_0.13_75/0.45)] 
       active:border-[oklch(0.78_0.13_75/0.45)] 
       hover:shadow-[0_40px_130px_-120px_oklch(0.78_0.13_75/0.65)]
@@ -513,7 +510,7 @@ function ROISection() {
 
                 {/* Description */}
                 <p className="relative text-[10px] text-foreground/55 mt-0.5 leading-snug">{d}</p>
-              </motion.div>
+              </div>
               
             ))}
           </div>

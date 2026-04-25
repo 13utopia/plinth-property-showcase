@@ -514,6 +514,7 @@ function ROISection() {
                 {/* Description */}
                 <p className="relative text-[10px] text-foreground/55 mt-0.5 leading-snug">{d}</p>
               </motion.div>
+              
             ))}
           </div>
         </div >

@@ -55,11 +55,9 @@ export const Route = createFileRoute("/")({
   component: PlinthLanding,
   head: () => ({
     links: [
-      {
-        rel: "icon",
-        type: "image/svg+xml",
-        href: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3CradialGradient id='g' cx='40%25' cy='35%25' r='65%25'%3E%3Cstop offset='0%25' stop-color='%23F5E9C8'/%3E%3Cstop offset='50%25' stop-color='%23E3C98B'/%3E%3Cstop offset='100%25' stop-color='%23C69A57'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='15' fill='url(%23g)'/%3E%3C/svg%3E",
-      },
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon.png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
     ],
     meta: [
       { title: "Plinth | Premium Commercial Space" },
@@ -208,7 +206,7 @@ function PremiumButton({ children, className, innerClassName, onClick, type = "b
       className={`group relative overflow-hidden rounded-full p-[1.5px] transition-all hover:shadow-[0_0_30px_-5px_rgba(227,201,139,0.6)] active:scale-[0.98] ${fullWidth ? 'w-full' : ''} ${className || ''}`}
     >
       <div className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0%,transparent_50%,#C69A57_80%,#F5E9C8_100%)] opacity-100 group-hover:opacity-100 transition-opacity" />
-      <div className={`relative z-10 flex h-full w-full items-center justify-center rounded-full bg-gradient-to-r from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] text-black font-semibold transition-colors group-hover:from-[#F5E9C8] group-hover:via-[#E3C98B] group-hover:to-[#D4A865] group-hover:text-black ${innerClassName || 'px-8 py-4 text-[13px]'}`}>
+      <div className={`relative z-10 flex h-full w-full items-center justify-center rounded-full bg-gradient-to-r from-[#E3C98B] via-[#D4A865] to-[#C69A57] text-black font-semibold transition-colors group-hover:from-[#F5E9C8] group-hover:via-[#E3C98B] group-hover:to-[#D4A865] group-hover:text-black ${innerClassName || 'px-8 py-4 text-[13px]'}`}>
         {children}
       </div>
     </button>
@@ -824,8 +822,8 @@ function WhyInvest() {
                   className={[
                     "h-full group relative w-full rounded-[16px] p-5 min-h-[250px] flex flex-col transition-colors cursor-pointer",
                     isActive
-                      ? "bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] text-white shadow-[0_55px_170px_-140px_rgba(198,154,87,0.45)]"
-                      : "border border-[oklch(0.65_0.10_70/0.22)] bg-[#090909] text-foreground hover:border-[#E3C98B]/60 hover:bg-gradient-to-b hover:from-[#F5E9C8]/10 hover:via-[#E3C98B]/10 hover:to-[#C69A57]/10 hover:text-white",
+                      ? "bg-gradient-to-b from-[#D4A865] via-[#C69A57] to-[#9B7335] text-black shadow-[0_55px_170px_-140px_oklch(0.78_0.13_75/0.80)]"
+                      : "border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur text-foreground hover:border-[oklch(0.78_0.13_75/0.45)]",
                   ].join(" ")}
                   onMouseEnter={() => setActive(i)}
                   onMouseLeave={() => setActive(0)}
@@ -833,20 +831,24 @@ function WhyInvest() {
                   onTouchStart={() => setActive(i)}
                 >
                   {!isActive && (
-                    <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[#E3C98B]/15 opacity-60 group-hover:opacity-100 transition-opacity" />
+                    <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.07)] opacity-55 group-hover:opacity-100 transition-opacity" />
                   )}
                   <div
                     className={[
-                      "relative h-10 w-10 rounded-full flex items-center justify-center mb-5 transition-all duration-300",
+                      "relative h-10 w-10 rounded-full flex items-center justify-center mb-5",
                       isActive
-                        ? "bg-black shadow-[0_26px_70px_-44px_rgba(0,0,0,0.3)]"
-                        : "bg-[#111111] border border-[#C69A57]/20 shadow-[inset_0_0_0_1px_rgba(198,154,87,0.12)] group-hover:bg-black",
+                        ? "bg-[oklch(0.16_0.012_60/0.18)] shadow-[0_26px_70px_-44px_oklch(0.16_0.012_60/0.35)]"
+                        : "bg-background/10 border border-[oklch(0.65_0.10_70/0.26)] shadow-[inset_0_0_0_1px_oklch(0.85_0.12_80/0.06)]",
                     ].join(" ")}
                   >
-                    <Icon className={isActive ? "h-4 w-4 text-[#E3C98B]" : "h-4 w-4 text-[#C69A57] drop-shadow-sm"} strokeWidth={isActive ? 1.5 : 1.5} />
+                    {isActive ? (
+                      <Icon className="h-4 w-4 text-[oklch(0.16_0.012_60)]" />
+                    ) : (
+                      <Icon className="h-4 w-4 text-[#C69A57] drop-shadow-sm" strokeWidth={1.5} />
+                    )}
                   </div>
                   <h3 className="relative font-serif text-[17px] mb-1.5 leading-snug mt-4">{t}</h3>
-                  <p className={`relative text-[12px] leading-relaxed ${isActive ? "text-white/90" : "text-foreground/65 group-hover:text-white"}`}>
+                  <p className={`relative text-[12px] leading-relaxed ${isActive ? "text-[oklch(0.16_0.012_60/0.82)]" : "text-foreground/65"}`}>
                     {d}
                   </p>
                 </TiltCard>

@@ -50,16 +50,43 @@ import plinthOffice from "@/assets/plinth-office.jpg";
 import listing1 from "@/assets/listing-1.jpg";
 import plinthShowroom from "@/assets/plinth-showroom.jpg";
 import listing2 from "@/assets/listing-2.jpg";
-import { Helmet } from 'react-helmet-async';
 
 export const Route = createFileRoute("/")({
   component: PlinthLanding,
   head: () => ({
+    links: [
+      {
+        rel: "icon",
+        type: "image/svg+xml",
+        href: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3CradialGradient id='g' cx='40%25' cy='35%25' r='65%25'%3E%3Cstop offset='0%25' stop-color='%23F5E9C8'/%3E%3Cstop offset='50%25' stop-color='%23E3C98B'/%3E%3Cstop offset='100%25' stop-color='%23C69A57'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='15' fill='url(%23g)'/%3E%3C/svg%3E",
+      },
+    ],
     meta: [
-      { title: "Plinth - Premium Commercial Space, Sindhu Bhavan Road" },
-      { name: "description", content: "Plinth on Sindhu Bhavan Road, Ahmedabad. G+38 storey landmark commercial tower with 15Ã¢â‚¬â€œ18% expected annual ROI. Office and showroom spaces from 900 to 2700 sq.ft." },
-      { property: "og:title", content: "Plinth - Premium Commercial Space" },
-      { property: "og:description", content: "G+38 landmark commercial tower on Sindhu Bhavan Road, Ahmedabad. 15Ã¢â‚¬â€œ18% expected ROI." },
+      { title: "Plinth | Premium Commercial Space" },
+      {
+        name: "description",
+        content:
+          "Invest in Plinth — Ahmedabad's most prestigious G+38 storey commercial landmark on Sindhu Bhavan Road. Office spaces from 900 sq.ft & showrooms from 2700 sq.ft. 15–18% expected annual ROI. Starting ₹65 Lakhs.",
+      },
+      {
+        name: "keywords",
+        content:
+          "office space Sindhu Bhavan Road, commercial property Ahmedabad, commercial investment Ahmedabad, Plinth commercial tower, high ROI commercial property",
+      },
+      { property: "og:title", content: "Plinth | Premium Commercial Property — Sindhu Bhavan Road, Ahmedabad" },
+      {
+        property: "og:description",
+        content:
+          "G+38 landmark commercial tower. Offices from ₹65L, 15–18% expected annual ROI, IGBC green certified. Book your site visit today.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Plinth | Premium Commercial Space — Ahmedabad" },
+      {
+        name: "twitter:description",
+        content: "G+38 landmark on Sindhu Bhavan Road. Office & showroom spaces with 15–18% annual ROI.",
+      },
+      { name: "robots", content: "index, follow" },
     ],
   }),
 });
@@ -108,8 +135,8 @@ function TiltCard({
         const r = el.getBoundingClientRect();
         const px = (e.clientX - r.left) / r.width;
         const py = (e.clientY - r.top) / r.height;
-        const ry = (px - 0.5) * 10; // left/right
-        const rx = (0.5 - py) * 10; // up/down (invert)
+        const ry = (px - 0.5) * 10;
+        const rx = (0.5 - py) * 10;
         el.style.setProperty("--rx", `${rx.toFixed(2)}deg`);
         el.style.setProperty("--ry", `${ry.toFixed(2)}deg`);
         el.style.setProperty("--mx", `${(px * 100).toFixed(2)}%`);
@@ -132,10 +159,8 @@ function TiltCard({
         if (!el || e.touches.length === 0) return;
         const touch = e.touches[0];
         const r = el.getBoundingClientRect();
-        // Calculate touch position relative to the element
         const touchX = touch.clientX - r.left;
         const touchY = touch.clientY - r.top;
-        // Only trigger tilt if touch is actually inside the card
         if (touchX >= 0 && touchX <= r.width && touchY >= 0 && touchY <= r.height) {
           const px = touchX / r.width;
           const py = touchY / r.height;
@@ -254,28 +279,17 @@ function Nav({ onEnquireClick }: { onEnquireClick?: () => void }) {
     </header>
   );
 }
+
 /* ---------- 2. HERO ---------- */
 
 function Hero() {
   return (
     <section id="home" className="relative overflow-hidden pt-16 pb-14 lg:pt-24 lg:pb-14">
-      {/* SEO Metadata */}
-      <Helmet>
-        <title>Premium Commercial Space in Ahmedabad | Plinth Sindhu Bhavan</title>
-        <meta 
-          name="description" 
-          content="Invest in Plinth, Ahmedabad's most prestigious G+38 storey commercial landmark on Sindhu Bhavan Road. High ROI commercial offices and showrooms starting from ₹65 Lakhs." 
-        />
-        <meta property="og:title" content="Plinth | Premium Commercial Real Estate Ahmedabad" />
-        <meta property="og:description" content="15-18% Expected Annual ROI. Premium offices and showrooms at Sindhu Bhavan Road." />
-      </Helmet>
-
       {/* radial gold glows */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_55%,oklch(0.78_0.13_75/0.10),transparent_70%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_40%_at_85%_10%,oklch(0.78_0.13_75/0.08),transparent_70%)]" />
-      
-      {/* decorative concentric arcs */}
-      <svg className="absolute -top-40 -right-40 w-[700px] h-[700px] opacity-[0.18] pointer-events-none" viewBox="0 0 700 700" fill="none" aria-hidden="true">
+      {/* decorative concentric arcs top-right */}
+      <svg className="absolute -top-40 -right-40 w-[700px] h-[700px] opacity-[0.18] pointer-events-none" viewBox="0 0 700 700" fill="none">
         {[180, 240, 300, 360, 420, 480, 540].map((r) => (
           <circle key={r} cx="500" cy="200" r={r} stroke="oklch(0.78 0.13 75)" strokeWidth="0.6" />
         ))}
@@ -284,6 +298,7 @@ function Hero() {
       <div className="relative mx-auto max-w-[1080px] px-5 md:px-8 lg:px-10 grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
         {/* LEFT */}
         <div className="pt-4 lg:pt-2 z-10">
+          {/* Top Pill */}
           <div className="lg:mt-[-80px] inline-flex items-center gap-2 rounded-full border border-[#E3C98B]/30 bg-[#0A0A0A]/60 backdrop-blur px-4 py-2 mb-8">
             <span className="h-1.5 w-1.5 rounded-full bg-[#E3C98B]" />
             <span className="text-[11px] tracking-[0.2em] text-white/70 font-medium">
@@ -293,18 +308,18 @@ function Hero() {
 
           <p className="font-serif italic text-[22px] text-[#E8E1CF]/90 mb-2">Looking For</p>
           <h1 className="font-serif text-[40px] sm:text-[48px] md:text-[52px] lg:text-[50px] leading-[1.08] text-white mb-8">
-            Premium Commercial<br />Space in Ahmedabad?
+            Premium Commercial<br />Space?
           </h1>
 
           <div className="flex items-center gap-4 mb-2">
             <span className="h-px w-8 bg-[#C69A57]/60" />
-            <p className="text-[10px] tracking-[0.3em] text-[#C69A57] font-bold">EXPECTED ANNUAL ROI</p>
+            <span className="text-[10px] tracking-[0.3em] text-[#C69A57]">EXPECTED ANNUAL ROI</span>
           </div>
           <div className="roi-display font-serif text-[62px] sm:text-[86px] lg:text-[98px] leading-[1.1] italic bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent drop-shadow-md mb-5">
             15-18<span className="text-[42px] sm:text-[58px] lg:text-[70px]">%</span>
           </div>
           <p className="text-white/70 text-[14px] leading-relaxed max-w-[390px] mb-10">
-            A high-growth commercial investment opportunity in Ahmedabad's most prestigious business corridor at Sindhu Bhavan Road.
+            A high-growth commercial investment opportunity in Ahmedabad's most prestigious business corridor.
           </p>
 
           {/* CTA buttons */}
@@ -319,7 +334,7 @@ function Hero() {
             </button>
           </div>
 
-          {/* Features Grid */}
+          {/* 3 Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 lg:max-w-[480px]">
             {[
               { icon: TrendingUp, label: "STARTING", v: "₹65 Lakhs" },
@@ -337,8 +352,9 @@ function Hero() {
           </div>
         </div>
 
-        {/* RIGHT - Image Section */}
+        {/* RIGHT - tower */}
         <div className="relative pt-8 sm:pt-10 lg:pt-0">
+          {/* Main Image Frame */}
           <div className="lg:mt-[-90px] relative mx-auto w-full max-w-[420px] rounded-[32px] border border-[#C69A57]/30 bg-[#0A0A0A] aspect-[9/13] sm:aspect-[4/5] lg:aspect-[3/4] overflow-visible shadow-[0_30px_100px_-20px_rgba(0,0,0,0.8)]">
             <style dangerouslySetInnerHTML={{
               __html: `
@@ -356,15 +372,15 @@ function Hero() {
                   <div key={i} className="relative w-1/4 h-full">
                     <img
                       src={src}
-                      alt={`Plinth Commercial Development Ahmedabad - View ${i + 1}`}
+                      alt={`Plinth feature ${i + 1}`}
                       className="absolute inset-0 h-full w-full object-cover object-center"
-                      loading={i === 0 ? "eager" : "lazy"}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
                   </div>
                 ))}
               </div>
 
+              {/* Top Tags */}
               <div className="absolute top-5 inset-x-5 flex justify-between gap-2 z-20">
                 <div className="rounded-full border border-[#E3C98B]/40 bg-black/40 backdrop-blur-md px-4 py-2 text-[8px] sm:text-[9px] tracking-[0.2em] text-white/90 font-medium">
                   G + 38 STOREY
@@ -375,25 +391,37 @@ function Hero() {
               </div>
             </div>
 
-            {/* Appreciation Card */}
-            <div className="absolute -left-4 sm:-left-12 top-[22%] rounded-2xl border border-[#E3C98B]/40 bg-black/20 backdrop-blur-xl px-5 py-7 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)] z-10 w-48 sm:w-56 group transition-all">
-              <div className="text-[8px] tracking-[0.15em] text-[#E3C98B]/80 mb-3 font-medium uppercase">Property Appreciation</div>
+            {/* floating PROPERTY APPRECIATION card */}
+            <div className="absolute -left-4 sm:-left-12 top-[22%] rounded-2xl border border-[#E3C98B]/40 bg-black/20 backdrop-blur-xl px-5 py-7 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5),0_10px_30px_-15px_rgba(227,201,139,0.2)] z-10 w-48 sm:w-56 min-h-[160px] sm:min-h-0 group transition-all hover:border-[#E3C98B]/60">
+              <div className="text-[8px] tracking-[0.15em] text-[#E3C98B]/80 mb-3 font-medium">PROPERTY APPRECIATION</div>
               <div className="roi-display font-serif text-[40px] sm:text-[42px] leading-none text-[#E3C98B] mb-3">15-18%</div>
-              <p className="text-[10px] sm:text-[11px] text-white/60 leading-relaxed font-light">Expected annual returns on investment in Plinth.</p>
+              <p className="text-[10px] sm:text-[11px] text-white/60 leading-relaxed font-light max-w-[140px]">Expected annual returns on investment</p>
+              <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/5 pointer-events-none" />
             </div>
 
-            {/* Development Footer Bar */}
-            <div className="absolute left-4 right-4 bottom-4 rounded-[20px] border border-[#E3C98B]/40 bg-black/30 backdrop-blur-xl px-5 py-4 flex items-center justify-between gap-4 z-10 group transition-all">
+            {/* CEILING HEIGHT card */}
+            <div className="absolute -right-4 sm:-right-8 bottom-[20%] rounded-2xl border border-[#E3C98B]/40 bg-black/20 backdrop-blur-xl px-5 py-5 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5),0_10px_30px_-15px_rgba(227,201,139,0.2)] z-10 w-36 sm:w-44 group transition-all hover:border-[#E3C98B]/60">
+              <div className="text-[8px] tracking-[0.15em] text-[#E3C98B]/80 mb-2 font-medium">CEILING HEIGHT</div>
+              <div className="font-serif text-[32px] sm:text-[38px] leading-none text-white/90">
+                11.5 <span className="italic text-white/40 text-lg sm:text-xl ml-0.5">ft</span>
+              </div>
+              <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/5 pointer-events-none" />
+            </div>
+
+            {/* bottom development bar */}
+            <div className="absolute left-4 right-4 bottom-4 rounded-[20px] border border-[#E3C98B]/40 bg-black/30 backdrop-blur-xl px-5 py-4 flex items-center justify-between gap-4 z-10 group transition-all hover:border-[#E3C98B]/60">
               <div>
                 <div className="text-[8px] tracking-[0.2em] text-[#E3C98B]/80 mb-1.5 font-medium uppercase">THE DEVELOPMENT</div>
                 <div className="font-serif text-[15px] sm:text-[17px] text-white tracking-wide">Sindhu Bhavan, Ahmedabad</div>
               </div>
               <button
                 type="button"
-                className="h-10 w-10 rounded-full bg-gradient-to-br from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] text-black flex items-center justify-center transition-all hover:scale-110"
+                aria-label="Explore"
+                className="h-10 w-10 shrink-0 rounded-full bg-gradient-to-br from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] text-black flex items-center justify-center transition-all hover:scale-110 active:scale-95 shadow-[0_0_20px_-5px_rgba(227,201,139,0.5)]"
               >
                 <ArrowRight className="h-4 w-4" />
               </button>
+              <div className="absolute inset-0 rounded-[20px] ring-1 ring-inset ring-white/5 pointer-events-none" />
             </div>
           </div>
         </div>
@@ -498,27 +526,17 @@ function ROISection() {
       hover:shadow-[0_40px_130px_-120px_oklch(0.78_0.13_75/0.65)]
       active:shadow-[0_40px_130px_-120px_oklch(0.78_0.13_75/0.65)]"
               >
-                {/* 2. Ring effect: Added group-active for mobile glow */}
                 <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.06)] opacity-55 group-hover:opacity-100 group-active:opacity-100 transition-opacity" />
-
-                {/* Icon Container */}
                 <div className="relative h-9 w-9 rounded-full bg-[linear-gradient(135deg,oklch(0.86_0.12_80),oklch(0.65_0.13_65))] flex items-center justify-center mb-4 sm:mb-3 shadow-[0_22px_60px_-40px_oklch(0.78_0.13_75/0.80)] mx-auto sm:mx-0">
                   <div className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-[oklch(0.20_0.014_60/0.18)]" />
                   <Icon className="h-4 w-4 text-[oklch(0.16_0.012_60)]" />
                 </div>
-
-                {/* Stat Value with Gold Gradient */}
                 <div className="relative font-serif text-[22px] sm:text-[20px] leading-none mb-2 sm:mb-1.5 bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent">
                   {v}
                 </div>
-
-                {/* Title */}
                 <div className="relative text-[13px] sm:text-[12px] text-foreground/90 font-medium leading-snug">{t}</div>
-
-                {/* Description */}
                 <p className="relative text-[11px] sm:text-[10px] text-foreground/55 mt-1 sm:mt-0.5 leading-snug max-w-[160px] sm:max-w-none">{d}</p>
               </div>
-
             ))}
           </div>
         </div >
@@ -562,9 +580,7 @@ function Highlights() {
               key={t}
               className="group relative rounded-2xl border border-[#E3C98B]/20 bg-gradient-to-br from-card/70 to-card/35 backdrop-blur p-6 sm:p-4 min-h-[180px] sm:min-h-[140px] flex flex-col items-center text-center sm:items-start sm:text-left hover:border-[var(--gold)]/20 hover:shadow-[0_36px_110px_-78px_oklch(0.78_0.13_75/0.75)]"
             >
-              {/* inner edge glow */}
               <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.08)] opacity-60 group-hover:opacity-60 transition-opacity" />
-
               <div className="relative flex flex-col items-center sm:items-start sm:flex-row sm:justify-between w-full mb-5 sm:mb-4">
                 <div className="relative h-14 w-14 sm:h-12 sm:w-12 rounded-2xl bg-[linear-gradient(135deg,oklch(0.86_0.12_80),oklch(0.65_0.13_65))] flex items-center justify-center shadow-[0_22px_60px_-40px_oklch(0.78_0.13_75/0.85)] mx-auto sm:mx-0">
                   <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-[oklch(0.20_0.014_60/0.18)]" />
@@ -631,7 +647,6 @@ function Spaces() {
             {" "}
             <span className={`italic ${goldText}`}>Brands.</span>
           </h2>
-
         </div>
 
         <style dangerouslySetInnerHTML={{
@@ -647,10 +662,7 @@ function Spaces() {
         <div className="grid lg:grid-cols-2 gap-5 max-w-[860px] mx-auto">
           {cards.map((c) => (
             <div key={c.tag} className="rounded-[24px] border border-[#C69A57]/40 bg-[#141414] overflow-hidden group transition-all duration-700 hover:shadow-[0_0_50px_-15px_#C69A57] active:shadow-[0_0_50px_-15px_#C69A57]">
-
-              {/* Image Section with Overlay Text */}
               <div className="relative h-[195px] sm:h-[195px] md:h-[230px] overflow-hidden group/image cursor-pointer">
-                {/* Scrolling Slider Container */}
                 <div
                   className="flex h-full transition-transform duration-500 group-hover/image:scale-[1.02] group-active/image:scale-[1.02]"
                   style={{
@@ -668,17 +680,11 @@ function Spaces() {
                     </div>
                   ))}
                 </div>
-
-                {/* Fixed Overlay Gradient */}
                 <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#141414] via-[#141414]/20 to-black/20" />
                 <div className="absolute inset-0 pointer-events-none rounded-[2px] ring-1 ring-inset ring-[#E3C98B]/0 transition-all duration-300 group-hover/image:ring-[#E3C98B]/60 group-active/image:ring-[#E3C98B]/60" />
-
-                {/* Badge */}
                 <div className="absolute top-4 left-5 rounded-full border border-[#E3C98B]/40 bg-black/60 backdrop-blur-md px-5 py-2 text-[9px] tracking-[0.3em] text-white/90 font-medium uppercase shadow-lg">
                   {c.tag}
                 </div>
-
-                {/* Over-Image Typography */}
                 <div className="absolute bottom-2 left-6 flex flex-col gap-2">
                   <div className="text-[10px] tracking-[0.4em] text-[#C69A57] font-bold uppercase">STARTING FROM</div>
                   <div className="flex items-baseline gap-2">
@@ -692,7 +698,6 @@ function Spaces() {
                 </div>
               </div>
 
-              {/* Content Section Below Image */}
               <div className="p-4">
                 <div className="flex justify-between items-center pb-6 border-b border-white/5">
                   <h3 className="font-serif text-[17px] md:text-[19px] italic tracking-wide bg-gradient-to-r from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent leading-snug">
@@ -735,7 +740,7 @@ function useInView(options = {}) {
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
         setInView(true);
-        observer.disconnect(); // Animate only once
+        observer.disconnect();
       }
     }, { threshold: 0.1, ...options });
 
@@ -797,10 +802,7 @@ function WhyInvest() {
   const { ref, inView } = useInView();
   return (
     <section id="whyinvest" className="py-12 lg:py-16 overflow-hidden">
-      {/* Added 'flex flex-col items-center' to parent div to center everything */}
       <div className="mx-auto max-w-[1120px] px-4 lg:px-6 xl:px-8 flex flex-col items-center">
-
-        {/* Centering the Label and Title */}
         <div className="flex flex-col items-center text-center">
           <SectionLabel n="05" t="EXCLUSIVE OPPORTUNITY" />
           <TypewriterTitle />
@@ -809,7 +811,6 @@ function WhyInvest() {
           </p>
         </div>
 
-        {/* Centering the Grid: Added 'mx-auto' and ensured max-width is controlled */}
         <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 min-h-[410px] max-w-5xl mx-auto w-full">
           {items.map(({ icon: Icon, t, d }, i) => {
             const isActive = i === active;
@@ -834,7 +835,6 @@ function WhyInvest() {
                   {!isActive && (
                     <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.07)] opacity-55 group-hover:opacity-100 transition-opacity" />
                   )}
-
                   <div
                     className={[
                       "relative h-10 w-10 rounded-full flex items-center justify-center mb-5",
@@ -859,7 +859,6 @@ function WhyInvest() {
           })}
         </div>
       </div>
-
     </section>
   );
 }
@@ -897,7 +896,6 @@ function Amenities() {
               className="group relative rounded-[16px] border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-6 sm:p-4 min-h-[150px] flex flex-col items-center text-center sm:flex-row sm:items-center sm:text-left gap-5 sm:gap-2.5 hover:border-[oklch(0.78_0.13_75/0.45)] hover:shadow-[0_32px_110px_-78px_oklch(0.78_0.13_75/0.75)]"
             >
               <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.07)] opacity-60 group-hover:opacity-100 transition-opacity" />
-
               <div className="relative h-14 w-14 sm:h-12 sm:w-12 rounded-[14px] bg-[linear-gradient(135deg,oklch(0.85_0.12_80),oklch(0.65_0.13_65))] flex items-center justify-center shrink-0 shadow-[0_22px_60px_-36px_oklch(0.78_0.13_75/0.85)] mx-auto sm:mx-0">
                 <div className="pointer-events-none absolute inset-0 rounded-[14px] ring-1 ring-inset ring-[oklch(0.20_0.014_60/0.18)]" />
                 <Icon className="h-5 w-5 sm:h-4 sm:w-4 text-[oklch(0.16_0.012_60)]" />
@@ -955,13 +953,10 @@ function Location() {
 
           {/* Map */}
           <div className="mb-6 relative rounded-2xl sm:rounded-3xl border border-[#E3C98B]/20 bg-[#0A0A0A] aspect-[1/1.06] sm:aspect-[4/3] lg:aspect-[1.45/1] min-h-[300px] sm:min-h-0 max-h-[440px] overflow-hidden shadow-[0_40px_160px_-120px_oklch(0.78_0.13_75/0.55)]">
-            {/* Top Left Label */}
             <div className="absolute top-4 left-4 sm:top-6 sm:left-6 rounded-full border border-[#E3C98B]/30 bg-black/60 backdrop-blur-md px-3.5 sm:px-5 py-2 text-[9px] sm:text-[11px] tracking-[0.16em] sm:tracking-widest text-white flex items-center gap-2 z-20 max-w-[calc(100%-2rem)] sm:max-w-[calc(100%-3rem)]">
               <MapPin className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-[#E3C98B] shrink-0" />
               <span className="font-medium text-white/90 truncate">Sindhu Bhavan Rd, Ahmedabad - 380054</span>
             </div>
-
-            {/* Bottom Right Score */}
             <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 rounded-xl border border-[#E3C98B]/30 bg-black/60 backdrop-blur-md px-3.5 sm:px-6 py-3 sm:py-4 text-right z-20 flex flex-col gap-1.5 sm:gap-2 w-[9.75rem] sm:w-auto">
               <div className="text-[8px] sm:text-[9px] tracking-[0.2em] sm:tracking-[0.3em] text-[#E3C98B] whitespace-nowrap">CONNECTIVITY SCORE</div>
               <div className="flex items-baseline justify-end gap-1">
@@ -969,8 +964,6 @@ function Location() {
                 <span className="text-[10px] sm:text-[11px] tracking-[0.18em] sm:tracking-widest text-white/50">/ 10</span>
               </div>
             </div>
-
-            {/* Map Canvas */}
             <svg viewBox="0 0 800 600" className="absolute inset-0 w-full h-full z-0">
               <defs>
                 <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -982,39 +975,26 @@ function Location() {
                 </radialGradient>
               </defs>
               <rect width="800" height="600" fill="url(#grid)" />
-
-              {/* Crossed Curved Lines */}
               <path d="M 0 320 C 300 320, 500 280, 800 280" fill="none" stroke="#E3C98B" strokeWidth="1.5" className="opacity-50" />
               <path d="M 400 0 C 400 250, 400 350, 400 600" fill="none" stroke="#E3C98B" strokeWidth="1.5" className="opacity-50" />
               <path d="M 0 0 L 800 600" fill="none" stroke="#E3C98B" strokeWidth="1" strokeDasharray="4 6" className="opacity-10" />
               <path d="M 0 600 L 800 0" fill="none" stroke="#E3C98B" strokeWidth="1" strokeDasharray="4 6" className="opacity-10" />
-
-              {/* Surrounding Dots with Boxes */}
               {[[250, 200], [550, 220], [280, 400], [580, 420]].map(([x, y], i) => (
                 <g key={i}>
                   <rect x={x - 25} y={y - 15} width="50" height="30" fill="#E3C98B" fillOpacity="0.02" stroke="#E3C98B" strokeOpacity="0.1" />
                   <circle cx={x} cy={y} r="3" fill="#E3C98B" opacity="0.8" />
                 </g>
               ))}
-
-              {/* Center Glow Halo */}
               <circle cx="400" cy="300" r="100" fill="url(#centerGlow)" />
             </svg>
-
-            {/* HTML Blinking Center Elements */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center z-10">
-              {/* Largest ping */}
               <div className="absolute h-40 w-40 rounded-full border border-[#E3C98B]/20 animate-ping" style={{ animationDuration: '3s' }} />
-              {/* Middle ping */}
               <div className="absolute h-20 w-20 rounded-full border border-[#E3C98B]/40 animate-ping" style={{ animationDuration: '2s' }} />
-              {/* Solid inner glow core */}
               <div className="absolute h-10 w-10 rounded-full bg-[#E3C98B]/20 backdrop-blur-sm" />
-              {/* Actual pinpoint */}
               <div className="relative h-3.5 w-3.5 rounded-full bg-[#E3C98B] shadow-[0_0_15px_#E3C98B]" />
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );
@@ -1051,9 +1031,7 @@ function DeveloperLegacy() {
               className="group relative overflow-hidden rounded-[16px] border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-4 text-center min-h-[140px] flex flex-col items-center justify-center hover:border-[oklch(0.78_0.13_75/0.45)] hover:shadow-[0_40px_140px_-110px_oklch(0.78_0.13_75/0.80)]"
             >
               <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.07)] opacity-55 group-hover:opacity-100 transition-opacity" />
-              {/* soft gold glow like reference */}
               <div className="pointer-events-none absolute -top-10 -left-10 h-40 w-40 rounded-full blur-[2px]" />
-
               <div className="relative h-12 w-12 rounded-full bg-[linear-gradient(135deg,oklch(0.85_0.12_80),oklch(0.65_0.13_65))] flex items-center justify-center mb-4 shadow-[0_26px_70px_-44px_oklch(0.78_0.13_75/0.85)]">
                 <div className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-[oklch(0.20_0.014_60/0.18)]" />
                 <Icon className="h-5 w-5 text-[oklch(0.16_0.012_60)]" />
@@ -1066,7 +1044,6 @@ function DeveloperLegacy() {
           ))}
         </div>
 
-        {/* Featured in strip */}
         <div className="mt-10 rounded-3xl sm:rounded-full border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.40),oklch(0.17_0.012_60/0.25))] backdrop-blur px-4 sm:px-6 lg:px-8 py-4 sm:py-5 flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-between gap-4 sm:gap-5">
           <div className="text-[10px] sm:text-[13px] tracking-[0.24em] sm:tracking-[0.28em] text-[#E3C98B]/90 text-center sm:text-left">FEATURED IN</div>
           <div className="w-full sm:w-auto flex flex-wrap items-center justify-center sm:justify-start gap-x-6 sm:gap-x-12 gap-y-2 sm:gap-y-3">
@@ -1080,15 +1057,12 @@ function DeveloperLegacy() {
   );
 }
 
-/* ---------- INVESTMENT OPPORTUNITY CTA (big ROI) ---------- */
+/* ---------- INVESTMENT OPPORTUNITY CTA ---------- */
 
 function InvestmentCTA() {
   return (
     <section className="py-14 lg:py-12 relative overflow-hidden">
-      {/* Base glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,oklch(0.78_0.13_75/0.12),transparent_70%)] pointer-events-none" />
-
-      {/* Wavy Dotted Lines Golden Effect (from user snippet) */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20 mix-blend-screen">
         <style dangerouslySetInnerHTML={{
           __html: `
@@ -1124,19 +1098,13 @@ function InvestmentCTA() {
           <span className="h-2 w-2 rounded-full bg-[#E3C98B] animate-pulse" />
           <span className="text-[10px] tracking-[0.35em] text-foreground/70">INVESTMENT OPPORTUNITY</span>
         </div>
-
         <div className="text-[12px] tracking-[0.35em] text-[#E3C98B]/90 mb-3">EXPECTED ANNUAL ROI</div>
-
-        <div
-          className="roi-display font-serif leading-[1.1] text-[2.9rem] sm:text-[6rem] md:text-[7.5rem] lg:text-[9rem] bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent"
-        >
+        <div className="roi-display font-serif leading-[1.1] text-[2.9rem] sm:text-[6rem] md:text-[7.5rem] lg:text-[9rem] bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent">
           15-18<span className="text-[1.8rem] sm:text-[3rem] md:text-[4.5rem] lg:text-[6.5rem]">%</span>
         </div>
-
         <h3 className="font-serif text-xl sm:text-3xl md:text-4xl lg:text-5xl text-foreground mt-7 sm:mt-8">
           A Landmark Address. <span className="italic" style={{ color: "oklch(0.83 0.11 78)" }}>A Landmark Return.</span>
         </h3>
-
         <div className="mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4">
           <PremiumButton className="w-full sm:w-auto" innerClassName="w-full px-8 py-4 text-[12px] gap-3">
             <Calendar className="h-4 w-4" /> Book Site Visit
@@ -1145,7 +1113,6 @@ function InvestmentCTA() {
             <Download className="h-4 w-4 text-[#E3C98B]" /> Download Brochure <ArrowRight className="h-4 w-4 text-[#E3C98B]" />
           </button>
         </div>
-
         <div className="mt-10 text-[10px] tracking-[0.30em] text-foreground/60">
           SINDHU BHAVAN ROAD <span className="text-[#E3C98B]">·</span> AHMEDABAD <span className="text-[#E3C98B]">·</span> 380054
         </div>
@@ -1168,12 +1135,10 @@ function EnquiryForm() {
 
     try {
       const formData = new FormData(formRef.current);
-
-      // Setup Web3Forms Payload
       const data = {
-        access_key: "9f7ab840-398a-4101-ba04-b8afd8486f82", // <--- PASTE YOUR KEY HERE
+        access_key: "9f7ab840-398a-4101-ba04-b8afd8486f82",
         subject: "New Property Inquiry Received!",
-        from_name: "Plinth Property Showcase", // This fixes the "formsubmit name thi aavu joiye" issue!
+        from_name: "Plinth Property Showcase",
         Message: "A new inquiry has arrived.",
         Name: formData.get("user_name"),
         Phone: formData.get("user_phone"),
@@ -1190,10 +1155,7 @@ function EnquiryForm() {
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to send email");
-      }
-
+      if (!response.ok) throw new Error("Failed to send email");
       setStatus("success");
     } catch (error) {
       console.error("Failed to send email:", error);
@@ -1321,7 +1283,6 @@ function EnquireNow() {
         <SectionLabel n="09" t="ENQUIRE NOW" />
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-14">
-          {/* LEFT */}
           <div>
             <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-6xl leading-[1.05] text-foreground">
               Get <span className="italic" style={{ color: "oklch(0.83 0.11 78)" }}>Complete</span>
@@ -1347,9 +1308,7 @@ function EnquireNow() {
 
             <div className="mt-3 rounded-[22px] border border-[oklch(0.65_0.10_70/0.22)] hover:border-[#C69A57] transition-colors duration-300 bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-4 sm:p-6">
               <div className="text-[10px] tracking-[0.3em] text-[#E3C98B] mb-2">WHY INVEST NOW</div>
-              <div
-                className="font-serif leading-[1.1] text-5xl sm:text-7xl md:text-[6rem] lg:text-[6rem] bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent"
-              >
+              <div className="font-serif leading-[1.1] text-5xl sm:text-7xl md:text-[6rem] lg:text-[6rem] bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent">
                 15-18<span className="text-5xl sm:text-6xl md:text-[4rem] lg:text-[4rem]">%</span>
               </div>
               <p className="text-sm text-foreground/65 mt-4">
@@ -1358,7 +1317,6 @@ function EnquireNow() {
             </div>
           </div>
 
-          {/* RIGHT - Form */}
           <EnquiryForm />
         </div>
       </div>
@@ -1376,7 +1334,6 @@ function SiteFooter() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_20%_30%,oklch(0.78_0.13_75/0.08),transparent_60%)]" />
       <div className="mx-auto max-w-[1120px] px-4 sm:px-5 lg:px-6 xl:px-8">
         <div className="grid lg:grid-cols-3 gap-10 sm:gap-12 lg:gap-16">
-          {/* About */}
           <div className="text-center sm:text-left">
             <div className="relative h-12 w-12 rounded-full bg-[linear-gradient(135deg,oklch(0.86_0.12_80),oklch(0.65_0.13_65))] mb-6 sm:mb-8 shadow-[0_26px_70px_-44px_oklch(0.78_0.13_75/0.85)] mx-auto sm:mx-0">
               <div className="pointer-events-none absolute -inset-6 rounded-full bg-[radial-gradient(circle,oklch(0.86_0.12_80/0.22),transparent_70%)]" />
@@ -1403,7 +1360,6 @@ function SiteFooter() {
             </div>
           </div>
 
-          {/* Navigate */}
           <div className="text-center sm:text-left">
             <div className="text-[11px] sm:text-[12px] tracking-[0.30em] text-[#E3C98B]/90 mb-5 sm:mb-8">NAVIGATE</div>
             <ul className="space-y-4 sm:space-y-5 text-sm text-foreground/80">
@@ -1415,7 +1371,6 @@ function SiteFooter() {
             </ul>
           </div>
 
-          {/* Contact */}
           <div className="text-center sm:text-left">
             <div className="text-[11px] sm:text-[12px] tracking-[0.30em] text-[#E3C98B]/90 mb-5 sm:mb-8">CONTACT</div>
             <ul className="space-y-4 sm:space-y-5 text-sm text-foreground/80">
@@ -1450,8 +1405,7 @@ function SiteFooter() {
         </div>
 
         <div className="mt-10 sm:mt-14 pt-6 sm:pt-8 border-t border-[oklch(0.65_0.10_70/0.16)] flex flex-col md:flex-row items-center md:items-center justify-between gap-3 sm:gap-4 text-xs text-foreground/45 text-center md:text-left">
-          <span>© {new Date().getFullYear()} Sindhu Bhavan. All rights reserved.<br />Made with by <a href="https://13utopia.com">13UTOPiA</a></span>
-
+          <span>© {new Date().getFullYear()} Sindhu Bhavan. All rights reserved.</span>
           <span className="flex items-center gap-1.5">
             © {new Date().getFullYear()} Made with
             <Heart className="h-3.5 w-3.5 text-red-500 fill-red-500 animate-pulse" />

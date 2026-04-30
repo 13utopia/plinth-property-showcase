@@ -58,11 +58,28 @@ export const Route = createFileRoute("/")({
       {
         rel: "icon",
         type: "image/svg+xml",
-        href: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3CradialGradient id='g' cx='40%25' cy='35%25' r='65%25'%3E%3Cstop offset='0%25' stop-color='%23F5E9C8'/%3E%3Cstop offset='50%25' stop-color='%23E3C98B'/%3E%3Cstop offset='100%25' stop-color='%23C69A57'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='15' fill='url(%23g)'/%3E%3C/svg%3E",
+        href: "/favicon.svg",
+      },
+      {
+        rel: "apple-touch-icon",
+        href: "/favicon.svg",
+      },
+      {
+        rel: "preconnect",
+        href: "https://fonts.googleapis.com",
+      },
+      {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap",
       },
     ],
     meta: [
-      { title: "Plinth | Premium Commercial Space" },
+      { title: "Plinth | Premium Commercial Space — Ahmedabad" },
       {
         name: "description",
         content:
@@ -71,8 +88,11 @@ export const Route = createFileRoute("/")({
       {
         name: "keywords",
         content:
-          "office space Sindhu Bhavan Road, commercial property Ahmedabad, commercial investment Ahmedabad, Plinth commercial tower, high ROI commercial property",
+          "office space Sindhu Bhavan Road, commercial property Ahmedabad, commercial investment Ahmedabad, Plinth commercial tower, high ROI commercial property, office for rent Ahmedabad, showroom space Ahmedabad",
       },
+      { name: "author", content: "Plinth Property" },
+      { name: "robots", content: "index, follow" },
+      { name: "theme-color", content: "#C69A57" },
       { property: "og:title", content: "Plinth | Premium Commercial Property — Sindhu Bhavan Road, Ahmedabad" },
       {
         property: "og:description",
@@ -80,13 +100,16 @@ export const Route = createFileRoute("/")({
           "G+38 landmark commercial tower. Offices from ₹65L, 15–18% expected annual ROI, IGBC green certified. Book your site visit today.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://plinth-property.com/" },
+      { property: "og:image", content: "/favicon.svg" },
+      { property: "og:site_name", content: "Plinth Property" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Plinth | Premium Commercial Space — Ahmedabad" },
       {
         name: "twitter:description",
         content: "G+38 landmark on Sindhu Bhavan Road. Office & showroom spaces with 15–18% annual ROI.",
       },
-      { name: "robots", content: "index, follow" },
+      { name: "twitter:image", content: "/favicon.svg" },
     ],
   }),
 });
@@ -205,10 +228,10 @@ function PremiumButton({ children, className, innerClassName, onClick, type = "b
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`group relative overflow-hidden rounded-full p-[1.5px] transition-all hover:shadow-[0_0_30px_-5px_rgba(227,201,139,0.4)] active:scale-[0.98] ${fullWidth ? 'w-full' : ''} ${className || ''}`}
+      className={`group relative overflow-hidden rounded-full p-[1.5px] transition-all hover:shadow-[0_0_30px_-5px_rgba(227,201,139,0.6)] active:scale-[0.98] ${fullWidth ? 'w-full' : ''} ${className || ''}`}
     >
-      <div className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0%,transparent_50%,#C69A57_80%,#F5E9C8_100%)] opacity-80 group-hover:opacity-100 transition-opacity" />
-      <div className={`relative z-10 flex h-full w-full items-center justify-center rounded-full bg-gradient-to-r from-[#D4A865] via-[#C69A57] to-[#B58A4A] text-black font-semibold transition-colors group-hover:from-[#E3C98B] group-hover:via-[#D4A865] group-hover:to-[#C69A57] group-hover:text-black ${innerClassName || 'px-8 py-4 text-[13px]'}`}>
+      <div className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0%,transparent_50%,#C69A57_80%,#F5E9C8_100%)] opacity-100 group-hover:opacity-100 transition-opacity" />
+      <div className={`relative z-10 flex h-full w-full items-center justify-center rounded-full bg-gradient-to-r from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] text-black font-semibold transition-colors group-hover:from-[#F5E9C8] group-hover:via-[#E3C98B] group-hover:to-[#D4A865] group-hover:text-black ${innerClassName || 'px-8 py-4 text-[13px]'}`}>
         {children}
       </div>
     </button>
@@ -306,7 +329,7 @@ function Hero() {
             </span>
           </div>
 
-          <p className="font-serif italic text-[22px] text-[#E8E1CF]/90 mb-2">Looking For</p>
+          <p className="font-serif text-[22px] text-[#E8E1CF]/90 mb-2">Looking For</p>
           <h1 className="font-serif text-[40px] sm:text-[48px] md:text-[52px] lg:text-[50px] leading-[1.08] text-white mb-8">
             Premium Commercial<br />Space?
           </h1>
@@ -328,8 +351,8 @@ function Hero() {
               Get Pricing &amp; ROI Details
               <ArrowRight className="h-3.5 w-3.5" />
             </PremiumButton>
-            <button className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full px-7 py-4 text-[13px] font-medium text-white/90 border border-white/20 bg-transparent hover:border-white/40 transition">
-              <PhoneIcon className="h-3.5 w-3.5 text-white/70" />
+            <button className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full px-7 py-4 text-[13px] font-medium text-white/90 border border-white/20 bg-transparent hover:border-white/40 border border-white/20 br-transparent hover:border-white/40hiororhigtrasnsopvebhite">
+              <PhoneIcon className="h-3.5 w-3.5 text-white70ehoii0eho/70ehoii0ehoexthite" />
               Talk to Advisor
             </button>
           </div>
@@ -661,8 +684,8 @@ function Spaces() {
 
         <div className="grid lg:grid-cols-2 gap-5 max-w-[860px] mx-auto">
           {cards.map((c) => (
-            <div key={c.tag} className="rounded-[24px] border border-[#C69A57]/40 bg-[#141414] overflow-hidden group transition-all duration-700 hover:shadow-[0_0_50px_-15px_#C69A57] active:shadow-[0_0_50px_-15px_#C69A57]">
-              <div className="relative h-[195px] sm:h-[195px] md:h-[230px] overflow-hidden group/image cursor-pointer">
+            <div key={c.tag} className="rounded-[24px] border border-[#C69A57]/40 bg-[#141414] overflow-hidden group transition-all duration-700 hover:border-[#E3C98B]/60 hover:shadow-[0_0_50px_-15px_#C69A57] active:shadow-[0_0_50px_-15px_#C69A57]">
+              <div className="relative h-[195px] sm:h-[195px] md:h-[230px] overflow-hidden group/image cursor-pointer border-b-2 border-b-[#C69A57]/30 transition-colors duration-300 group-hover:border-b-[#E3C98B]/60">
                 <div
                   className="flex h-full transition-transform duration-500 group-hover/image:scale-[1.02] group-active/image:scale-[1.02]"
                   style={{
@@ -682,7 +705,7 @@ function Spaces() {
                 </div>
                 <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#141414] via-[#141414]/20 to-black/20" />
                 <div className="absolute inset-0 pointer-events-none rounded-[2px] ring-1 ring-inset ring-[#E3C98B]/0 transition-all duration-300 group-hover/image:ring-[#E3C98B]/60 group-active/image:ring-[#E3C98B]/60" />
-                <div className="absolute top-4 left-5 rounded-full border border-[#E3C98B]/40 bg-black/60 backdrop-blur-md px-5 py-2 text-[9px] tracking-[0.3em] text-white/90 font-medium uppercase shadow-lg">
+                <div className="absolute top-4 left-5 rounded-full border border-[#E3C98B]/40 bg-black/60 backdrop-blur-md px-5 py-2 text-[9px] tracking-[0.3em] text-white/90 font-medium uppercase shadow-lg transition-colors duration-300 group-hover/image:border-[#E3C98B] group-hover/image:bg-[#E3C98B]/10">
                   {c.tag}
                 </div>
                 <div className="absolute bottom-2 left-6 flex flex-col gap-2">
@@ -824,8 +847,8 @@ function WhyInvest() {
                   className={[
                     "h-full group relative w-full rounded-[16px] p-5 min-h-[250px] flex flex-col transition-colors cursor-pointer",
                     isActive
-                      ? "bg-gradient-to-b from-[#D4A865] via-[#C69A57] to-[#9B7335] text-black shadow-[0_55px_170px_-140px_oklch(0.78_0.13_75/0.80)]"
-                      : "border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur text-foreground hover:border-[oklch(0.78_0.13_75/0.45)]",
+                      ? "bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] text-white shadow-[0_55px_170px_-140px_rgba(198,154,87,0.45)]"
+                      : "border border-[oklch(0.65_0.10_70/0.22)] bg-[#090909] text-foreground hover:border-[#E3C98B]/60 hover:bg-gradient-to-b hover:from-[#F5E9C8]/10 hover:via-[#E3C98B]/10 hover:to-[#C69A57]/10 hover:text-white",
                   ].join(" ")}
                   onMouseEnter={() => setActive(i)}
                   onMouseLeave={() => setActive(0)}
@@ -833,24 +856,20 @@ function WhyInvest() {
                   onTouchStart={() => setActive(i)}
                 >
                   {!isActive && (
-                    <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.07)] opacity-55 group-hover:opacity-100 transition-opacity" />
+                    <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[#E3C98B]/15 opacity-60 group-hover:opacity-100 transition-opacity" />
                   )}
                   <div
                     className={[
-                      "relative h-10 w-10 rounded-full flex items-center justify-center mb-5",
+                      "relative h-10 w-10 rounded-full flex items-center justify-center mb-5 transition-all duration-300",
                       isActive
-                        ? "bg-[oklch(0.16_0.012_60/0.18)] shadow-[0_26px_70px_-44px_oklch(0.16_0.012_60/0.35)]"
-                        : "bg-background/10 border border-[oklch(0.65_0.10_70/0.26)] shadow-[inset_0_0_0_1px_oklch(0.85_0.12_80/0.06)]",
+                        ? "bg-black shadow-[0_26px_70px_-44px_rgba(0,0,0,0.3)]"
+                        : "bg-[#111111] border border-[#C69A57]/20 shadow-[inset_0_0_0_1px_rgba(198,154,87,0.12)] group-hover:bg-black",
                     ].join(" ")}
                   >
-                    {isActive ? (
-                      <Icon className="h-4 w-4 text-[oklch(0.16_0.012_60)]" />
-                    ) : (
-                      <Icon className="h-4 w-4 text-[#C69A57] drop-shadow-sm" strokeWidth={1.5} />
-                    )}
+                    <Icon className={isActive ? "h-4 w-4 text-[#E3C98B]" : "h-4 w-4 text-[#C69A57] drop-shadow-sm"} strokeWidth={isActive ? 1.5 : 1.5} />
                   </div>
                   <h3 className="relative font-serif text-[17px] mb-1.5 leading-snug mt-4">{t}</h3>
-                  <p className={`relative text-[12px] leading-relaxed ${isActive ? "text-[oklch(0.16_0.012_60/0.82)]" : "text-foreground/65"}`}>
+                  <p className={`relative text-[12px] leading-relaxed ${isActive ? "text-white/90" : "text-foreground/65 group-hover:text-white"}`}>
                     {d}
                   </p>
                 </TiltCard>
@@ -1131,6 +1150,16 @@ function EnquiryForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formRef.current) return;
+    
+    const phoneInput = formRef.current.querySelector('input[name="user_phone"]') as HTMLInputElement;
+    const phoneValue = phoneInput?.value || '';
+    
+    // Validate phone number: exactly 10 digits, no letters or characters
+    if (!/^\d{10}$/.test(phoneValue)) {
+      alert('Please enter a valid 10-digit phone number');
+      return;
+    }
+    
     setStatus("submitting");
 
     try {
@@ -1217,7 +1246,19 @@ function EnquiryForm() {
                 name="user_phone"
                 required
                 type="tel"
-                placeholder="+91 ------"
+                placeholder="10 digits only"
+                inputMode="numeric"
+                pattern="[0-9]{10}"
+                maxLength={10}
+                onKeyPress={(e) => {
+                  if (!/[0-9]/.test(e.key)) {
+                    e.preventDefault();
+                  }
+                }}
+                onInput={(e) => {
+                  const input = e.currentTarget;
+                  input.value = input.value.replace(/[^0-9]/g, '').slice(0, 10);
+                }}
                 className="mt-2.5 sm:mt-3 w-full rounded-xl border border-[oklch(0.65_0.10_70/0.22)] bg-background/20 px-4 sm:px-5 py-3.5 sm:py-4 text-foreground placeholder:text-foreground/30 shadow-[inset_0_0_0_1px_oklch(0.85_0.12_80/0.05)] focus:outline-none focus:border-[oklch(0.78_0.13_75/0.55)] transition"
               />
             </div>
@@ -1236,7 +1277,7 @@ function EnquiryForm() {
                 <button
                   type="button"
                   onClick={() => setPurpose("Investor")}
-                  className={`rounded-xl py-3.5 sm:py-4 font-medium transition ${purpose === "Investor" ? "border border-[oklch(0.78_0.13_75/0.55)] bg-[oklch(0.78_0.13_75/0.08)] text-foreground shadow-[inset_0_0_0_1px_oklch(0.85_0.12_80/0.06)]" : "border border-[oklch(0.65_0.10_70/0.22)] bg-background/20 text-foreground/80 hover:border-[oklch(0.78_0.13_75/0.45)]"}`}
+                  className={`rounded-xl py-3.5 sm:py-4 font-medium transition ${purpose === "Investor" ? "bg-gradient-to-r from-[#E3C98B] via-[#D4A865] to-[#C69A57] text-black shadow-[0_0_20px_-5px_rgba(227,201,139,0.4)]" : "bg-gradient-to-r from-[#D4A865]/60 via-[#C69A57]/60 to-[#B58A4A]/60 text-foreground hover:from-[#E3C98B] hover:via-[#D4A865] hover:to-[#C69A57] hover:text-black transition-all"}`}
                 >
                   Investor
                 </button>

@@ -50,6 +50,7 @@ import plinthOffice from "@/assets/plinth-office.jpg";
 import listing1 from "@/assets/listing-1.jpg";
 import plinthShowroom from "@/assets/plinth-showroom.jpg";
 import listing2 from "@/assets/listing-2.jpg";
+import { Helmet } from 'react-helmet-async';
 
 export const Route = createFileRoute("/")({
   component: PlinthLanding,
@@ -96,6 +97,7 @@ function TiltCard({
   );
 
   return (
+    
     <div
       ref={ref}
       className={className}
@@ -257,11 +259,23 @@ function Nav({ onEnquireClick }: { onEnquireClick?: () => void }) {
 function Hero() {
   return (
     <section id="home" className="relative overflow-hidden pt-16 pb-14 lg:pt-24 lg:pb-14">
-      {/* radial gold glows like screenshot */}
+      {/* SEO Metadata */}
+      <Helmet>
+        <title>Premium Commercial Space in Ahmedabad | Plinth Sindhu Bhavan</title>
+        <meta 
+          name="description" 
+          content="Invest in Plinth, Ahmedabad's most prestigious G+38 storey commercial landmark on Sindhu Bhavan Road. High ROI commercial offices and showrooms starting from ₹65 Lakhs." 
+        />
+        <meta property="og:title" content="Plinth | Premium Commercial Real Estate Ahmedabad" />
+        <meta property="og:description" content="15-18% Expected Annual ROI. Premium offices and showrooms at Sindhu Bhavan Road." />
+      </Helmet>
+
+      {/* radial gold glows */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_30%_55%,oklch(0.78_0.13_75/0.10),transparent_70%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_40%_at_85%_10%,oklch(0.78_0.13_75/0.08),transparent_70%)]" />
-      {/* decorative concentric arcs top-right */}
-      <svg className="absolute -top-40 -right-40 w-[700px] h-[700px] opacity-[0.18] pointer-events-none" viewBox="0 0 700 700" fill="none">
+      
+      {/* decorative concentric arcs */}
+      <svg className="absolute -top-40 -right-40 w-[700px] h-[700px] opacity-[0.18] pointer-events-none" viewBox="0 0 700 700" fill="none" aria-hidden="true">
         {[180, 240, 300, 360, 420, 480, 540].map((r) => (
           <circle key={r} cx="500" cy="200" r={r} stroke="oklch(0.78 0.13 75)" strokeWidth="0.6" />
         ))}
@@ -270,7 +284,6 @@ function Hero() {
       <div className="relative mx-auto max-w-[1080px] px-5 md:px-8 lg:px-10 grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
         {/* LEFT */}
         <div className="pt-4 lg:pt-2 z-10">
-          {/* Top Pill */}
           <div className="lg:mt-[-80px] inline-flex items-center gap-2 rounded-full border border-[#E3C98B]/30 bg-[#0A0A0A]/60 backdrop-blur px-4 py-2 mb-8">
             <span className="h-1.5 w-1.5 rounded-full bg-[#E3C98B]" />
             <span className="text-[11px] tracking-[0.2em] text-white/70 font-medium">
@@ -280,18 +293,18 @@ function Hero() {
 
           <p className="font-serif italic text-[22px] text-[#E8E1CF]/90 mb-2">Looking For</p>
           <h1 className="font-serif text-[40px] sm:text-[48px] md:text-[52px] lg:text-[50px] leading-[1.08] text-white mb-8">
-            Premium Commercial<br />Space?
+            Premium Commercial<br />Space in Ahmedabad?
           </h1>
 
           <div className="flex items-center gap-4 mb-2">
             <span className="h-px w-8 bg-[#C69A57]/60" />
-            <span className="text-[10px] tracking-[0.3em] text-[#C69A57]">EXPECTED ANNUAL ROI</span>
+            <p className="text-[10px] tracking-[0.3em] text-[#C69A57] font-bold">EXPECTED ANNUAL ROI</p>
           </div>
           <div className="roi-display font-serif text-[62px] sm:text-[86px] lg:text-[98px] leading-[1.1] italic bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent drop-shadow-md mb-5">
             15-18<span className="text-[42px] sm:text-[58px] lg:text-[70px]">%</span>
           </div>
           <p className="text-white/70 text-[14px] leading-relaxed max-w-[390px] mb-10">
-            A high-growth commercial investment opportunity in Ahmedabad's most prestigious business corridor.
+            A high-growth commercial investment opportunity in Ahmedabad's most prestigious business corridor at Sindhu Bhavan Road.
           </p>
 
           {/* CTA buttons */}
@@ -306,25 +319,26 @@ function Hero() {
             </button>
           </div>
 
-          {/* 3 Cards */}
+          {/* Features Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 lg:max-w-[480px]">
             {[
               { icon: TrendingUp, label: "STARTING", v: "₹65 Lakhs" },
               { icon: Building2, label: "OFFICE FROM", v: "900 Sq.ft" },
               { icon: Store, label: "SHOWROOM FROM", v: "2700 Sq.ft" },
             ].map(({ icon: Icon, label, v }) => (
-              <div key={label} className="flex flex-col items-center text-center sm:items-start sm:text-left rounded-2xl border border-[#E3C98B]/20 bg-[#0A0A0A]/50 backdrop-blur p-4 sm:p-3.5 hover:border-[#E3C98B]/40 transition duration-300 group">
-                <Icon className="h-4 w-4 text-[#C69A57] mb-4 transition-transform group-hover:scale-110" strokeWidth={1.5} />
-                <div className="text-[8px] tracking-[0.25em] text-white/40 mb-1.5 uppercase">{label}</div>
-                <div className="text-white/90 text-[12px] font-medium">{v}</div>
+              <div key={label} className="flex flex-col items-center text-center sm:items-start sm:text-left rounded-2xl border border-[#E3C98B]/20 bg-[#0A0A0A]/50 backdrop-blur p-5 sm:p-3.5 hover:border-[#E3C98B]/40 transition duration-300 group">
+                <Icon className="h-5 w-5 text-[#C69A57] mb-4 transition-transform group-hover:scale-110" strokeWidth={1.5} />
+                <div className="w-full">
+                  <div className="text-[8px] tracking-[0.25em] text-white/40 mb-1.5 uppercase">{label}</div>
+                  <div className="text-white/90 text-[12px] font-medium">{v}</div>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* RIGHT - tower */}
+        {/* RIGHT - Image Section */}
         <div className="relative pt-8 sm:pt-10 lg:pt-0">
-          {/* Main Image Frame */}
           <div className="lg:mt-[-90px] relative mx-auto w-full max-w-[420px] rounded-[32px] border border-[#C69A57]/30 bg-[#0A0A0A] aspect-[9/13] sm:aspect-[4/5] lg:aspect-[3/4] overflow-visible shadow-[0_30px_100px_-20px_rgba(0,0,0,0.8)]">
             <style dangerouslySetInnerHTML={{
               __html: `
@@ -342,15 +356,15 @@ function Hero() {
                   <div key={i} className="relative w-1/4 h-full">
                     <img
                       src={src}
-                      alt={`Plinth feature ${i + 1}`}
+                      alt={`Plinth Commercial Development Ahmedabad - View ${i + 1}`}
                       className="absolute inset-0 h-full w-full object-cover object-center"
+                      loading={i === 0 ? "eager" : "lazy"}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
                   </div>
                 ))}
               </div>
 
-              {/* Top Tags - Improved mobile positioning */}
               <div className="absolute top-5 inset-x-5 flex justify-between gap-2 z-20">
                 <div className="rounded-full border border-[#E3C98B]/40 bg-black/40 backdrop-blur-md px-4 py-2 text-[8px] sm:text-[9px] tracking-[0.2em] text-white/90 font-medium">
                   G + 38 STOREY
@@ -361,38 +375,25 @@ function Hero() {
               </div>
             </div>
 
-            {/* floating PROPERTY APPRECIATION card - Adjusted mobile dimensions */}
-            <div className="absolute -left-4 sm:-left-12 top-[22%] rounded-2xl border border-[#E3C98B]/40 bg-black/20 backdrop-blur-xl px-5 py-7 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5),0_10px_30px_-15px_rgba(227,201,139,0.2)] z-10 w-48 sm:w-56 min-h-[160px] sm:min-h-0 group transition-all hover:border-[#E3C98B]/60">
-              <div className="text-[8px] tracking-[0.15em] text-[#E3C98B]/80 mb-3 font-medium">PROPERTY APPRECIATION</div>
+            {/* Appreciation Card */}
+            <div className="absolute -left-4 sm:-left-12 top-[22%] rounded-2xl border border-[#E3C98B]/40 bg-black/20 backdrop-blur-xl px-5 py-7 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)] z-10 w-48 sm:w-56 group transition-all">
+              <div className="text-[8px] tracking-[0.15em] text-[#E3C98B]/80 mb-3 font-medium uppercase">Property Appreciation</div>
               <div className="roi-display font-serif text-[40px] sm:text-[42px] leading-none text-[#E3C98B] mb-3">15-18%</div>
-              <p className="text-[10px] sm:text-[11px] text-white/60 leading-relaxed font-light max-w-[140px]">Expected annual returns on investment</p>
-              {/* Subtle inner glow */}
-              <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/5 pointer-events-none" />
+              <p className="text-[10px] sm:text-[11px] text-white/60 leading-relaxed font-light">Expected annual returns on investment in Plinth.</p>
             </div>
 
-            {/* CEILING HEIGHT card - Moved lower on mobile */}
-            <div className="absolute -right-4 sm:-right-8 bottom-[20%] rounded-2xl border border-[#E3C98B]/40 bg-black/20 backdrop-blur-xl px-5 py-5 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5),0_10px_30px_-15px_rgba(227,201,139,0.2)] z-10 w-36 sm:w-44 group transition-all hover:border-[#E3C98B]/60">
-              <div className="text-[8px] tracking-[0.15em] text-[#E3C98B]/80 mb-2 font-medium">CEILING HEIGHT</div>
-              <div className="font-serif text-[32px] sm:text-[38px] leading-none text-white/90">
-                11.5 <span className="italic text-white/40 text-lg sm:text-xl ml-0.5">ft</span>
-              </div>
-              <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/5 pointer-events-none" />
-            </div>
-
-            {/* bottom development bar - Perfect mobile positioning */}
-            <div className="absolute left-4 right-4 bottom-4 rounded-[20px] border border-[#E3C98B]/40 bg-black/30 backdrop-blur-xl px-5 py-4 flex items-center justify-between gap-4 z-10 group transition-all hover:border-[#E3C98B]/60">
+            {/* Development Footer Bar */}
+            <div className="absolute left-4 right-4 bottom-4 rounded-[20px] border border-[#E3C98B]/40 bg-black/30 backdrop-blur-xl px-5 py-4 flex items-center justify-between gap-4 z-10 group transition-all">
               <div>
                 <div className="text-[8px] tracking-[0.2em] text-[#E3C98B]/80 mb-1.5 font-medium uppercase">THE DEVELOPMENT</div>
                 <div className="font-serif text-[15px] sm:text-[17px] text-white tracking-wide">Sindhu Bhavan, Ahmedabad</div>
               </div>
               <button
                 type="button"
-                aria-label="Explore"
-                className="h-10 w-10 shrink-0 rounded-full bg-gradient-to-br from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] text-black flex items-center justify-center transition-all hover:scale-110 active:scale-95 shadow-[0_0_20px_-5px_rgba(227,201,139,0.5)]"
+                className="h-10 w-10 rounded-full bg-gradient-to-br from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] text-black flex items-center justify-center transition-all hover:scale-110"
               >
                 <ArrowRight className="h-4 w-4" />
               </button>
-              <div className="absolute inset-0 rounded-[20px] ring-1 ring-inset ring-white/5 pointer-events-none" />
             </div>
           </div>
         </div>
@@ -490,7 +491,7 @@ function ROISection() {
             ].map(({ icon: Icon, v, t, d }) => (
               <div
                 key={t}
-                className="group relative rounded-[20px] border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-5 min-h-[200px] flex flex-col items-center text-center sm:items-start sm:text-left justify-center transition-all duration-300 
+                className="group relative rounded-[20px] border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-5 min-h-[220px] sm:min-h-[200px] flex flex-col items-center text-center sm:items-start sm:text-left justify-center transition-all duration-300 
       transform-gpu hover:scale-[1.02] active:scale-[0.98]
       hover:border-[oklch(0.78_0.13_75/0.45)] 
       active:border-[oklch(0.78_0.13_75/0.45)] 
@@ -501,21 +502,21 @@ function ROISection() {
                 <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.06)] opacity-55 group-hover:opacity-100 group-active:opacity-100 transition-opacity" />
 
                 {/* Icon Container */}
-                <div className="relative h-8.5 w-8.5 rounded-full bg-[linear-gradient(135deg,oklch(0.86_0.12_80),oklch(0.65_0.13_65))] flex items-center justify-center mb-3 shadow-[0_22px_60px_-40px_oklch(0.78_0.13_75/0.80)]">
+                <div className="relative h-9 w-9 rounded-full bg-[linear-gradient(135deg,oklch(0.86_0.12_80),oklch(0.65_0.13_65))] flex items-center justify-center mb-4 sm:mb-3 shadow-[0_22px_60px_-40px_oklch(0.78_0.13_75/0.80)] mx-auto sm:mx-0">
                   <div className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-[oklch(0.20_0.014_60/0.18)]" />
-                  <Icon className="h-3.5 w-3.5 text-[oklch(0.16_0.012_60)]" />
+                  <Icon className="h-4 w-4 text-[oklch(0.16_0.012_60)]" />
                 </div>
 
                 {/* Stat Value with Gold Gradient */}
-                <div className="relative font-serif text-[20px] leading-none mb-1.5 bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent">
+                <div className="relative font-serif text-[22px] sm:text-[20px] leading-none mb-2 sm:mb-1.5 bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent">
                   {v}
                 </div>
 
                 {/* Title */}
-                <div className="relative text-[12px] text-foreground/90 font-medium leading-snug">{t}</div>
+                <div className="relative text-[13px] sm:text-[12px] text-foreground/90 font-medium leading-snug">{t}</div>
 
                 {/* Description */}
-                <p className="relative text-[10px] text-foreground/55 mt-0.5 leading-snug">{d}</p>
+                <p className="relative text-[11px] sm:text-[10px] text-foreground/55 mt-1 sm:mt-0.5 leading-snug max-w-[160px] sm:max-w-none">{d}</p>
               </div>
 
             ))}
@@ -559,15 +560,15 @@ function Highlights() {
           {items.map(({ icon: Icon, t, d }, i) => (
             <TiltCard
               key={t}
-              className="group relative rounded-2xl border border-[#E3C98B]/20 bg-gradient-to-br from-card/70 to-card/35 backdrop-blur p-5 sm:p-4 min-h-[160px] sm:min-h-[140px] flex flex-col items-center text-center sm:items-start sm:text-left hover:border-[var(--gold)]/20 hover:shadow-[0_36px_110px_-78px_oklch(0.78_0.13_75/0.75)]"
+              className="group relative rounded-2xl border border-[#E3C98B]/20 bg-gradient-to-br from-card/70 to-card/35 backdrop-blur p-6 sm:p-4 min-h-[180px] sm:min-h-[140px] flex flex-col items-center text-center sm:items-start sm:text-left hover:border-[var(--gold)]/20 hover:shadow-[0_36px_110px_-78px_oklch(0.78_0.13_75/0.75)]"
             >
               {/* inner edge glow */}
               <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.08)] opacity-60 group-hover:opacity-60 transition-opacity" />
 
-              <div className="relative flex items-center justify-center sm:items-start sm:justify-between w-full mb-4">
-                <div className="relative h-12 w-12 rounded-2xl bg-[linear-gradient(135deg,oklch(0.86_0.12_80),oklch(0.65_0.13_65))] flex items-center justify-center shadow-[0_22px_60px_-40px_oklch(0.78_0.13_75/0.85)]">
+              <div className="relative flex flex-col items-center sm:items-start sm:flex-row sm:justify-between w-full mb-5 sm:mb-4">
+                <div className="relative h-14 w-14 sm:h-12 sm:w-12 rounded-2xl bg-[linear-gradient(135deg,oklch(0.86_0.12_80),oklch(0.65_0.13_65))] flex items-center justify-center shadow-[0_22px_60px_-40px_oklch(0.78_0.13_75/0.85)] mx-auto sm:mx-0">
                   <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-[oklch(0.20_0.014_60/0.18)]" />
-                  <Icon className="h-5 w-5 text-[oklch(0.16_0.012_60)]" />
+                  <Icon className="h-6 w-6 sm:h-5 sm:w-5 text-[oklch(0.16_0.012_60)]" />
                 </div>
                 <div className="relative hidden sm:block">
                   <div className="pointer-events-none absolute -inset-3 rounded-xl bg-[radial-gradient(ellipse_at_center,oklch(0.86_0.12_80/0.22),transparent_65%)] opacity-70" />
@@ -576,8 +577,8 @@ function Highlights() {
                   </span>
                 </div>
               </div>
-              <h3 className="relative font-serif text-[19px] text-foreground mb-1.5 mt-1">{t}</h3>
-              <p className="relative text-sm text-foreground/65 leading-relaxed">{d}</p>
+              <h3 className="relative font-serif text-[21px] sm:text-[19px] text-foreground mb-2 sm:mb-1.5 mt-1">{t}</h3>
+              <p className="relative text-[13px] sm:text-sm text-foreground/65 leading-relaxed max-w-[240px] sm:max-w-none">{d}</p>
             </TiltCard>
           ))}
         </div>
@@ -893,17 +894,17 @@ function Amenities() {
           {items.map(({ icon: Icon, t, d }) => (
             <TiltCard
               key={t}
-              className="group relative rounded-[16px] border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-5 sm:p-4 min-h-[140px] flex flex-col items-center text-center sm:flex-row sm:items-center sm:text-left gap-4 sm:gap-2.5 hover:border-[oklch(0.78_0.13_75/0.45)] hover:shadow-[0_32px_110px_-78px_oklch(0.78_0.13_75/0.75)]"
+              className="group relative rounded-[16px] border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-6 sm:p-4 min-h-[150px] flex flex-col items-center text-center sm:flex-row sm:items-center sm:text-left gap-5 sm:gap-2.5 hover:border-[oklch(0.78_0.13_75/0.45)] hover:shadow-[0_32px_110px_-78px_oklch(0.78_0.13_75/0.75)]"
             >
               <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.07)] opacity-60 group-hover:opacity-100 transition-opacity" />
 
-              <div className="relative h-12 w-12 rounded-[14px] bg-[linear-gradient(135deg,oklch(0.85_0.12_80),oklch(0.65_0.13_65))] flex items-center justify-center shrink-0 shadow-[0_22px_60px_-36px_oklch(0.78_0.13_75/0.85)]">
+              <div className="relative h-14 w-14 sm:h-12 sm:w-12 rounded-[14px] bg-[linear-gradient(135deg,oklch(0.85_0.12_80),oklch(0.65_0.13_65))] flex items-center justify-center shrink-0 shadow-[0_22px_60px_-36px_oklch(0.78_0.13_75/0.85)] mx-auto sm:mx-0">
                 <div className="pointer-events-none absolute inset-0 rounded-[14px] ring-1 ring-inset ring-[oklch(0.20_0.014_60/0.18)]" />
-                <Icon className="h-4 w-4 text-[oklch(0.16_0.012_60)]" />
+                <Icon className="h-5 w-5 sm:h-4 sm:w-4 text-[oklch(0.16_0.012_60)]" />
               </div>
-              <div className="relative">
-                <h3 className="font-serif text-[17px] text-foreground leading-snug">{t}</h3>
-                <p className="text-[11.5px] leading-snug text-foreground/55 mt-0.5">{d}</p>
+              <div className="relative flex flex-col items-center sm:items-start">
+                <h3 className="font-serif text-[19px] sm:text-[17px] text-foreground leading-snug">{t}</h3>
+                <p className="text-[12.5px] sm:text-[11.5px] leading-snug text-foreground/55 mt-1 sm:mt-0.5">{d}</p>
               </div>
             </TiltCard>
           ))}

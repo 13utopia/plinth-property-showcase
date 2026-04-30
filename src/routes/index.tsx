@@ -58,28 +58,11 @@ export const Route = createFileRoute("/")({
       {
         rel: "icon",
         type: "image/svg+xml",
-        href: "/favicon.svg",
-      },
-      {
-        rel: "apple-touch-icon",
-        href: "/favicon.svg",
-      },
-      {
-        rel: "preconnect",
-        href: "https://fonts.googleapis.com",
-      },
-      {
-        rel: "preconnect",
-        href: "https://fonts.gstatic.com",
-        crossOrigin: "anonymous",
-      },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap",
+        href: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3CradialGradient id='g' cx='40%25' cy='35%25' r='65%25'%3E%3Cstop offset='0%25' stop-color='%23F5E9C8'/%3E%3Cstop offset='50%25' stop-color='%23E3C98B'/%3E%3Cstop offset='100%25' stop-color='%23C69A57'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='15' fill='url(%23g)'/%3E%3C/svg%3E",
       },
     ],
     meta: [
-      { title: "Plinth | Premium Commercial Space — Ahmedabad" },
+      { title: "Plinth | Premium Commercial Space" },
       {
         name: "description",
         content:
@@ -88,11 +71,8 @@ export const Route = createFileRoute("/")({
       {
         name: "keywords",
         content:
-          "office space Sindhu Bhavan Road, commercial property Ahmedabad, commercial investment Ahmedabad, Plinth commercial tower, high ROI commercial property, office for rent Ahmedabad, showroom space Ahmedabad",
+          "office space Sindhu Bhavan Road, commercial property Ahmedabad, commercial investment Ahmedabad, Plinth commercial tower, high ROI commercial property",
       },
-      { name: "author", content: "Plinth Property" },
-      { name: "robots", content: "index, follow" },
-      { name: "theme-color", content: "#C69A57" },
       { property: "og:title", content: "Plinth | Premium Commercial Property — Sindhu Bhavan Road, Ahmedabad" },
       {
         property: "og:description",
@@ -100,16 +80,13 @@ export const Route = createFileRoute("/")({
           "G+38 landmark commercial tower. Offices from ₹65L, 15–18% expected annual ROI, IGBC green certified. Book your site visit today.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://plinth-property.com/" },
-      { property: "og:image", content: "/favicon.svg" },
-      { property: "og:site_name", content: "Plinth Property" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Plinth | Premium Commercial Space — Ahmedabad" },
       {
         name: "twitter:description",
         content: "G+38 landmark on Sindhu Bhavan Road. Office & showroom spaces with 15–18% annual ROI.",
       },
-      { name: "twitter:image", content: "/favicon.svg" },
+      { name: "robots", content: "index, follow" },
     ],
   }),
 });
@@ -1373,7 +1350,7 @@ function SiteFooter() {
   return (
     <footer className="relative border-t border-[oklch(0.65_0.10_70/0.18)] pt-10 sm:pt-12 pb-10 sm:pb-12 overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_20%_30%,oklch(0.78_0.13_75/0.08),transparent_60%)]" />
-      <div className="mx-auto max-w-[1120px] px-4 sm:px-5 lg:px-6 xl:px-8">
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-5 lg:px-6 xl:px-8">
         <div className="grid lg:grid-cols-3 gap-10 sm:gap-12 lg:gap-16">
           <div className="text-center sm:text-left">
             <div className="relative h-12 w-12 rounded-full bg-[linear-gradient(135deg,oklch(0.86_0.12_80),oklch(0.65_0.13_65))] mb-6 sm:mb-8 shadow-[0_26px_70px_-44px_oklch(0.78_0.13_75/0.85)] mx-auto sm:mx-0">

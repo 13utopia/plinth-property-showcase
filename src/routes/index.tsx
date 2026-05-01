@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useId, useMemo, useRef, useState, useEffect } from "react";
+import React, { useId, useMemo, useRef, useState, useEffect } from "react";
 import { Heart } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import {

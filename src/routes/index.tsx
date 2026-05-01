@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useId, useMemo, useRef, useState, useEffect } from "react";
 import { Heart } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
   TrendingUp,
@@ -78,16 +78,114 @@ export const Route = createFileRoute("/")({
           "G+38 landmark commercial tower. Offices from ₹65L, 15–18% expected annual ROI, IGBC green certified. Book your site visit today.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "/favicon.png" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Plinth | Premium Commercial Space — Ahmedabad" },
       {
         name: "twitter:description",
         content: "G+38 landmark on Sindhu Bhavan Road. Office & showroom spaces with 15–18% annual ROI.",
       },
+      { name: "twitter:image", content: "/favicon.png" },
       { name: "robots", content: "index, follow" },
     ],
   }),
 });
+
+const Plinth = () => {
+  const [showPopup, setShowPopup] = useState(false);
+  const [hasTriggered, setHasTriggered] = useState(false);
+  const secondSectionRef = useRef(null);
+
+  // Intersection Observer to detect Second Section
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasTriggered) {
+          setShowPopup(true);
+          setHasTriggered(true); // Ensures it only pops up once
+        }
+      },
+      { threshold: 0.3 } // Triggers when 30% of the section is visible
+    );
+
+    if (secondSectionRef.current) {
+      observer.observe(secondSectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasTriggered]);
+
+  return (
+    <div className="relative">
+      {/* SECTION 1: Hero */}
+      <section className="h-screen bg-slate-900 flex items-center justify-center text-white">
+        <h1 className="text-4xl md:text-6xl font-bold">Welcome to Plinth</h1>
+        <p className="absolute bottom-10 animate-bounce">Scroll Down ↓</p>
+      </section>
+
+      {/* SECTION 2: The Trigger Section */}
+      <section
+        ref={secondSectionRef}
+        className="min-h-screen bg-white flex flex-col items-center justify-center p-10"
+      >
+        <h2 className="text-3xl font-bold text-gray-800">Second Section</h2>
+        <p className="text-gray-500 mt-4 max-w-lg text-center">
+          As soon as you scrolled here, the notification form should have appeared.
+        </p>
+      </section>
+
+      {/* POPUP NOTIFICATION FORM */}
+      <AnimatePresence>
+        {showPopup && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            {/* Dark Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowPopup(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+
+            {/* Form Card */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 50 }}
+              className="relative bg-white w-full max-w-[400px] rounded-2xl p-6 md:p-8 shadow-2xl"
+            >
+              <button
+                onClick={() => setShowPopup(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+              >
+                <X size={24} />
+              </button>
+
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Get Updates</h3>
+              <p className="text-gray-600 mb-6 text-sm">Interested in Plinth? Leave your details below.</p>
+
+              <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+                <button className="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                  Submit
+                </button>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 /* ---------- shared bits ---------- */
 
@@ -122,7 +220,7 @@ function TiltCard({
   );
 
   return (
-    
+
     <div
       ref={ref}
       className={className}
@@ -212,6 +310,12 @@ function PremiumButton({ children, className, innerClassName, onClick, type = "b
     </button>
   );
 }
+
+const WhatsAppIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.487-1.761-1.663-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+);
 
 /* ---------- 1. NAV ---------- */
 
@@ -324,10 +428,14 @@ function Hero() {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mb-10">
             <PremiumButton className="w-full sm:w-auto" innerClassName="w-full px-8 py-4 text-[13px] gap-3">
               Get Pricing &amp; ROI Details
-              <ArrowRight className="h-3.5 w-3.5" />
+              <div className="h-6 w-6 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center shrink-0">
+                <ArrowRight className="h-3 w-3 text-black" />
+              </div>
             </PremiumButton>
-            <button className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full px-7 py-4 text-[13px] font-medium text-white/90 border border-white/20 bg-transparent hover:border-white/40 border border-white/20 br-transparent hover:border-white/40hiororhigtrasnsopvebhite">
-              <PhoneIcon className="h-3.5 w-3.5 text-white70ehoii0eho/70ehoii0ehoexthite" />
+            <button className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full px-7 py-4 text-[13px] font-medium text-white/90 border border-white/20 bg-transparent hover:border-[#E3C98B]/60 transition-colors">
+              <div className="h-6 w-6 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center shrink-0">
+                <PhoneIcon className="h-3 w-3 text-black" />
+              </div>
               Talk to Advisor
             </button>
           </div>
@@ -340,7 +448,9 @@ function Hero() {
               { icon: Store, label: "SHOWROOM FROM", v: "2700 Sq.ft" },
             ].map(({ icon: Icon, label, v }) => (
               <div key={label} className="flex flex-col items-center text-center sm:items-start sm:text-left rounded-2xl border border-[#E3C98B]/20 bg-[#0A0A0A]/50 backdrop-blur p-5 sm:p-3.5 hover:border-[#E3C98B]/40 transition duration-300 group">
-                <Icon className="h-5 w-5 text-[#C69A57] mb-4 transition-transform group-hover:scale-110" strokeWidth={1.5} />
+                <div className="h-10 w-10 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+                  <Icon className="h-5 w-5 text-black" strokeWidth={1.5} />
+                </div>
                 <div className="w-full">
                   <div className="text-[8px] tracking-[0.25em] text-white/40 mb-1.5 uppercase">{label}</div>
                   <div className="text-white/90 text-[12px] font-medium">{v}</div>
@@ -415,7 +525,7 @@ function Hero() {
               <button
                 type="button"
                 aria-label="Explore"
-                className="h-10 w-10 shrink-0 rounded-full bg-gradient-to-br from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] text-black flex items-center justify-center transition-all hover:scale-110 active:scale-95 shadow-[0_0_20px_-5px_rgba(227,201,139,0.5)]"
+                className="h-10 w-10 shrink-0 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] text-black flex items-center justify-center transition-all hover:scale-110 active:scale-95 shadow-[0_0_20px_-5px_rgba(227,201,139,0.5)]"
               >
                 <ArrowRight className="h-4 w-4" />
               </button>
@@ -501,7 +611,7 @@ function ROISection() {
               ].map((s) => (
                 <div key={s.l}>
                   <div className="text-[10px] tracking-[0.3em] text-foreground/60 mb-2">{s.l}</div>
-                  <div className="italic bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent">{s.v}</div>
+                  <div className="roi-display font-serif text-[16px] sm:text-[18px] md:text-[20px] italic bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent">{s.v}</div>
                 </div>
               ))}
             </div>
@@ -525,9 +635,9 @@ function ROISection() {
       active:shadow-[0_40px_130px_-120px_oklch(0.78_0.13_75/0.65)]"
               >
                 <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.06)] opacity-55 group-hover:opacity-100 group-active:opacity-100 transition-opacity" />
-                <div className="relative h-9 w-9 rounded-full bg-[linear-gradient(135deg,oklch(0.86_0.12_80),oklch(0.65_0.13_65))] flex items-center justify-center mb-4 sm:mb-3 shadow-[0_22px_60px_-40px_oklch(0.78_0.13_75/0.80)] mx-auto sm:mx-0">
-                  <div className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-[oklch(0.20_0.014_60/0.18)]" />
-                  <Icon className="h-4 w-4 text-[oklch(0.16_0.012_60)]" />
+                <div className="relative h-9 w-9 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center mb-4 sm:mb-3 shadow-[0_22px_60px_-40px_rgba(227,201,139,0.4)] mx-auto sm:mx-0">
+                  <div className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-white/20" />
+                  <Icon className="h-4 w-4 text-black" />
                 </div>
                 <div className="relative font-serif text-[22px] sm:text-[20px] leading-none mb-2 sm:mb-1.5 bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent">
                   {v}
@@ -580,9 +690,9 @@ function Highlights() {
             >
               <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.08)] opacity-60 group-hover:opacity-60 transition-opacity" />
               <div className="relative flex flex-col items-center sm:items-start sm:flex-row sm:justify-between w-full mb-5 sm:mb-4">
-                <div className="relative h-14 w-14 sm:h-12 sm:w-12 rounded-2xl bg-[linear-gradient(135deg,oklch(0.86_0.12_80),oklch(0.65_0.13_65))] flex items-center justify-center shadow-[0_22px_60px_-40px_oklch(0.78_0.13_75/0.85)] mx-auto sm:mx-0">
-                  <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-[oklch(0.20_0.014_60/0.18)]" />
-                  <Icon className="h-6 w-6 sm:h-5 sm:w-5 text-[oklch(0.16_0.012_60)]" />
+                <div className="relative h-14 w-14 sm:h-12 sm:w-12 rounded-2xl bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center shadow-[0_22px_60px_-40px_rgba(227,201,139,0.4)] mx-auto sm:mx-0">
+                  <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/20" />
+                  <Icon className="h-6 w-6 sm:h-5 sm:w-5 text-black" />
                 </div>
                 <div className="relative hidden sm:block">
                   <div className="pointer-events-none absolute -inset-3 rounded-xl bg-[radial-gradient(ellipse_at_center,oklch(0.86_0.12_80/0.22),transparent_65%)] opacity-70" />
@@ -701,14 +811,14 @@ function Spaces() {
                   <h3 className="font-serif text-[17px] md:text-[19px] italic tracking-wide bg-gradient-to-r from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent leading-snug">
                     {c.title}
                   </h3>
-                  <span className="text-[10px] tracking-[0.2em] text-[#C69A57] font-bold uppercase">15-18% ROI</span>
+                  <span className="text-[10px] tracking-[0.2em] text-[#C69A57] font-bold uppercase"><span className="roi-display font-serif text-[14px] sm:text-[16px] md:text-[18px] tracking-normal italic mr-1">15-18%</span> ROI</span>
                 </div>
 
                 <ul className="mt-3 space-y-2">
                   {c.features.map((f) => (
                     <li key={f} className="group/item flex items-start gap-3 text-[13px] text-white/50 font-light leading-relaxed cursor-pointer transition-colors duration-300 hover:text-[#E3C98B] active:text-[#E3C98B]">
-                      <span className="mt-1 h-5 w-5 rounded-full border border-[#C69A57]/30 flex items-center justify-center shrink-0 bg-[#C69A57]/5 transition-all duration-300 group-hover/item:border-[#C69A57] group-hover/item:bg-[#C69A57]/20 group-active/item:border-[#C69A57] group-active/item:bg-[#C69A57]/20">
-                        <Check className="h-2.5 w-2.5 text-[#C69A57] transition-transform duration-300 group-hover/item:scale-125 group-active/item:scale-125" />
+                      <span className="mt-1 h-5 w-5 rounded-full flex items-center justify-center shrink-0 bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] transition-all duration-300 group-hover/item:shadow-[0_0_10px_rgba(227,201,139,0.5)]">
+                        <Check className="h-2.5 w-2.5 text-black transition-transform duration-300 group-hover/item:scale-125 group-active/item:scale-125" />
                       </span>
                       <span className="transition-transform duration-300 group-hover/item:translate-x-1 group-active/item:translate-x-1">{f}</span>
                     </li>
@@ -716,7 +826,10 @@ function Spaces() {
                 </ul>
 
                 <PremiumButton fullWidth className="mt-4" innerClassName="w-full py-2.5 text-[12px] gap-2">
-                  Check Availability <ArrowRight className="h-4 w-4" />
+                  Check Availability 
+                  <div className="h-5 w-5 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center shrink-0">
+                    <ArrowRight className="h-3 w-3 text-black" />
+                  </div>
                 </PremiumButton>
               </div>
             </div>
@@ -835,17 +948,13 @@ function WhyInvest() {
                   )}
                   <div
                     className={[
-                      "relative h-10 w-10 rounded-full flex items-center justify-center mb-5",
+                      "relative h-10 w-10 rounded-full flex items-center justify-center mb-5 transition-all duration-300",
                       isActive
-                        ? "bg-[oklch(0.16_0.012_60/0.18)] shadow-[0_26px_70px_-44px_oklch(0.16_0.012_60/0.35)]"
-                        : "bg-background/10 border border-[oklch(0.65_0.10_70/0.26)] shadow-[inset_0_0_0_1px_oklch(0.85_0.12_80/0.06)]",
+                        ? "bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] shadow-[0_10px_30px_-10px_rgba(227,201,139,0.5)] scale-110"
+                        : "bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] opacity-80 border border-white/10",
                     ].join(" ")}
                   >
-                    {isActive ? (
-                      <Icon className="h-4 w-4 text-[oklch(0.16_0.012_60)]" />
-                    ) : (
-                      <Icon className="h-4 w-4 text-[#C69A57] drop-shadow-sm" strokeWidth={1.5} />
-                    )}
+                    <Icon className="h-4 w-4 text-black" strokeWidth={isActive ? 2 : 1.5} />
                   </div>
                   <h3 className="relative font-serif text-[17px] mb-1.5 leading-snug mt-4">{t}</h3>
                   <p className={`relative text-[12px] leading-relaxed ${isActive ? "text-[oklch(0.16_0.012_60/0.82)]" : "text-foreground/65"}`}>
@@ -894,9 +1003,9 @@ function Amenities() {
               className="group relative rounded-[16px] border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-6 sm:p-4 min-h-[150px] flex flex-col items-center text-center sm:flex-row sm:items-center sm:text-left gap-5 sm:gap-2.5 hover:border-[oklch(0.78_0.13_75/0.45)] hover:shadow-[0_32px_110px_-78px_oklch(0.78_0.13_75/0.75)]"
             >
               <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.07)] opacity-60 group-hover:opacity-100 transition-opacity" />
-              <div className="relative h-14 w-14 sm:h-12 sm:w-12 rounded-[14px] bg-[linear-gradient(135deg,oklch(0.85_0.12_80),oklch(0.65_0.13_65))] flex items-center justify-center shrink-0 shadow-[0_22px_60px_-36px_oklch(0.78_0.13_75/0.85)] mx-auto sm:mx-0">
-                <div className="pointer-events-none absolute inset-0 rounded-[14px] ring-1 ring-inset ring-[oklch(0.20_0.014_60/0.18)]" />
-                <Icon className="h-5 w-5 sm:h-4 sm:w-4 text-[oklch(0.16_0.012_60)]" />
+              <div className="relative h-14 w-14 sm:h-12 sm:w-12 rounded-[14px] bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center shrink-0 shadow-[0_22px_60px_-36px_rgba(227,201,139,0.4)] mx-auto sm:mx-0">
+                <div className="pointer-events-none absolute inset-0 rounded-[14px] ring-1 ring-inset ring-white/20" />
+                <Icon className="h-5 w-5 sm:h-4 sm:w-4 text-black" />
               </div>
               <div className="relative flex flex-col items-center sm:items-start">
                 <h3 className="font-serif text-[19px] sm:text-[17px] text-foreground leading-snug">{t}</h3>
@@ -938,8 +1047,8 @@ function Location() {
               {places.map(({ icon: Icon, t, d }) => (
                 <div key={t} className="group rounded-2xl border border-[#E3C98B]/20 bg-[#0A0A0A]/40 px-6 py-5 flex items-center justify-between transition-all duration-300 hover:border-[#E3C98B]/40 hover:shadow-[0_0_28px_-14px_#C69A57] active:border-[#E3C98B]/45 active:shadow-[0_0_28px_-14px_#C69A57] focus-within:border-[#E3C98B]/45 focus-within:shadow-[0_0_28px_-14px_#C69A57]">
                   <div className="flex items-center gap-5">
-                    <div className="h-10 w-10 rounded-full border border-[#E3C98B]/20 flex items-center justify-center shrink-0 transition-colors duration-300 group-hover:border-[#E3C98B]/40 group-active:border-[#E3C98B]/45">
-                      <Icon className="h-4 w-4 text-[#E3C98B]" />
+                    <div className="h-10 w-10 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] shadow-sm group-hover:shadow-[0_0_15px_rgba(227,201,139,0.4)]">
+                      <Icon className="h-4 w-4 text-black" />
                     </div>
                     <span className="text-white/80 text-[15px] font-light tracking-wide">{t}</span>
                   </div>
@@ -952,7 +1061,9 @@ function Location() {
           {/* Map */}
           <div className="mb-6 relative rounded-2xl sm:rounded-3xl border border-[#E3C98B]/20 bg-[#0A0A0A] aspect-[1/1.06] sm:aspect-[4/3] lg:aspect-[1.45/1] min-h-[300px] sm:min-h-0 max-h-[440px] overflow-hidden shadow-[0_40px_160px_-120px_oklch(0.78_0.13_75/0.55)]">
             <div className="absolute top-4 left-4 sm:top-6 sm:left-6 rounded-full border border-[#E3C98B]/30 bg-black/60 backdrop-blur-md px-3.5 sm:px-5 py-2 text-[9px] sm:text-[11px] tracking-[0.16em] sm:tracking-widest text-white flex items-center gap-2 z-20 max-w-[calc(100%-2rem)] sm:max-w-[calc(100%-3rem)]">
-              <MapPin className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-[#E3C98B] shrink-0" />
+              <div className="h-5 w-5 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center shrink-0">
+                <MapPin className="h-3 w-3 text-black shrink-0" />
+              </div>
               <span className="font-medium text-white/90 truncate">Sindhu Bhavan Rd, Ahmedabad - 380054</span>
             </div>
             <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 rounded-xl border border-[#E3C98B]/30 bg-black/60 backdrop-blur-md px-3.5 sm:px-6 py-3 sm:py-4 text-right z-20 flex flex-col gap-1.5 sm:gap-2 w-[9.75rem] sm:w-auto">
@@ -1030,9 +1141,9 @@ function DeveloperLegacy() {
             >
               <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.07)] opacity-55 group-hover:opacity-100 transition-opacity" />
               <div className="pointer-events-none absolute -top-10 -left-10 h-40 w-40 rounded-full blur-[2px]" />
-              <div className="relative h-12 w-12 rounded-full bg-[linear-gradient(135deg,oklch(0.85_0.12_80),oklch(0.65_0.13_65))] flex items-center justify-center mb-4 shadow-[0_26px_70px_-44px_oklch(0.78_0.13_75/0.85)]">
-                <div className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-[oklch(0.20_0.014_60/0.18)]" />
-                <Icon className="h-5 w-5 text-[oklch(0.16_0.012_60)]" />
+              <div className="relative h-12 w-12 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center mb-4 shadow-[0_26px_70px_-44px_rgba(227,201,139,0.4)]">
+                <div className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-white/20" />
+                <Icon className="h-5 w-5 text-black" />
               </div>
               <div className="relative font-serif text-3xl leading-[1.1] mb-1.5 bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent">
                 {v}
@@ -1105,10 +1216,19 @@ function InvestmentCTA() {
         </h3>
         <div className="mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4">
           <PremiumButton className="w-full sm:w-auto" innerClassName="w-full px-8 py-4 text-[12px] gap-3">
-            <Calendar className="h-4 w-4" /> Book Site Visit
+            <div className="h-6 w-6 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center shrink-0">
+              <Calendar className="h-3 w-3 text-black" />
+            </div>
+            Book Site Visit
           </PremiumButton>
           <button className="w-full sm:w-auto rounded-full px-8 py-4 border border-[oklch(0.65_0.10_70/0.30)] bg-background/10 backdrop-blur text-foreground/90 font-medium flex items-center justify-center gap-3 hover:border-[oklch(0.78_0.13_75/0.55)] transition">
-            <Download className="h-4 w-4 text-[#E3C98B]" /> Download Brochure <ArrowRight className="h-4 w-4 text-[#E3C98B]" />
+            <div className="h-6 w-6 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center shrink-0">
+              <Download className="h-3 w-3 text-black" />
+            </div>
+            Download Brochure 
+            <div className="h-6 w-6 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center shrink-0">
+              <ArrowRight className="h-3 w-3 text-black" />
+            </div>
           </button>
         </div>
         <div className="mt-10 text-[10px] tracking-[0.30em] text-foreground/60">
@@ -1129,16 +1249,16 @@ function EnquiryForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formRef.current) return;
-    
+
     const phoneInput = formRef.current.querySelector('input[name="user_phone"]') as HTMLInputElement;
     const phoneValue = phoneInput?.value || '';
-    
+
     // Validate phone number: exactly 10 digits, no letters or characters
     if (!/^\d{10}$/.test(phoneValue)) {
       alert('Please enter a valid 10-digit phone number');
       return;
     }
-    
+
     setStatus("submitting");
 
     try {
@@ -1181,7 +1301,7 @@ function EnquiryForm() {
 
       {status === "success" ? (
         <div className="h-full flex flex-col items-center justify-center text-center py-10">
-          <div className="h-16 w-16 rounded-full bg-gradient-to-r from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] text-black flex items-center justify-center mb-6 shadow-[0_22px_60px_-40px_oklch(0.78_0.13_75/0.80)]">
+          <div className="h-16 w-16 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] text-black flex items-center justify-center mb-6 shadow-[0_22px_60px_-40px_rgba(227,201,139,0.4)]">
             <Check className="h-8 w-8 text-black" />
           </div>
           <h3 className="font-serif text-3xl md:text-4xl text-foreground mb-4">
@@ -1201,7 +1321,9 @@ function EnquiryForm() {
       ) : (
         <>
           <div className="flex items-center gap-3 mb-3">
-            <Sparkles className="h-4 w-4 text-[#E3C98B]" />
+            <div className="h-6 w-6 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center shrink-0">
+              <Sparkles className="h-3 w-3 text-black" />
+            </div>
             <span className="text-xs tracking-[0.3em] text-[#E3C98B]">PRIORITY ENQUIRY</span>
           </div>
           <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl text-foreground mb-6 sm:mb-10">
@@ -1282,7 +1404,11 @@ function EnquiryForm() {
               innerClassName="w-full py-4 text-[13px] gap-3 disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {status === "submitting" ? "Submitting..." : "Get Complete Investment Details"}
-              {status !== "submitting" && <ArrowRight className="h-4 w-4" />}
+              {status !== "submitting" && (
+                <div className="h-6 w-6 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center shrink-0">
+                  <ArrowRight className="h-3 w-3 text-black" />
+                </div>
+              )}
             </PremiumButton>
             {status === "error" && (
               <p className="mt-4 text-center text-sm text-red-500">
@@ -1315,8 +1441,8 @@ function EnquireNow() {
             </p>
 
             <div className="mt-7 sm:mt-8 rounded-[22px] border border-[oklch(0.65_0.10_70/0.22)] hover:border-[#C69A57] transition-colors duration-300 bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-4 sm:p-5 flex items-start gap-3 sm:gap-4">
-              <div className="h-10 w-12 rounded-full bg-[linear-gradient(135deg,oklch(0.85_0.12_80),oklch(0.65_0.13_65))] flex items-center justify-center shrink-0 shadow-[0_22px_60px_-40px_oklch(0.78_0.13_75/0.80)]">
-                <AlertCircle className="h-5 w-5 text-[oklch(0.16_0.012_60)]" />
+              <div className="h-10 w-12 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center shrink-0 shadow-[0_22px_60px_-40px_rgba(227,201,139,0.4)]">
+                <AlertCircle className="h-5 w-5 text-black" />
               </div>
               <div>
                 <h3 className="font-serif text-xl sm:text-2xl text-foreground">Limited Premium Units Available</h3>
@@ -1328,7 +1454,7 @@ function EnquireNow() {
 
             <div className="mt-3 rounded-[22px] border border-[oklch(0.65_0.10_70/0.22)] hover:border-[#C69A57] transition-colors duration-300 bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-4 sm:p-6">
               <div className="text-[10px] tracking-[0.3em] text-[#E3C98B] mb-2">WHY INVEST NOW</div>
-              <div className="font-serif leading-[1.1] text-5xl sm:text-7xl md:text-[6rem] lg:text-[6rem] bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent">
+              <div className="roi-display font-serif leading-[1.1] text-5xl sm:text-7xl md:text-[6rem] lg:text-[6rem] italic bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent">
                 15-18<span className="text-5xl sm:text-6xl md:text-[4rem] lg:text-[4rem]">%</span>
               </div>
               <p className="text-sm text-foreground/65 mt-4">
@@ -1355,14 +1481,14 @@ function SiteFooter() {
       <div className="mx-auto max-w-[1400px] px-4 sm:px-5 lg:px-6 xl:px-8">
         <div className="grid lg:grid-cols-3 gap-10 sm:gap-12 lg:gap-16">
           <div className="text-center sm:text-left">
-            <div className="relative h-12 w-12 rounded-full bg-[linear-gradient(135deg,oklch(0.86_0.12_80),oklch(0.65_0.13_65))] mb-6 sm:mb-8 shadow-[0_26px_70px_-44px_oklch(0.78_0.13_75/0.85)] mx-auto sm:mx-0">
-              <div className="pointer-events-none absolute -inset-6 rounded-full bg-[radial-gradient(circle,oklch(0.86_0.12_80/0.22),transparent_70%)]" />
+            <div className="relative h-12 w-12 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] mb-6 sm:mb-8 shadow-[0_26px_70px_-44px_rgba(227,201,139,0.4)] mx-auto sm:mx-0">
+              <div className="pointer-events-none absolute -inset-6 rounded-full bg-[radial-gradient(circle,rgba(227,201,139,0.2),transparent_70%)]" />
             </div>
             <p className="text-sm text-foreground/65 leading-relaxed max-w-md mx-auto sm:mx-0">
               Looking for{" "}
               <span className="text-[#E3C98B]">office space in Sindhu Bhavan Ahmedabad</span>?
               This premium commercial project offers modern office spaces and showroom units with{" "}
-              <span className="text-[#E3C98B]">high ROI potential (15-18% annual returns)</span>,
+              <span className="text-[#E3C98B]">high ROI potential (<span className="roi-display font-serif text-[15px] sm:text-[16px] italic font-medium mx-0.5">15-18%</span> annual returns)</span>,
               G+38 storey landmark design, green building certification, 18 high-speed lifts, and
               4-level basement parking in Ahmedabad's most prestigious business corridor.
             </p>
@@ -1371,10 +1497,10 @@ function SiteFooter() {
                 <a
                   key={i}
                   href="#"
-                  className="h-10 w-10 rounded-full border border-[oklch(0.65_0.10_70/0.24)] bg-background/10 backdrop-blur flex items-center justify-center hover:border-[oklch(0.78_0.13_75/0.55)] hover:bg-[oklch(0.78_0.13_75/0.06)] transition"
+                  className="h-10 w-10 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center transition-transform hover:scale-110 shadow-sm"
                   aria-label="Social link"
                 >
-                  <Icon className="h-4 w-4 text-[#E3C98B]" />
+                  <Icon className="h-4 w-4 text-black" />
                 </a>
               ))}
             </div>
@@ -1395,19 +1521,25 @@ function SiteFooter() {
             <div className="text-[11px] sm:text-[12px] tracking-[0.30em] text-[#E3C98B]/90 mb-5 sm:mb-8">CONTACT</div>
             <ul className="space-y-4 sm:space-y-5 text-sm text-foreground/80">
               <li className="flex items-start justify-center sm:justify-start gap-3 sm:gap-4">
-                <MapPin className="h-4 w-4 text-[#E3C98B] mt-1 shrink-0" />
-                <a href="https://maps.google.com/?q=Sindhu+Bhavan+Road,+Bodakdev,+Ahmedabad,+Gujarat+380054" target="_blank" rel="noopener noreferrer" className="hover:text-[#E3C98B] transition">
+                <div className="h-8 w-8 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center shrink-0">
+                  <MapPin className="h-4 w-4 text-black" />
+                </div>
+                <a href="https://maps.google.com/?q=Sindhu+Bhavan+Road,+Bodakdev,+Ahmedabad,+Gujarat+380054" target="_blank" rel="noopener noreferrer" className="hover:text-[#E3C98B] transition mt-1.5">
                   Sindhu Bhavan Road, Bodakdev, Ahmedabad, Gujarat 380054
                 </a>
               </li>
               <li className="flex items-center justify-center sm:justify-start gap-3 sm:gap-4">
-                <Phone className="h-4 w-4 text-[#E3C98B]" />
+                <div className="h-8 w-8 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center shrink-0">
+                  <Phone className="h-4 w-4 text-black" />
+                </div>
                 <a href="tel:+919898709370" className="hover:text-[#E3C98B] transition">
                   +91 9898709370
                 </a>
               </li>
               <li className="flex items-center justify-center sm:justify-start gap-3 sm:gap-4">
-                <Mail className="h-4 w-4 text-[#E3C98B]" />
+                <div className="h-8 w-8 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center shrink-0">
+                  <Mail className="h-4 w-4 text-black" />
+                </div>
                 <a href="mailto:info@plinthreality.com" target="_blank" rel="noopener noreferrer" className="hover:text-[#E3C98B] transition">
                   info@plinthreality.com
                 </a>
@@ -1472,9 +1604,40 @@ function EnquiryModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
 
 function PlinthLanding() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showScrollPopup, setShowScrollPopup] = useState(false);
+  const [hasTriggeredScroll, setHasTriggeredScroll] = useState(false);
+  const mainRef = useRef<HTMLDivElement>(null);
+
+  // Scroll-based popup trigger
+  useEffect(() => {
+    const handleScroll = () => {
+      if (hasTriggeredScroll) return;
+
+      // Show popup when user scrolls past 500px
+      if (window.scrollY > 500) {
+        setShowScrollPopup(true);
+        setHasTriggeredScroll(true);
+      }
+    };
+
+    // Check on mount in case the page was reloaded already scrolled down
+    handleScroll();
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [hasTriggeredScroll]);
+
+  // Close popup and prevent re-triggering
+  const handleCloseScrollPopup = () => {
+    setShowScrollPopup(false);
+    // Don't reset hasTriggeredScroll so popup doesn't show again
+  };
 
   return (
-    <main className="relative min-h-screen bg-background overflow-hidden [zoom:0.92] xl:[zoom:0.88]">
+    <main
+      ref={mainRef}
+      className="relative min-h-screen bg-background overflow-x-hidden hide-scrollbar"
+    >
       <Nav onEnquireClick={() => setIsModalOpen(true)} />
       <Hero />
       <ROISection />
@@ -1489,6 +1652,111 @@ function PlinthLanding() {
       <SiteFooter />
 
       <EnquiryModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
+      {/* Scroll Popup Notification */}
+      <AnimatePresence>
+        {showScrollPopup && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            {/* Dark Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={handleCloseScrollPopup}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+
+            {/* Form Card - Fully Responsive with Designer Look */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 50 }}
+              className="relative bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] w-full max-w-[350px] sm:max-w-[400px] rounded-2xl p-5 sm:p-6 md:p-8 shadow-2xl border border-[#C69A57]/30"
+            >
+              {/* Decorative Top Border */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C69A57] via-[#E3C98B] to-[#C69A57] rounded-t-2xl" />
+
+              {/* Close Button */}
+              <button
+                onClick={handleCloseScrollPopup}
+                className="absolute top-3 right-3 sm:top-4 sm:right-4 text-white/40 hover:text-[#E3C98B] p-2 touch-manipulation transition-colors"
+                aria-label="Close"
+              >
+                <X size={20} className="sm:w-6 sm:h-6" />
+              </button>
+
+              {/* Logo/Icon */}
+              <div className="flex items-center gap-2 mb-3">
+                <div className="h-8 w-8 rounded-full bg-[linear-gradient(135deg,#E3C98B,#C69A57,#B08A4C,#7A5A2C)] flex items-center justify-center shadow-lg">
+                  <Building2 className="h-4 w-4 text-black" />
+                </div>
+                <span className="font-serif text-lg tracking-widest text-[#E3C98B]">PLINTH</span>
+              </div>
+
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 font-serif">Get Exclusive Updates</h3>
+              <p className="text-white/60 mb-5 sm:mb-6 text-sm">Be the first to know about premium opportunities. Book your site visit today.</p>
+
+              <form onSubmit={(e) => e.preventDefault()} className="space-y-3 sm:space-y-4">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Full Name"
+                    className="w-full bg-black/30 border border-[#C69A57]/20 rounded-lg px-4 py-3 text-white placeholder:text-white/30 focus:ring-2 focus:ring-[#C69A57] focus:border-[#C69A57] outline-none touch-manipulation transition-all"
+                  />
+                </div>
+                <div className="relative">
+                  <input
+                    type="tel"
+                    placeholder="Phone Number"
+                    inputMode="numeric"
+                    pattern="[0-9]{10}"
+                    maxLength={10}
+                    onKeyPress={(e) => {
+                      if (!/[0-9]/.test(e.key)) {
+                        e.preventDefault();
+                      }
+                    }}
+                    onInput={(e) => {
+                      const input = e.currentTarget;
+                      input.value = input.value.replace(/[^0-9]/g, '').slice(0, 10);
+                    }}
+                    className="w-full bg-black/30 border border-[#C69A57]/20 rounded-lg px-4 py-3 text-white placeholder:text-white/30 focus:ring-2 focus:ring-[#C69A57] focus:border-[#C69A57] outline-none touch-manipulation transition-all"
+                  />
+                </div>
+                <div className="relative">
+                  <input
+                    type="email"
+                    placeholder="Email Address"
+                    className="w-full bg-black/30 border border-[#C69A57]/20 rounded-lg px-4 py-3 text-white placeholder:text-white/30 focus:ring-2 focus:ring-[#C69A57] focus:border-[#C69A57] outline-none touch-manipulation transition-all"
+                  />
+                </div>
+                <button className="w-full bg-gradient-to-r from-[#C69A57] via-[#D4A865] to-[#C69A57] text-black font-bold py-3 rounded-lg hover:shadow-[0_0_25px_-5px_rgba(227,201,139,0.5)] transition-all duration-300 touch-manipulation">
+                  Get Details
+                </button>
+              </form>
+
+              {/* Trust indicator */}
+              <p className="text-center text-[10px] text-white/40 mt-4">
+                🔒 Your information is secure with us
+              </p>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Floating WhatsApp Button */}
+      <a
+        href="https://wa.me/919898709370"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-4 z-[90] h-12 w-12 rounded-full bg-[#25D366] flex items-center justify-center shadow-lg hover:scale-110 hover:shadow-xl transition-all duration-300 group"
+        aria-label="Chat on WhatsApp"
+      >
+        <WhatsAppIcon className="h-6 w-6 text-white" />
+        <span className="absolute right-14 bg-black/80 text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none backdrop-blur-sm border border-white/10">
+          Chat with us
+        </span>
+      </a>
     </main>
   );
 }

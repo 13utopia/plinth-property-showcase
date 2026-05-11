@@ -49,6 +49,8 @@ import plinthOffice from "@/assets/plinth-office.jpg";
 import listing1 from "@/assets/listing-1.jpg";
 import plinthShowroom from "@/assets/plinth-showroom.jpg";
 import listing2 from "@/assets/listing-2.jpg";
+import "./src/styles.css";
+
 
 export const Route = createFileRoute("/")({
   component: PlinthLanding,

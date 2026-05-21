@@ -1,0 +1,4 @@
+# Netlify redirection rules for Single Page Applications (SPA)
+# Directs all page requests to index.html while maintaining status code 200
+# Compiled assets in /assets/ will be served directly by Netlify's CDN
+/*    /index.html   200

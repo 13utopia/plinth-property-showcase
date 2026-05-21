@@ -49,7 +49,6 @@ import plinthOffice from "@/assets/plinth-office.jpg";
 import listing1 from "@/assets/listing-1.jpg";
 import plinthShowroom from "@/assets/plinth-showroom.jpg";
 import listing2 from "@/assets/listing-2.jpg";
-import "./src/styles.css";
 
 
 export const Route = createFileRoute("/")({
@@ -455,17 +454,22 @@ function Hero() {
 
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mb-10">
-            <PremiumButton
-              className="w-full sm:w-auto"
-              innerClassName="w-full px-8 py-4 text-[13px] gap-3"
+            <a href="#contact" className="w-full sm:w-auto">
+              <PremiumButton
+                className="w-full sm:w-auto"
+                innerClassName="w-full px-8 py-4 text-[13px] gap-3"
+              >
+                Get Pricing &amp; ROI Details
+                <ArrowRight className="h-3.5 w-3.5" />
+              </PremiumButton>
+            </a>
+            <a
+              href="tel:+919898709370"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full px-7 py-4 text-[13px] font-medium text-white/90 border border-white/20 bg-transparent hover:border-white/40 transition duration-300"
             >
-              Get Pricing &amp; ROI Details
-              <ArrowRight className="h-3.5 w-3.5" />
-            </PremiumButton>
-            <button className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full px-7 py-4 text-[13px] font-medium text-white/90 border border-white/20 bg-transparent hover:border-white/40 border border-white/20 br-transparent hover:border-white/40hiororhigtrasnsopvebhite">
-              <PhoneIcon className="h-3.5 w-3.5 text-white70ehoii0eho/70ehoii0ehoexthite" />
+              <PhoneIcon className="h-3.5 w-3.5 text-white/70" />
               Talk to Advisor
-            </button>
+            </a>
           </div>
 
           {/* 3 Cards */}
@@ -558,7 +562,7 @@ function Hero() {
               <div className="text-[8px] tracking-[0.15em] text-[#E3C98B]/80 mb-2 font-medium">
                 CEILING HEIGHT
               </div>
-              <div className="font-serif text-[32px] sm:text-[38px] leading-none text-white/90">
+              <div className="roi-display text-[32px] sm:text-[38px] leading-none text-white/90">
                 11.5 <span className="italic text-white/40 text-lg sm:text-xl ml-0.5">ft</span>
               </div>
               <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/5 pointer-events-none" />
@@ -973,13 +977,14 @@ function Spaces() {
                   ))}
                 </ul>
 
-                <PremiumButton
-                  fullWidth
-                  className="mt-4"
-                  innerClassName="w-full py-2.5 text-[12px] gap-2"
-                >
-                  Check Availability <ArrowRight className="h-4 w-4" />
-                </PremiumButton>
+                <a href="#contact" className="w-full mt-4 flex">
+                  <PremiumButton
+                    fullWidth
+                    innerClassName="w-full py-2.5 text-[12px] gap-2"
+                  >
+                    Check Availability <ArrowRight className="h-4 w-4" />
+                  </PremiumButton>
+                </a>
               </div>
             </div>
           ))}
@@ -1099,6 +1104,7 @@ function WhyInvest() {
 
         <div
           ref={ref}
+          onMouseLeave={() => setActive(0)}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 min-h-[410px] max-w-5xl mx-auto w-full"
         >
           {items.map(({ icon: Icon, t, d }, i) => {
@@ -1117,7 +1123,6 @@ function WhyInvest() {
                       : "border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur text-foreground hover:border-[oklch(0.78_0.13_75/0.45)]",
                   ].join(" ")}
                   onMouseEnter={() => setActive(i)}
-                  onMouseLeave={() => setActive(0)}
                   onClick={() => setActive(i)}
                   onTouchStart={() => setActive(i)}
                 >
@@ -1478,12 +1483,14 @@ function InvestmentCTA() {
           </span>
         </h3>
         <div className="mt-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4">
-          <PremiumButton
-            className="w-full sm:w-auto"
-            innerClassName="w-full px-8 py-4 text-[12px] gap-3"
-          >
-            <Calendar className="h-4 w-4" /> Book Site Visit
-          </PremiumButton>
+          <a href="#contact" className="w-full sm:w-auto">
+            <PremiumButton
+              className="w-full sm:w-auto"
+              innerClassName="w-full px-8 py-4 text-[12px] gap-3"
+            >
+              <Calendar className="h-4 w-4" /> Book Site Visit
+            </PremiumButton>
+          </a>
           <button className="w-full sm:w-auto rounded-full px-8 py-4 border border-[oklch(0.65_0.10_70/0.30)] bg-background/10 backdrop-blur text-foreground/90 font-medium flex items-center justify-center gap-3 hover:border-[oklch(0.78_0.13_75/0.55)] transition">
             <Download className="h-4 w-4 text-[#E3C98B]" /> Download Brochure{" "}
             <ArrowRight className="h-4 w-4 text-[#E3C98B]" />
@@ -1504,19 +1511,48 @@ function EnquiryForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const formRef = useRef<HTMLFormElement>(null);
   const [purpose, setPurpose] = useState("Investor");
+  const [budget, setBudget] = useState("₹65 L - ₹1 Cr");
+  const [isBudgetOpen, setIsBudgetOpen] = useState(false);
+  const budgetOptions = ["₹65 L - ₹1 Cr", "₹1 Cr - ₹2 Cr", "₹2 Cr +"];
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const [nameVal, setNameVal] = useState("");
+  const [phoneVal, setPhoneVal] = useState("");
+  const [errors, setErrors] = useState<{ name?: string; phone?: string }>({});
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsBudgetOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formRef.current) return;
 
-    const phoneInput = formRef.current.querySelector(
-      'input[name="user_phone"]',
-    ) as HTMLInputElement;
-    const phoneValue = phoneInput?.value || "";
+    // Custom validation
+    const newErrors: { name?: string; phone?: string } = {};
+    if (!nameVal.trim()) {
+      newErrors.name = "Please fill out this field.";
+    }
+    if (!phoneVal.trim()) {
+      newErrors.phone = "Please fill out this field.";
+    } else if (!/^\d{10}$/.test(phoneVal)) {
+      newErrors.phone = "Please enter a valid 10-digit phone number.";
+    }
 
-    // Validate phone number: exactly 10 digits, no letters or characters
-    if (!/^\d{10}$/.test(phoneValue)) {
-      alert("Please enter a valid 10-digit phone number");
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      // Auto-clear after 4 seconds
+      setTimeout(() => {
+        setErrors({});
+      }, 4000);
       return;
     }
 
@@ -1546,6 +1582,9 @@ function EnquiryForm() {
 
       if (!response.ok) throw new Error("Failed to send email");
       setStatus("success");
+      setNameVal("");
+      setPhoneVal("");
+      setErrors({});
     } catch (error) {
       console.error("Failed to send email:", error);
       setStatus("error");
@@ -1555,6 +1594,7 @@ function EnquiryForm() {
   return (
     <form
       ref={formRef}
+      noValidate
       onSubmit={handleSubmit}
       className="relative w-full rounded-2xl sm:rounded-3xl border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-5 sm:p-6 lg:p-10 shadow-[0_50px_160px_-130px_oklch(0.78_0.13_75/0.75)]"
     >
@@ -1591,52 +1631,149 @@ function EnquiryForm() {
           </h3>
 
           <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
-            <div>
+            <div className="relative">
               <label className="text-[10px] tracking-[0.3em] text-foreground/70">FULL NAME</label>
-              <input
-                name="user_name"
-                required
-                type="text"
-                placeholder="Your name"
-                className="mt-2.5 sm:mt-3 w-full rounded-xl border border-[oklch(0.65_0.10_70/0.22)] bg-background/20 px-4 sm:px-5 py-3.5 sm:py-4 text-foreground placeholder:text-foreground/30 shadow-[inset_0_0_0_1px_oklch(0.85_0.12_80/0.05)] focus:outline-none focus:border-[oklch(0.78_0.13_75/0.55)] transition"
-              />
+              <div className="relative mt-2.5 sm:mt-3">
+                <input
+                  name="user_name"
+                  type="text"
+                  placeholder="Your name"
+                  value={nameVal}
+                  onChange={(e) => {
+                    setNameVal(e.target.value);
+                    if (errors.name) {
+                      setErrors((prev) => {
+                        const next = { ...prev };
+                        delete next.name;
+                        return next;
+                      });
+                    }
+                  }}
+                  className="w-full rounded-xl border border-[oklch(0.65_0.10_70/0.22)] bg-background/20 px-4 sm:px-5 py-3.5 sm:py-4 text-foreground placeholder:text-foreground/30 shadow-[inset_0_0_0_1px_oklch(0.85_0.12_80/0.05)] focus:outline-none focus:border-[oklch(0.78_0.13_75/0.55)] transition"
+                />
+                <AnimatePresence>
+                  {errors.name && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -5 }}
+                      className="absolute z-[60] left-4 top-[calc(100%+8px)] bg-[#141414] border border-[#C69A57] text-white rounded-xl px-4 py-3 text-xs shadow-[0_15px_35px_rgba(0,0,0,0.8)] flex items-center gap-2 min-w-[200px]"
+                    >
+                      <div className="absolute -top-1.5 left-6 w-3 h-3 bg-[#141414] border-t border-l border-[#C69A57] transform rotate-45" />
+                      <AlertCircle className="h-4 w-4 text-[#E3C98B] shrink-0" />
+                      <span className="font-light tracking-wide text-white/90">{errors.name}</span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
-            <div>
+            <div className="relative">
               <label className="text-[10px] tracking-[0.3em] text-foreground/70">
                 PHONE NUMBER
               </label>
-              <input
-                name="user_phone"
-                required
-                type="tel"
-                placeholder="10 digits only"
-                inputMode="numeric"
-                pattern="[0-9]{10}"
-                maxLength={10}
-                onKeyPress={(e) => {
-                  if (!/[0-9]/.test(e.key)) {
-                    e.preventDefault();
-                  }
-                }}
-                onInput={(e) => {
-                  const input = e.currentTarget;
-                  input.value = input.value.replace(/[^0-9]/g, "").slice(0, 10);
-                }}
-                className="mt-2.5 sm:mt-3 w-full rounded-xl border border-[oklch(0.65_0.10_70/0.22)] bg-background/20 px-4 sm:px-5 py-3.5 sm:py-4 text-foreground placeholder:text-foreground/30 shadow-[inset_0_0_0_1px_oklch(0.85_0.12_80/0.05)] focus:outline-none focus:border-[oklch(0.78_0.13_75/0.55)] transition"
-              />
+              <div className="relative mt-2.5 sm:mt-3">
+                <input
+                  name="user_phone"
+                  type="tel"
+                  placeholder="10 digits only"
+                  inputMode="numeric"
+                  pattern="[0-9]{10}"
+                  maxLength={10}
+                  value={phoneVal}
+                  onKeyPress={(e) => {
+                    if (!/[0-9]/.test(e.key)) {
+                      e.preventDefault();
+                    }
+                  }}
+                  onChange={(e) => {
+                    setPhoneVal(e.target.value.replace(/[^0-9]/g, "").slice(0, 10));
+                    if (errors.phone) {
+                      setErrors((prev) => {
+                        const next = { ...prev };
+                        delete next.phone;
+                        return next;
+                      });
+                    }
+                  }}
+                  className="w-full rounded-xl border border-[oklch(0.65_0.10_70/0.22)] bg-background/20 px-4 sm:px-5 py-3.5 sm:py-4 text-foreground placeholder:text-foreground/30 shadow-[inset_0_0_0_1px_oklch(0.85_0.12_80/0.05)] focus:outline-none focus:border-[oklch(0.78_0.13_75/0.55)] transition"
+                />
+                <AnimatePresence>
+                  {errors.phone && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -5 }}
+                      className="absolute z-[60] left-4 top-[calc(100%+8px)] bg-[#141414] border border-[#C69A57] text-white rounded-xl px-4 py-3 text-xs shadow-[0_15px_35px_rgba(0,0,0,0.8)] flex items-center gap-2 min-w-[200px]"
+                    >
+                      <div className="absolute -top-1.5 left-6 w-3 h-3 bg-[#141414] border-t border-l border-[#C69A57] transform rotate-45" />
+                      <AlertCircle className="h-4 w-4 text-[#E3C98B] shrink-0" />
+                      <span className="font-light tracking-wide text-white/90">{errors.phone}</span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
-            <div>
+            <div className="relative" ref={dropdownRef}>
               <label className="text-[10px] tracking-[0.3em] text-foreground/70">
                 BUDGET RANGE
               </label>
-              <select
-                name="budget"
-                className="mt-2.5 sm:mt-3 w-full rounded-xl border border-[oklch(0.65_0.10_70/0.22)] bg-background/90 px-4 sm:px-5 py-3.5 sm:py-4 text-foreground shadow-[inset_0_0_0_1px_oklch(0.85_0.12_80/0.05)] focus:outline-none focus:border-[oklch(0.78_0.13_75/0.55)] transition"
+              <input type="hidden" name="budget" value={budget} />
+              
+              {/* Dropdown Toggle Button */}
+              <button
+                type="button"
+                onClick={() => setIsBudgetOpen(!isBudgetOpen)}
+                className="mt-2.5 sm:mt-3 w-full rounded-xl border border-[oklch(0.65_0.10_70/0.22)] bg-[#0A0A0A]/40 px-4 sm:px-5 py-3.5 sm:py-4 text-foreground flex items-center justify-between shadow-[inset_0_0_0_1px_oklch(0.85_0.12_80/0.05)] focus:outline-none focus:border-[oklch(0.78_0.13_75/0.55)] transition text-left cursor-pointer group"
               >
-                <option value="₹65 L - ₹1 Cr">₹65 L - ₹1 Cr</option>
-                <option value="₹1 Cr - ₹2 Cr">₹1 Cr - ₹2 Cr</option>
-                <option value="₹2 Cr +">₹2 Cr +</option>
-              </select>
+                <span className="font-light tracking-wide text-white/95">{budget}</span>
+                <svg
+                  className={`h-4 w-4 text-[#C69A57] transition-transform duration-300 ${
+                    isBudgetOpen ? "transform rotate-180" : ""
+                  }`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {/* Dropdown Options Popup */}
+              <AnimatePresence>
+                {isBudgetOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute z-50 left-0 right-0 mt-2 rounded-xl border border-[#C69A57]/30 bg-[#0E0E0E]/95 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.9)] overflow-hidden"
+                  >
+                    <div className="py-1.5 max-h-60 overflow-y-auto">
+                      {budgetOptions.map((opt) => (
+                        <button
+                          key={opt}
+                          type="button"
+                          onClick={() => {
+                            setBudget(opt);
+                            setIsBudgetOpen(false);
+                          }}
+                          className={`w-full px-5 py-3 text-left text-[14px] transition flex items-center justify-between cursor-pointer hover:bg-gradient-to-r hover:from-[#C69A57]/10 hover:to-transparent ${
+                            budget === opt
+                              ? "text-[#E3C98B] font-medium bg-[#C69A57]/5"
+                              : "text-foreground/80 hover:text-foreground"
+                          }`}
+                        >
+                          <span>{opt}</span>
+                          {budget === opt && (
+                            <Check className="h-4 w-4 text-[#E3C98B]" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
             <div>
               <label className="text-[10px] tracking-[0.3em] text-foreground/70">PURPOSE</label>
@@ -1753,7 +1890,7 @@ function SiteFooter() {
   return (
     <footer className="relative border-t border-[oklch(0.65_0.10_70/0.18)] pt-10 sm:pt-12 pb-10 sm:pb-12 overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_20%_30%,oklch(0.78_0.13_75/0.08),transparent_60%)]" />
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-5 lg:px-6 xl:px-8">
+      <div className="mx-auto max-w-[1120px] px-4 sm:px-5 lg:px-6 xl:px-8">
         <div className="grid lg:grid-cols-3 gap-10 sm:gap-12 lg:gap-16">
           <div className="text-center sm:text-left">
             <div className="relative h-12 w-12 rounded-full bg-[linear-gradient(135deg,oklch(0.86_0.12_80),oklch(0.65_0.13_65))] mb-6 sm:mb-8 shadow-[0_26px_70px_-44px_oklch(0.78_0.13_75/0.85)] mx-auto sm:mx-0">
@@ -1781,7 +1918,7 @@ function SiteFooter() {
             </div>
           </div>
 
-          <div className="text-center sm:text-left">
+          <div className="text-center sm:text-left lg:pl-20 xl:pl-28">
             <div className="text-[11px] sm:text-[12px] tracking-[0.30em] text-[#E3C98B]/90 mb-5 sm:mb-8">
               NAVIGATE
             </div>
@@ -1796,7 +1933,7 @@ function SiteFooter() {
             </ul>
           </div>
 
-          <div className="text-center sm:text-left">
+          <div className="text-center sm:text-left lg:pl-8 xl:pl-12">
             <div className="text-[11px] sm:text-[12px] tracking-[0.30em] text-[#E3C98B]/90 mb-5 sm:mb-8">
               CONTACT
             </div>
@@ -1912,6 +2049,79 @@ function PlinthLanding() {
   const [hasTriggeredScroll, setHasTriggeredScroll] = useState(false);
   const mainRef = useRef<HTMLDivElement>(null);
 
+  const [popupName, setPopupName] = useState("");
+  const [popupPhone, setPopupPhone] = useState("");
+  const [popupEmail, setPopupEmail] = useState("");
+  const [popupErrors, setPopupErrors] = useState<{ name?: string; phone?: string; email?: string }>({});
+  const [popupStatus, setPopupStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+
+  const handlePopupSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Custom validation
+    const newErrors: { name?: string; phone?: string; email?: string } = {};
+    if (!popupName.trim()) {
+      newErrors.name = "Please fill out this field.";
+    }
+    if (!popupPhone.trim()) {
+      newErrors.phone = "Please fill out this field.";
+    } else if (!/^\d{10}$/.test(popupPhone)) {
+      newErrors.phone = "Please enter a valid 10-digit phone number.";
+    }
+    if (!popupEmail.trim()) {
+      newErrors.email = "Please fill out this field.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(popupEmail)) {
+      newErrors.email = "Please enter a valid email address.";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setPopupErrors(newErrors);
+      // Auto-clear errors after 4 seconds
+      setTimeout(() => {
+        setPopupErrors({});
+      }, 4000);
+      return;
+    }
+
+    setPopupStatus("submitting");
+
+    try {
+      const data = {
+        access_key: "9f7ab840-398a-4101-ba04-b8afd8486f82",
+        subject: "New Scroll Popup Inquiry Received!",
+        from_name: "Plinth Property Showcase",
+        Message: "A new inquiry from the scroll popup has arrived.",
+        Name: popupName,
+        Phone: popupPhone,
+        Email: popupEmail,
+      };
+
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) throw new Error("Failed to send email");
+      setPopupStatus("success");
+      setPopupName("");
+      setPopupPhone("");
+      setPopupEmail("");
+      setPopupErrors({});
+      // Auto close the popup modal after 2.5 seconds upon success!
+      setTimeout(() => {
+        setShowScrollPopup(false);
+        setPopupStatus("idle");
+      }, 2500);
+    } catch (error) {
+      console.error("Failed to send email:", error);
+      setPopupStatus("error");
+    }
+  };
+
   // Scroll-based popup trigger
   useEffect(() => {
     const handleScroll = () => {
@@ -2004,44 +2214,134 @@ function PlinthLanding() {
                 Be the first to know about premium opportunities. Book your site visit today.
               </p>
 
-              <form onSubmit={(e) => e.preventDefault()} className="space-y-3 sm:space-y-4">
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Full Name"
-                    className="w-full bg-black/30 border border-[#C69A57]/20 rounded-lg px-4 py-3 text-white placeholder:text-white/30 focus:ring-2 focus:ring-[#C69A57] focus:border-[#C69A57] outline-none touch-manipulation transition-all"
-                  />
+              {popupStatus === "success" ? (
+                <div className="h-full flex flex-col items-center justify-center text-center py-6">
+                  <div className="h-14 w-14 rounded-full bg-gradient-to-r from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] text-black flex items-center justify-center mb-4 shadow-[0_22px_60px_-40px_oklch(0.78_0.13_75/0.80)]">
+                    <Check className="h-6 w-6 text-black" />
+                  </div>
+                  <h3 className="font-serif text-2xl text-white mb-2">
+                    Thank you!
+                  </h3>
+                  <p className="text-white/70 leading-relaxed text-xs">
+                    Your details have been received successfully.
+                  </p>
                 </div>
-                <div className="relative">
-                  <input
-                    type="tel"
-                    placeholder="Phone Number"
-                    inputMode="numeric"
-                    pattern="[0-9]{10}"
-                    maxLength={10}
-                    onKeyPress={(e) => {
-                      if (!/[0-9]/.test(e.key)) {
-                        e.preventDefault();
-                      }
-                    }}
-                    onInput={(e) => {
-                      const input = e.currentTarget;
-                      input.value = input.value.replace(/[^0-9]/g, "").slice(0, 10);
-                    }}
-                    className="w-full bg-black/30 border border-[#C69A57]/20 rounded-lg px-4 py-3 text-white placeholder:text-white/30 focus:ring-2 focus:ring-[#C69A57] focus:border-[#C69A57] outline-none touch-manipulation transition-all"
-                  />
-                </div>
-                <div className="relative">
-                  <input
-                    type="email"
-                    placeholder="Email Address"
-                    className="w-full bg-black/30 border border-[#C69A57]/20 rounded-lg px-4 py-3 text-white placeholder:text-white/30 focus:ring-2 focus:ring-[#C69A57] focus:border-[#C69A57] outline-none touch-manipulation transition-all"
-                  />
-                </div>
-                <button className="w-full bg-gradient-to-r from-[#C69A57] via-[#D4A865] to-[#C69A57] text-black font-bold py-3 rounded-lg hover:shadow-[0_0_25px_-5px_rgba(227,201,139,0.5)] transition-all duration-300 touch-manipulation">
-                  Get Details
-                </button>
-              </form>
+              ) : (
+                <form noValidate onSubmit={handlePopupSubmit} className="space-y-3 sm:space-y-4">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Full Name"
+                      value={popupName}
+                      onChange={(e) => {
+                        setPopupName(e.target.value);
+                        if (popupErrors.name) {
+                          setPopupErrors((prev) => {
+                            const next = { ...prev };
+                            delete next.name;
+                            return next;
+                          });
+                        }
+                      }}
+                      className="w-full bg-black/30 border border-[#C69A57]/20 rounded-lg px-4 py-3 text-white placeholder:text-white/30 focus:ring-2 focus:ring-[#C69A57] focus:border-[#C69A57] outline-none touch-manipulation transition-all"
+                    />
+                    <AnimatePresence>
+                      {popupErrors.name && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -5 }}
+                          className="absolute z-[110] left-4 top-[calc(100%+8px)] bg-[#141414] border border-[#C69A57] text-white rounded-xl px-4 py-3 text-xs shadow-[0_15px_35px_rgba(0,0,0,0.8)] flex items-center gap-2 min-w-[200px]"
+                        >
+                          <div className="absolute -top-1.5 left-6 w-3 h-3 bg-[#141414] border-t border-l border-[#C69A57] transform rotate-45" />
+                          <AlertCircle className="h-4 w-4 text-[#E3C98B] shrink-0" />
+                          <span className="font-light tracking-wide text-white/90">{popupErrors.name}</span>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                  <div className="relative">
+                    <input
+                      type="tel"
+                      placeholder="Phone Number"
+                      inputMode="numeric"
+                      pattern="[0-9]{10}"
+                      maxLength={10}
+                      value={popupPhone}
+                      onKeyPress={(e) => {
+                        if (!/[0-9]/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                      onChange={(e) => {
+                        setPopupPhone(e.target.value.replace(/[^0-9]/g, "").slice(0, 10));
+                        if (popupErrors.phone) {
+                          setPopupErrors((prev) => {
+                            const next = { ...prev };
+                            delete next.phone;
+                            return next;
+                          });
+                        }
+                      }}
+                      className="w-full bg-black/30 border border-[#C69A57]/20 rounded-lg px-4 py-3 text-white placeholder:text-white/30 focus:ring-2 focus:ring-[#C69A57] focus:border-[#C69A57] outline-none touch-manipulation transition-all"
+                    />
+                    <AnimatePresence>
+                      {popupErrors.phone && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -5 }}
+                          className="absolute z-[110] left-4 top-[calc(100%+8px)] bg-[#141414] border border-[#C69A57] text-white rounded-xl px-4 py-3 text-xs shadow-[0_15px_35px_rgba(0,0,0,0.8)] flex items-center gap-2 min-w-[200px]"
+                        >
+                          <div className="absolute -top-1.5 left-6 w-3 h-3 bg-[#141414] border-t border-l border-[#C69A57] transform rotate-45" />
+                          <AlertCircle className="h-4 w-4 text-[#E3C98B] shrink-0" />
+                          <span className="font-light tracking-wide text-white/90">{popupErrors.phone}</span>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                  <div className="relative">
+                    <input
+                      type="email"
+                      placeholder="Email Address"
+                      value={popupEmail}
+                      onChange={(e) => {
+                        setPopupEmail(e.target.value);
+                        if (popupErrors.email) {
+                          setPopupErrors((prev) => {
+                            const next = { ...prev };
+                            delete next.email;
+                            return next;
+                          });
+                        }
+                      }}
+                      className="w-full bg-black/30 border border-[#C69A57]/20 rounded-lg px-4 py-3 text-white placeholder:text-white/30 focus:ring-2 focus:ring-[#C69A57] focus:border-[#C69A57] outline-none touch-manipulation transition-all"
+                    />
+                    <AnimatePresence>
+                      {popupErrors.email && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -5 }}
+                          className="absolute z-[110] left-4 top-[calc(100%+8px)] bg-[#141414] border border-[#C69A57] text-white rounded-xl px-4 py-3 text-xs shadow-[0_15px_35px_rgba(0,0,0,0.8)] flex items-center gap-2 min-w-[200px]"
+                        >
+                          <div className="absolute -top-1.5 left-6 w-3 h-3 bg-[#141414] border-t border-l border-[#C69A57] transform rotate-45" />
+                          <AlertCircle className="h-4 w-4 text-[#E3C98B] shrink-0" />
+                          <span className="font-light tracking-wide text-white/90">{popupErrors.email}</span>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                  <button disabled={popupStatus === "submitting"} className="w-full bg-gradient-to-r from-[#C69A57] via-[#D4A865] to-[#C69A57] text-black font-bold py-3 rounded-lg hover:shadow-[0_0_25px_-5px_rgba(227,201,139,0.5)] transition-all duration-300 touch-manipulation disabled:opacity-70">
+                    {popupStatus === "submitting" ? "Submitting..." : "Get Details"}
+                  </button>
+                  {popupStatus === "error" && (
+                    <p className="text-center text-xs text-red-500 mt-2">
+                      Something went wrong. Please try again.
+                    </p>
+                  )}
+                </form>
+              )}
 
               {/* Trust indicator */}
               <p className="text-center text-[10px] text-white/40 mt-4">

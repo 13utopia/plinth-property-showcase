@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useId, useMemo, useRef, useState, useEffect } from "react";
+import { memo, useCallback, useId, useMemo, useRef, useState, useEffect } from "react";
+import emailjs from "@emailjs/browser";
 import { Heart } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
   TrendingUp,
@@ -64,7 +64,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Invest in Plinth — Ahmedabad's most prestigious G+38 storey commercial landmark on Sindhu Bhavan Road. Office spaces from 900 sq.ft & showrooms from 2700 sq.ft. 15–18% expected annual ROI. Starting ₹65 Lakhs.",
+          "Invest in Plinth â€” Ahmedabad's most prestigious G+38 storey commercial landmark on Sindhu Bhavan Road. Office spaces from 900 sq.ft & showrooms from 2700 sq.ft. 15â€“18% expected annual ROI. Starting â‚¹65 Lakhs.",
       },
       {
         name: "keywords",
@@ -73,125 +73,27 @@ export const Route = createFileRoute("/")({
       },
       {
         property: "og:title",
-        content: "Plinth | Premium Commercial Property — Sindhu Bhavan Road, Ahmedabad",
+        content: "Plinth | Premium Commercial Property â€” Sindhu Bhavan Road, Ahmedabad",
       },
       {
         property: "og:description",
         content:
-          "G+38 landmark commercial tower. Offices from ₹65L, 15–18% expected annual ROI, IGBC green certified. Book your site visit today.",
+          "G+38 landmark commercial tower. Offices from â‚¹65L, 15â€“18% expected annual ROI, IGBC green certified. Book your site visit today.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "/favicon.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Plinth | Premium Commercial Space — Ahmedabad" },
+      { name: "twitter:title", content: "Plinth | Premium Commercial Space â€” Ahmedabad" },
       {
         name: "twitter:description",
         content:
-          "G+38 landmark on Sindhu Bhavan Road. Office & showroom spaces with 15–18% annual ROI.",
+          "G+38 landmark on Sindhu Bhavan Road. Office & showroom spaces with 15â€“18% annual ROI.",
       },
       { name: "twitter:image", content: "/favicon.png" },
       { name: "robots", content: "index, follow" },
     ],
   }),
 });
-
-const Plinth = () => {
-  const [showPopup, setShowPopup] = useState(false);
-  const [hasTriggered, setHasTriggered] = useState(false);
-  const secondSectionRef = useRef(null);
-
-  // Intersection Observer to detect Second Section
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasTriggered) {
-          setShowPopup(true);
-          setHasTriggered(true); // Ensures it only pops up once
-        }
-      },
-      { threshold: 0.3 }, // Triggers when 30% of the section is visible
-    );
-
-    if (secondSectionRef.current) {
-      observer.observe(secondSectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, [hasTriggered]);
-
-  return (
-    <div className="relative">
-      {/* SECTION 1: Hero */}
-      <section className="h-screen bg-slate-900 flex items-center justify-center text-white">
-        <h1 className="text-4xl md:text-6xl font-bold">Welcome to Plinth</h1>
-        <p className="absolute bottom-10 animate-bounce">Scroll Down ↓</p>
-      </section>
-
-      {/* SECTION 2: The Trigger Section */}
-      <section
-        ref={secondSectionRef}
-        className="min-h-screen bg-white flex flex-col items-center justify-center p-10"
-      >
-        <h2 className="text-3xl font-bold text-gray-800">Second Section</h2>
-        <p className="text-gray-500 mt-4 max-w-lg text-center">
-          As soon as you scrolled here, the notification form should have appeared.
-        </p>
-      </section>
-
-      {/* POPUP NOTIFICATION FORM */}
-      <AnimatePresence>
-        {showPopup && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            {/* Dark Overlay */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowPopup(false)}
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            />
-
-            {/* Form Card */}
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 50 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 50 }}
-              className="relative bg-white w-full max-w-[400px] rounded-2xl p-6 md:p-8 shadow-2xl"
-            >
-              <button
-                onClick={() => setShowPopup(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
-              >
-                <X size={24} />
-              </button>
-
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Get Updates</h3>
-              <p className="text-gray-600 mb-6 text-sm">
-                Interested in Plinth? Leave your details below.
-              </p>
-
-              <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="Full Name"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
-                />
-                <input
-                  type="email"
-                  placeholder="Email Address"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
-                />
-                <button className="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition-colors">
-                  Submit
-                </button>
-              </form>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-};
 
 /* ---------- shared bits ---------- */
 
@@ -210,92 +112,14 @@ function TiltCard({
   children,
   className,
   style,
-  onMouseEnter,
-  onMouseLeave,
   ...rest
 }: React.HTMLAttributes<HTMLDivElement> & { className?: string }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-
-  const baseStyle = useMemo<React.CSSProperties>(
-    () => ({
-      transform:
-        "perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(0) scale(var(--s, 1))",
-      transition: "transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease",
-      transformStyle: "preserve-3d",
-    }),
-    [],
-  );
-
   return (
     <div
-      ref={ref}
       className={className}
-      style={{ ...baseStyle, ...style }}
-      onMouseMove={(e) => {
-        const el = ref.current;
-        if (!el) return;
-        const r = el.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width;
-        const py = (e.clientY - r.top) / r.height;
-        const ry = (px - 0.5) * 10;
-        const rx = (0.5 - py) * 10;
-        el.style.setProperty("--rx", `${rx.toFixed(2)}deg`);
-        el.style.setProperty("--ry", `${ry.toFixed(2)}deg`);
-        el.style.setProperty("--mx", `${(px * 100).toFixed(2)}%`);
-        el.style.setProperty("--my", `${(py * 100).toFixed(2)}%`);
-      }}
-      onMouseEnter={(e) => {
-        onMouseEnter?.(e);
-      }}
-      onMouseLeave={(e) => {
-        const el = ref.current;
-        if (!el) return;
-        el.style.setProperty("--rx", "0deg");
-        el.style.setProperty("--ry", "0deg");
-        el.style.removeProperty("--mx");
-        el.style.removeProperty("--my");
-        onMouseLeave?.(e);
-      }}
-      onTouchMove={(e) => {
-        const el = ref.current;
-        if (!el || e.touches.length === 0) return;
-        const touch = e.touches[0];
-        const r = el.getBoundingClientRect();
-        const touchX = touch.clientX - r.left;
-        const touchY = touch.clientY - r.top;
-        if (touchX >= 0 && touchX <= r.width && touchY >= 0 && touchY <= r.height) {
-          const px = touchX / r.width;
-          const py = touchY / r.height;
-          const ry = (px - 0.5) * 10;
-          const rx = (0.5 - py) * 10;
-          el.style.setProperty("--rx", `${rx.toFixed(2)}deg`);
-          el.style.setProperty("--ry", `${ry.toFixed(2)}deg`);
-          el.style.setProperty("--mx", `${(px * 100).toFixed(2)}%`);
-          el.style.setProperty("--my", `${(py * 100).toFixed(2)}%`);
-        }
-      }}
-      onTouchEnd={() => {
-        const el = ref.current;
-        if (!el) return;
-        el.style.setProperty("--rx", "0deg");
-        el.style.setProperty("--ry", "0deg");
-        el.style.removeProperty("--mx");
-        el.style.removeProperty("--my");
-        el.style.setProperty("--s", "1");
-      }}
-      onPointerDown={() => ref.current?.style.setProperty("--s", "0.97")}
-      onPointerUp={() => ref.current?.style.setProperty("--s", "1")}
-      onPointerCancel={() => ref.current?.style.setProperty("--s", "1")}
+      style={style}
       {...rest}
     >
-      {/* subtle moving sheen */}
-      <div
-        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-active:opacity-100"
-        style={{
-          background:
-            "radial-gradient(600px circle at var(--mx,50%) var(--my,50%), oklch(0.85 0.12 80 / 0.10), transparent 55%)",
-        }}
-      />
       {children}
     </div>
   );
@@ -316,11 +140,10 @@ function PremiumButton({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`group relative overflow-hidden rounded-full p-[1.5px] transition-all hover:shadow-[0_0_30px_-5px_rgba(227,201,139,0.6)] active:scale-[0.98] ${fullWidth ? "w-full" : ""} ${className || ""}`}
+      className={`group relative overflow-hidden rounded-full bg-gradient-to-r from-[#E3C98B] via-[#D4A865] to-[#C69A57] p-[1.5px] transition-all hover:shadow-[0_0_30px_-5px_rgba(227,201,139,0.6)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70 ${fullWidth ? "w-full" : ""} ${className || ""}`}
     >
-      <div className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0%,transparent_50%,#C69A57_80%,#F5E9C8_100%)] opacity-100 group-hover:opacity-100 transition-opacity" />
       <div
-        className={`relative z-10 flex h-full w-full items-center justify-center rounded-full bg-gradient-to-r from-[#E3C98B] via-[#D4A865] to-[#C69A57] text-black font-semibold transition-colors group-hover:from-[#F5E9C8] group-hover:via-[#E3C98B] group-hover:to-[#D4A865] group-hover:text-black ${innerClassName || "px-8 py-4 text-[13px]"}`}
+        className={`relative flex h-full w-full items-center justify-center rounded-full bg-gradient-to-r from-[#E3C98B] via-[#D4A865] to-[#C69A57] text-black font-semibold transition-colors group-hover:from-[#F5E9C8] group-hover:via-[#E3C98B] group-hover:to-[#D4A865] group-hover:text-black ${innerClassName || "px-8 py-4 text-[13px]"}`}
       >
         {children}
       </div>
@@ -339,6 +162,21 @@ const WhatsAppIcon = ({ className }: { className?: string }) => (
 function Nav({ onEnquireClick }: { onEnquireClick?: () => void }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navLinks = ["Home", "ROI", "Highlights", "Spaces", "Amenities", "Location", "Contact"];
+  const handleEnquireClick = () => {
+    setIsMobileMenuOpen(false);
+    onEnquireClick?.();
+    // Scroll to the Enquire Now section
+    const scrollToContact = () => {
+      const contactSection = document.getElementById("contact");
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    };
+    // Small delay to ensure below-fold content is rendered
+    requestAnimationFrame(() => {
+      requestAnimationFrame(scrollToContact);
+    });
+  };
 
   return (
     <header className="absolute top-0 inset-x-0 z-30">
@@ -362,7 +200,7 @@ function Nav({ onEnquireClick }: { onEnquireClick?: () => void }) {
         {/* Right Side: Enquire Button */}
         <div className="ml-auto flex justify-end flex-1">
           <PremiumButton
-            onClick={onEnquireClick}
+            onClick={handleEnquireClick}
             innerClassName="px-4 py-2.5 sm:px-5 md:px-6 md:py-3 text-[9px] sm:text-[10px] md:text-[11px] uppercase tracking-[0.2em] sm:tracking-widest whitespace-nowrap"
           >
             Enquire Now
@@ -372,7 +210,7 @@ function Nav({ onEnquireClick }: { onEnquireClick?: () => void }) {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-[60] flex flex-col bg-black/95 backdrop-blur-xl px-6 py-5 md:hidden">
+        <div className="fixed inset-0 z-[60] flex flex-col bg-black/95  px-6 py-5 md:hidden">
           <div className="flex items-center justify-between mb-10">
             <span className="font-serif text-xl tracking-widest text-[#E3C98B]">PLINTH</span>
             <button
@@ -402,7 +240,7 @@ function Nav({ onEnquireClick }: { onEnquireClick?: () => void }) {
 
 /* ---------- 2. HERO ---------- */
 
-function Hero() {
+const Hero = memo(function Hero() {
   return (
     <section id="home" className="relative overflow-hidden pt-16 pb-14 lg:pt-24 lg:pb-14">
       {/* radial gold glows */}
@@ -423,10 +261,10 @@ function Hero() {
         {/* LEFT */}
         <div className="pt-4 lg:pt-2 z-10">
           {/* Top Pill */}
-          <div className="lg:mt-[-80px] inline-flex items-center gap-2 rounded-full border border-[#E3C98B]/30 bg-[#0A0A0A]/60 backdrop-blur px-4 py-2 mb-8">
+          <div className="lg:mt-[-80px] inline-flex items-center gap-2 rounded-full border border-[#E3C98B]/30 bg-[#0A0A0A]/60  px-4 py-2 mb-8">
             <span className="h-1.5 w-1.5 rounded-full bg-[#E3C98B]" />
             <span className="text-[11px] tracking-[0.2em] text-white/70 font-medium">
-              NOW LAUNCHING <span className="mx-1 text-[#E3C98B]/50">·</span>{" "}
+              NOW LAUNCHING <span className="mx-1 text-[#E3C98B]/50">Â·</span>{" "}
               <span className="font-semibold text-[12px] text-white tracking-[0.1em]">
                 SINDHU BHAVAN ROAD
               </span>
@@ -475,13 +313,13 @@ function Hero() {
           {/* 3 Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 lg:max-w-[480px]">
             {[
-              { icon: TrendingUp, label: "STARTING", v: "₹65 Lakhs" },
+              { icon: TrendingUp, label: "STARTING", v: "â‚¹65 Lakhs" },
               { icon: Building2, label: "OFFICE FROM", v: "900 Sq.ft" },
               { icon: Store, label: "SHOWROOM FROM", v: "2700 Sq.ft" },
             ].map(({ icon: Icon, label, v }) => (
               <div
                 key={label}
-                className="flex flex-col items-center text-center sm:items-start sm:text-left rounded-2xl border border-[#E3C98B]/20 bg-[#0A0A0A]/50 backdrop-blur p-5 sm:p-3.5 hover:border-[#E3C98B]/40 transition duration-300 group"
+                className="flex flex-col items-center text-center sm:items-start sm:text-left rounded-2xl border border-[#E3C98B]/20 bg-[#0A0A0A]/50  p-5 sm:p-3.5 hover:border-[#E3C98B]/40 transition duration-300 group"
               >
                 <Icon
                   className="h-5 w-5 text-[#C69A57] mb-4 transition-transform group-hover:scale-110"
@@ -502,49 +340,29 @@ function Hero() {
         <div className="relative pt-8 sm:pt-10 lg:pt-0">
           {/* Main Image Frame */}
           <div className="lg:mt-[-90px] relative mx-auto w-full max-w-[420px] rounded-[32px] border border-[#C69A57]/30 bg-[#0A0A0A] aspect-[9/13] sm:aspect-[4/5] lg:aspect-[3/4] overflow-visible shadow-[0_30px_100px_-20px_rgba(0,0,0,0.8)]">
-            <style
-              dangerouslySetInnerHTML={{
-                __html: `
-              @keyframes hero-loop-slide {
-                0%, 30% { transform: translateX(0); }
-                33%, 63% { transform: translateX(-25%); }
-                66%, 96% { transform: translateX(-50%); }
-                100% { transform: translateX(-75%); }
-              }
-            `,
-              }}
-            />
-
             <div className="absolute inset-0 rounded-[32px] overflow-hidden">
-              <div
-                className="absolute inset-0 w-[400%] flex h-full"
-                style={{ animation: "hero-loop-slide 15s cubic-bezier(0.4, 0, 0.2, 1) infinite" }}
-              >
-                {[tower, plinthOffice, plinthShowroom, tower].map((src, i) => (
-                  <div key={i} className="relative w-1/4 h-full">
-                    <img
-                      src={src}
-                      alt={`Plinth feature ${i + 1}`}
-                      className="absolute inset-0 h-full w-full object-cover object-center"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
-                  </div>
-                ))}
-              </div>
+              <img
+                src={tower}
+                alt="Plinth tower"
+                decoding="async"
+                loading="eager"
+                fetchPriority="high"
+                className="absolute inset-0 h-full w-full object-cover object-center"
+              />
 
               {/* Top Tags */}
               <div className="absolute top-5 inset-x-5 flex justify-between gap-2 z-20">
-                <div className="rounded-full border border-[#E3C98B]/40 bg-black/40 backdrop-blur-md px-4 py-2 text-[8px] sm:text-[9px] tracking-[0.2em] text-white/90 font-medium">
+                <div className="rounded-full border border-[#E3C98B]/40 bg-black/40  px-4 py-2 text-[8px] sm:text-[9px] tracking-[0.2em] text-white/90 font-medium">
                   G + 38 STOREY
                 </div>
-                <div className="rounded-full border border-[#E3C98B]/40 bg-black/40 backdrop-blur-md px-4 py-2 text-[8px] sm:text-[9px] tracking-[0.2em] text-white/90 font-medium">
+                <div className="rounded-full border border-[#E3C98B]/40 bg-black/40  px-4 py-2 text-[8px] sm:text-[9px] tracking-[0.2em] text-white/90 font-medium">
                   LANDMARK
                 </div>
               </div>
             </div>
 
             {/* floating PROPERTY APPRECIATION card */}
-            <div className="absolute -left-4 sm:-left-12 top-[22%] rounded-2xl border border-[#E3C98B]/40 bg-black/20 backdrop-blur-xl px-5 py-7 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5),0_10px_30px_-15px_rgba(227,201,139,0.2)] z-10 w-48 sm:w-56 min-h-[160px] sm:min-h-0 group transition-all hover:border-[#E3C98B]/60">
+            <div className="absolute -left-4 sm:-left-12 top-[22%] rounded-2xl border border-[#E3C98B]/40 bg-black/70 px-5 py-7 shadow-lg z-10 w-48 sm:w-56 min-h-[160px] sm:min-h-0 group transition-all hover:border-[#E3C98B]/60">
               <div className="text-[8px] tracking-[0.15em] text-[#E3C98B]/80 mb-3 font-medium">
                 PROPERTY APPRECIATION
               </div>
@@ -558,7 +376,7 @@ function Hero() {
             </div>
 
             {/* CEILING HEIGHT card */}
-            <div className="absolute -right-4 sm:-right-8 bottom-[20%] rounded-2xl border border-[#E3C98B]/40 bg-black/20 backdrop-blur-xl px-5 py-5 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5),0_10px_30px_-15px_rgba(227,201,139,0.2)] z-10 w-36 sm:w-44 group transition-all hover:border-[#E3C98B]/60">
+            <div className="absolute -right-4 sm:-right-8 bottom-[20%] rounded-2xl border border-[#E3C98B]/40 bg-black/70 px-5 py-5 shadow-lg z-10 w-36 sm:w-44 group transition-all hover:border-[#E3C98B]/60">
               <div className="text-[8px] tracking-[0.15em] text-[#E3C98B]/80 mb-2 font-medium">
                 CEILING HEIGHT
               </div>
@@ -569,7 +387,7 @@ function Hero() {
             </div>
 
             {/* bottom development bar */}
-            <div className="absolute left-4 right-4 bottom-4 rounded-[20px] border border-[#E3C98B]/40 bg-black/30 backdrop-blur-xl px-5 py-4 flex items-center justify-between gap-4 z-10 group transition-all hover:border-[#E3C98B]/60">
+            <div className="absolute left-4 right-4 bottom-4 rounded-[20px] border border-[#E3C98B]/40 bg-black/70 px-5 py-4 flex items-center justify-between gap-4 z-10 group transition-all hover:border-[#E3C98B]/60">
               <div>
                 <div className="text-[8px] tracking-[0.2em] text-[#E3C98B]/80 mb-1.5 font-medium uppercase">
                   THE DEVELOPMENT
@@ -592,11 +410,11 @@ function Hero() {
       </div>
     </section>
   );
-}
+});
 
 /* ---------- 3. INVESTMENT OPPORTUNITY (ROI) ---------- */
 
-function ROISection() {
+const ROISection = memo(function ROISection() {
   return (
     <section id="roi" className="py-12 lg:py-16">
       <div className="mx-auto max-w-[1120px] px-4 lg:px-6 xl:px-8">
@@ -616,7 +434,7 @@ function ROISection() {
 
         <div className="mt-10 grid lg:grid-cols-5 gap-4 lg:gap-5 items-start">
           {/* Chart card */}
-          <div className="relative lg:col-span-3 rounded-3xl border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-5 lg:p-6 shadow-[0_55px_170px_-150px_oklch(0.78_0.13_75/0.55)]">
+          <div className="relative lg:col-span-3 rounded-3xl border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))]  p-5 lg:p-6 shadow-[0_55px_170px_-150px_oklch(0.78_0.13_75/0.55)]">
             <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.06)] opacity-60" />
             <div className="relative flex justify-between items-start mb-8">
               <div>
@@ -730,7 +548,7 @@ function ROISection() {
             ].map(({ icon: Icon, v, t, d }) => (
               <div
                 key={t}
-                className="group relative rounded-[20px] border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-5 min-h-[220px] sm:min-h-[200px] flex flex-col items-center text-center sm:items-start sm:text-left justify-center transition-all duration-300 
+                className="group relative rounded-[20px] border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))]  p-5 min-h-[220px] sm:min-h-[200px] flex flex-col items-center text-center sm:items-start sm:text-left justify-center transition-all duration-300 
       transform-gpu hover:scale-[1.02] active:scale-[0.98]
       hover:border-[oklch(0.78_0.13_75/0.45)] 
       active:border-[oklch(0.78_0.13_75/0.45)] 
@@ -758,7 +576,7 @@ function ROISection() {
       </div>
     </section>
   );
-}
+});
 
 /* ---------- 4. HIGHLIGHTS ---------- */
 
@@ -817,7 +635,7 @@ function Highlights() {
           {items.map(({ icon: Icon, t, d }, i) => (
             <TiltCard
               key={t}
-              className="group relative rounded-2xl border border-[#E3C98B]/20 bg-gradient-to-br from-card/70 to-card/35 backdrop-blur p-6 sm:p-4 min-h-[180px] sm:min-h-[140px] flex flex-col items-center text-center sm:items-start sm:text-left hover:border-[var(--gold)]/20 hover:shadow-[0_36px_110px_-78px_oklch(0.78_0.13_75/0.75)]"
+              className="group relative rounded-2xl border border-[#E3C98B]/20 bg-gradient-to-br from-card/70 to-card/35  p-6 sm:p-4 min-h-[180px] sm:min-h-[140px] flex flex-col items-center text-center sm:items-start sm:text-left hover:border-[var(--gold)]/20 hover:shadow-[0_36px_110px_-78px_oklch(0.78_0.13_75/0.75)]"
             >
               <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.08)] opacity-60 group-hover:opacity-60 transition-opacity" />
               <div className="relative flex flex-col items-center sm:items-start sm:flex-row sm:justify-between w-full mb-5 sm:mb-4">
@@ -858,9 +676,9 @@ function Spaces() {
       imgs: [office, plinthOffice, listing1],
       size: "1265",
       unit: "Sq.ft",
-      title: "Starting ₹91 Lakhs",
+      title: "Starting â‚¹91 Lakhs",
       features: [
-        "18 offices per floor· customizable layouts",
+        "18 offices per floorÂ· customizable layouts",
         "11.5 ft ceilings, floor-to-ceiling glass",
         "Dedicated high-speed elevators",
         "Central air-conditioning",
@@ -894,46 +712,23 @@ function Spaces() {
           </h2>
         </div>
 
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
-          @keyframes spaces-slide {
-            0%, 26.66% { transform: translateX(0); }
-            33.33%, 60.00% { transform: translateX(-25%); }
-            66.66%, 93.33% { transform: translateX(-50%); }
-            100% { transform: translateX(-75%); }
-          }
-        `,
-          }}
-        />
-
         <div className="grid lg:grid-cols-2 gap-5 max-w-[860px] mx-auto">
           {cards.map((c) => (
             <div
               key={c.tag}
               className="rounded-[24px] border border-[#C69A57]/40 bg-[#141414] overflow-hidden group transition-all duration-700 hover:border-[#E3C98B]/60 hover:shadow-[0_0_50px_-15px_#C69A57] active:shadow-[0_0_50px_-15px_#C69A57]"
             >
-              <div className="relative h-[195px] sm:h-[195px] md:h-[230px] overflow-hidden group/image cursor-pointer border-b-2 border-b-[#C69A57]/30 transition-colors duration-300 group-hover:border-b-[#E3C98B]/60">
-                <div
-                  className="flex h-full transition-transform duration-500 group-hover/image:scale-[1.02] group-active/image:scale-[1.02]"
-                  style={{
-                    width: "400%",
-                    animation: "spaces-slide 16s cubic-bezier(0.4, 0, 0.2, 1) infinite",
-                  }}
-                >
-                  {[...c.imgs, c.imgs[0]].map((imgSrc, idx) => (
-                    <div key={idx} className="relative h-full shrink-0" style={{ width: "25%" }}>
-                      <img
-                        src={imgSrc}
-                        alt={c.tag}
-                        className="absolute inset-0 h-full w-full object-cover"
-                      />
-                    </div>
-                  ))}
-                </div>
+              <div className="relative h-[195px] sm:h-[195px] md:h-[230px] overflow-hidden group/image border-b-2 border-b-[#C69A57]/30 transition-colors duration-300 group-hover:border-b-[#E3C98B]/60">
+                <img
+                  src={c.imgs[0]}
+                  alt={c.tag}
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
                 <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#141414] via-[#141414]/20 to-black/20" />
                 <div className="absolute inset-0 pointer-events-none rounded-[2px] ring-1 ring-inset ring-[#E3C98B]/0 transition-all duration-300 group-hover/image:ring-[#E3C98B]/60 group-active/image:ring-[#E3C98B]/60" />
-                <div className="absolute top-4 left-5 rounded-full border border-[#E3C98B]/40 bg-black/60 backdrop-blur-md px-5 py-2 text-[9px] tracking-[0.3em] text-white/90 font-medium uppercase shadow-lg transition-colors duration-300 group-hover/image:border-[#E3C98B] group-hover/image:bg-[#E3C98B]/10">
+                <div className="absolute top-4 left-5 rounded-full border border-[#E3C98B]/40 bg-black/60  px-5 py-2 text-[9px] tracking-[0.3em] text-white/90 font-medium uppercase shadow-lg transition-colors duration-300 group-hover/image:border-[#E3C98B] group-hover/image:bg-[#E3C98B]/10">
                   {c.tag}
                 </div>
                 <div className="absolute bottom-2 left-6 flex flex-col gap-2">
@@ -996,12 +791,14 @@ function Spaces() {
 
 /* ---------- ANIMATION HOOKS ---------- */
 
-function useInView(options = {}) {
-  const ref = useRef(null);
+function useInView(threshold = 0.1) {
+  const ref = useRef<HTMLDivElement | null>(null);
   const [inView, setInView] = useState(false);
 
   useEffect(() => {
-    if (!ref.current) return;
+    const el = ref.current;
+    if (!el) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -1009,56 +806,23 @@ function useInView(options = {}) {
           observer.disconnect();
         }
       },
-      { threshold: 0.1, ...options },
+      { threshold },
     );
 
-    observer.observe(ref.current);
+    observer.observe(el);
     return () => observer.disconnect();
-  }, [options]);
+  }, [threshold]);
 
   return { ref, inView };
 }
 
 function TypewriterTitle() {
-  const [text, setText] = useState("");
-  const fullText = "Invest Now?";
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    const timeout = setTimeout(
-      () => {
-        if (!isDeleting) {
-          if (text.length < fullText.length) {
-            setText(fullText.slice(0, text.length + 1));
-          } else {
-            setTimeout(() => setIsDeleting(true), 3000);
-          }
-        } else {
-          if (text.length > 0) {
-            setText(fullText.slice(0, text.length - 1));
-          } else {
-            setIsDeleting(false);
-          }
-        }
-      },
-      isDeleting ? 40 : 120,
-    );
-
-    return () => clearTimeout(timeout);
-  }, [text, isDeleting]);
-
-  const base = text.replace(/Now\?.*/, "");
-  const italicPart = text.slice(base.length);
-
   return (
-    <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight text-foreground mb-5 min-h-[1.2em]">
-      Why {base}
-      {italicPart && (
-        <span className="italic" style={{ color: "oklch(0.83 0.11 78)" }}>
-          {italicPart}
-        </span>
-      )}
-      <span className="inline-block w-[3px] h-[0.8em] bg-[#E3C98B] ml-2 animate-[pulse_1s_infinite] align-middle" />
+    <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-tight text-foreground mb-5">
+      Why{" "}
+      <span className="italic" style={{ color: "oklch(0.83 0.11 78)" }}>
+        Invest Now?
+      </span>
     </h2>
   );
 }
@@ -1120,7 +884,7 @@ function WhyInvest() {
                     "h-full group relative w-full rounded-[16px] p-5 min-h-[250px] flex flex-col transition-colors cursor-pointer",
                     isActive
                       ? "bg-gradient-to-b from-[#D4A865] via-[#C69A57] to-[#9B7335] text-black shadow-[0_55px_170px_-140px_oklch(0.78_0.13_75/0.80)]"
-                      : "border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur text-foreground hover:border-[oklch(0.78_0.13_75/0.45)]",
+                      : "border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))]  text-foreground hover:border-[oklch(0.78_0.13_75/0.45)]",
                   ].join(" ")}
                   onMouseEnter={() => setActive(i)}
                   onClick={() => setActive(i)}
@@ -1191,7 +955,7 @@ function Amenities() {
           {items.map(({ icon: Icon, t, d }) => (
             <TiltCard
               key={t}
-              className="group relative rounded-[16px] border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-6 sm:p-4 min-h-[150px] flex flex-col items-center text-center sm:flex-row sm:items-center sm:text-left gap-5 sm:gap-2.5 hover:border-[oklch(0.78_0.13_75/0.45)] hover:shadow-[0_32px_110px_-78px_oklch(0.78_0.13_75/0.75)]"
+              className="group relative rounded-[16px] border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))]  p-6 sm:p-4 min-h-[150px] flex flex-col items-center text-center sm:flex-row sm:items-center sm:text-left gap-5 sm:gap-2.5 hover:border-[oklch(0.78_0.13_75/0.45)] hover:shadow-[0_32px_110px_-78px_oklch(0.78_0.13_75/0.75)]"
             >
               <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.07)] opacity-60 group-hover:opacity-100 transition-opacity" />
               <div className="relative h-14 w-14 sm:h-12 sm:w-12 rounded-[14px] bg-[linear-gradient(135deg,oklch(0.85_0.12_80),oklch(0.65_0.13_65))] flex items-center justify-center shrink-0 shadow-[0_22px_60px_-36px_oklch(0.78_0.13_75/0.85)] mx-auto sm:mx-0">
@@ -1260,13 +1024,13 @@ function Location() {
 
           {/* Map */}
           <div className="mb-6 relative rounded-2xl sm:rounded-3xl border border-[#E3C98B]/20 bg-[#0A0A0A] aspect-[1/1.06] sm:aspect-[4/3] lg:aspect-[1.45/1] min-h-[300px] sm:min-h-0 max-h-[440px] overflow-hidden shadow-[0_40px_160px_-120px_oklch(0.78_0.13_75/0.55)]">
-            <div className="absolute top-4 left-4 sm:top-6 sm:left-6 rounded-full border border-[#E3C98B]/30 bg-black/60 backdrop-blur-md px-3.5 sm:px-5 py-2 text-[9px] sm:text-[11px] tracking-[0.16em] sm:tracking-widest text-white flex items-center gap-2 z-20 max-w-[calc(100%-2rem)] sm:max-w-[calc(100%-3rem)]">
+            <div className="absolute top-4 left-4 sm:top-6 sm:left-6 rounded-full border border-[#E3C98B]/30 bg-black/60  px-3.5 sm:px-5 py-2 text-[9px] sm:text-[11px] tracking-[0.16em] sm:tracking-widest text-white flex items-center gap-2 z-20 max-w-[calc(100%-2rem)] sm:max-w-[calc(100%-3rem)]">
               <MapPin className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-[#E3C98B] shrink-0" />
               <span className="font-medium text-white/90 truncate">
                 Sindhu Bhavan Rd, Ahmedabad - 380054
               </span>
             </div>
-            <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 rounded-xl border border-[#E3C98B]/30 bg-black/60 backdrop-blur-md px-3.5 sm:px-6 py-3 sm:py-4 text-right z-20 flex flex-col gap-1.5 sm:gap-2 w-[9.75rem] sm:w-auto">
+            <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 rounded-xl border border-[#E3C98B]/30 bg-black/60  px-3.5 sm:px-6 py-3 sm:py-4 text-right z-20 flex flex-col gap-1.5 sm:gap-2 w-[9.75rem] sm:w-auto">
               <div className="text-[8px] sm:text-[9px] tracking-[0.2em] sm:tracking-[0.3em] text-[#E3C98B] whitespace-nowrap">
                 CONNECTIVITY SCORE
               </div>
@@ -1349,15 +1113,7 @@ function Location() {
               <circle cx="400" cy="300" r="100" fill="url(#centerGlow)" />
             </svg>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center z-10">
-              <div
-                className="absolute h-40 w-40 rounded-full border border-[#E3C98B]/20 animate-ping"
-                style={{ animationDuration: "3s" }}
-              />
-              <div
-                className="absolute h-20 w-20 rounded-full border border-[#E3C98B]/40 animate-ping"
-                style={{ animationDuration: "2s" }}
-              />
-              <div className="absolute h-10 w-10 rounded-full bg-[#E3C98B]/20 backdrop-blur-sm" />
+              <div className="absolute h-16 w-16 rounded-full border border-[#E3C98B]/30 bg-[#E3C98B]/10" />
               <div className="relative h-3.5 w-3.5 rounded-full bg-[#E3C98B] shadow-[0_0_15px_#E3C98B]" />
             </div>
           </div>
@@ -1398,7 +1154,7 @@ function DeveloperLegacy() {
           {stats.map(({ icon: Icon, v, label }) => (
             <TiltCard
               key={label}
-              className="group relative overflow-hidden rounded-[16px] border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-4 text-center min-h-[140px] flex flex-col items-center justify-center hover:border-[oklch(0.78_0.13_75/0.45)] hover:shadow-[0_40px_140px_-110px_oklch(0.78_0.13_75/0.80)]"
+              className="group relative overflow-hidden rounded-[16px] border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))]  p-4 text-center min-h-[140px] flex flex-col items-center justify-center hover:border-[oklch(0.78_0.13_75/0.45)] hover:shadow-[0_40px_140px_-110px_oklch(0.78_0.13_75/0.80)]"
             >
               <div className="pointer-events-none absolute inset-0 rounded-[20px] ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.07)] opacity-55 group-hover:opacity-100 transition-opacity" />
               <div className="pointer-events-none absolute -top-10 -left-10 h-40 w-40 rounded-full blur-[2px]" />
@@ -1424,46 +1180,8 @@ function InvestmentCTA() {
   return (
     <section className="py-14 lg:py-12 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,oklch(0.78_0.13_75/0.12),transparent_70%)] pointer-events-none" />
-      <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20 mix-blend-screen">
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
-            @keyframes dash-flow {
-              0% { stroke-dashoffset: -120; }
-              100% { stroke-dashoffset: 0; }
-            }
-            @keyframes dash-flow-reverse {
-              0% { stroke-dashoffset: 120; }
-              100% { stroke-dashoffset: 0; }
-            }
-          `,
-          }}
-        />
-        <svg
-          className="h-full w-full"
-          viewBox="0 0 1200 700"
-          fill="none"
-          preserveAspectRatio="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M-60 180C160 120 280 90 470 180C690 285 860 360 1260 240"
-            stroke="#C69A57"
-            strokeWidth="2"
-            strokeDasharray="12 12"
-            style={{ animation: "dash-flow 8s linear infinite" }}
-          />
-          <path
-            d="M-40 540C220 450 360 410 600 520C810 610 980 600 1240 500"
-            stroke="#E3C98B"
-            strokeWidth="2"
-            strokeDasharray="12 12"
-            style={{ animation: "dash-flow-reverse 10s linear infinite" }}
-          />
-        </svg>
-      </div>
       <div className="relative mx-auto max-w-[1120px] px-4 lg:px-6 xl:px-8 text-center">
-        <div className="inline-flex items-center gap-3 rounded-full border border-[oklch(0.65_0.10_70/0.26)] bg-background/20 backdrop-blur px-6 py-3 mb-10">
+        <div className="inline-flex items-center gap-3 rounded-full border border-[oklch(0.65_0.10_70/0.26)] bg-background/20  px-6 py-3 mb-10">
           <span className="h-2 w-2 rounded-full bg-[#E3C98B] animate-pulse" />
           <span className="text-[10px] tracking-[0.35em] text-foreground/70">
             INVESTMENT OPPORTUNITY
@@ -1491,14 +1209,19 @@ function InvestmentCTA() {
               <Calendar className="h-4 w-4" /> Book Site Visit
             </PremiumButton>
           </a>
-          <button className="w-full sm:w-auto rounded-full px-8 py-4 border border-[oklch(0.65_0.10_70/0.30)] bg-background/10 backdrop-blur text-foreground/90 font-medium flex items-center justify-center gap-3 hover:border-[oklch(0.78_0.13_75/0.55)] transition">
+          <a
+            href="/brouchure.pdf"
+            download="Plinth_Brochure.pdf"
+            className="w-full sm:w-auto rounded-full px-8 py-4 border border-[oklch(0.65_0.10_70/0.30)] bg-background/10 text-foreground/90 font-medium flex items-center justify-center gap-3 hover:border-[oklch(0.78_0.13_75/0.55)] transition no-underline"
+            style={{ textDecoration: 'none' }}
+          >
             <Download className="h-4 w-4 text-[#E3C98B]" /> Download Brochure{" "}
             <ArrowRight className="h-4 w-4 text-[#E3C98B]" />
-          </button>
+          </a>
         </div>
         <div className="mt-10 text-[10px] tracking-[0.30em] text-foreground/60">
-          SINDHU BHAVAN ROAD <span className="text-[#E3C98B]">·</span> AHMEDABAD{" "}
-          <span className="text-[#E3C98B]">·</span> 380054
+          SINDHU BHAVAN ROAD <span className="text-[#E3C98B]">Â·</span> AHMEDABAD{" "}
+          <span className="text-[#E3C98B]">Â·</span> 380054
         </div>
       </div>
     </section>
@@ -1508,317 +1231,344 @@ function InvestmentCTA() {
 /* ---------- 9. ENQUIRE NOW ---------- */
 
 function EnquiryForm() {
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
-  const formRef = useRef<HTMLFormElement>(null);
-  const [purpose, setPurpose] = useState("Investor");
-  const [budget, setBudget] = useState("₹65 L - ₹1 Cr");
-  const [isBudgetOpen, setIsBudgetOpen] = useState(false);
-  const budgetOptions = ["₹65 L - ₹1 Cr", "₹1 Cr - ₹2 Cr", "₹2 Cr +"];
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const rawServiceId = (import.meta.env.VITE_EMAILJS_SERVICE_ID || "").trim();
+  const rawTemplateId = (import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "").trim();
+  const rawPublicKey = (import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "").trim();
 
-  const [nameVal, setNameVal] = useState("");
-  const [phoneVal, setPhoneVal] = useState("");
-  const [errors, setErrors] = useState<{ name?: string; phone?: string }>({});
+  const serviceId = rawServiceId && rawServiceId !== "your_service_id" ? rawServiceId : "service_74f661d";
+  const templateId = rawTemplateId && rawTemplateId !== "your_template_id" ? rawTemplateId : "template_a2596on";
+  const publicKey = rawPublicKey && rawPublicKey !== "your_public_key" ? rawPublicKey : "63d0_DVu3zixdIdYV";
 
+  const [mounted, setMounted] = useState(false);
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsBudgetOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    setMounted(true);
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!formRef.current) return;
+  if (!mounted) {
+    return <div className="w-full h-[535px] sm:h-[545px] bg-transparent" />;
+  }
 
-    // Custom validation
-    const newErrors: { name?: string; phone?: string } = {};
-    if (!nameVal.trim()) {
-      newErrors.name = "Please fill out this field.";
-    }
-    if (!phoneVal.trim()) {
-      newErrors.phone = "Please fill out this field.";
-    } else if (!/^\d{10}$/.test(phoneVal)) {
-      newErrors.phone = "Please enter a valid 10-digit phone number.";
-    }
+  const iframeSrcDoc = `
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+        <style>
+          body {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            font-family: 'Manrope', 'Inter', sans-serif;
+            color: #ffffff;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+          }
+          .form-container {
+            position: relative;
+            width: 100%;
+            border-radius: 1.5rem; /* 24px */
+            border: 1px solid #1f1b16;
+            background: #0d0b08;
+            padding: 1.25rem;
+            box-sizing: border-box;
+            box-shadow: 0 50px 160px -130px oklch(0.78 0.13 75 / 0.75);
+          }
+          @media (min-width: 640px) {
+            .form-container {
+              padding: 2rem;
+            }
+          }
+          .relative-z {
+            position: relative;
+            z-index: 10;
+          }
+          .badge-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+          }
+          .badge-text {
+            font-size: 0.75rem;
+            letter-spacing: 0.25em;
+            color: #E3C98B;
+            font-weight: 500;
+          }
+          .title {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.75rem; /* 28px */
+            color: #ffffff;
+            margin: 0 0 1.25rem 0;
+            font-weight: 400;
+            line-height: 1.25;
+          }
+          @media (min-width: 640px) {
+            .title {
+              font-size: 2.25rem; /* 36px */
+            }
+          }
+          .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+          }
+          .input-group {
+            position: relative;
+          }
+          .input-group.full-width {
+            grid-column: span 2;
+          }
+          .label {
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.5rem;
+          }
+          .input-field {
+            width: 100%;
+            border-radius: 0.75rem; /* 12px */
+            border: 1px solid #2e2a24;
+            background-color: #0d0b09;
+            padding: 0.875rem 1rem;
+            color: #ffffff;
+            font-size: 0.9rem;
+            outline: none;
+            box-sizing: border-box;
+            font-family: 'Manrope', sans-serif;
+            height: 3.25rem;
+          }
+          .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.25);
+          }
+          .input-field:focus {
+            border-color: #C69A57;
+          }
+          select.input-field {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23C69A57'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1.25rem center;
+            background-size: 1.25rem;
+          }
+          .purpose-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            height: 3.25rem;
+          }
+          .purpose-btn {
+            width: 100%;
+            height: 100%;
+            border-radius: 0.75rem;
+            border: 1px solid #2e2a24;
+            background: transparent;
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Manrope', sans-serif;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          .purpose-btn.active {
+            background: #D4A865;
+            color: #000000;
+            border-color: #D4A865;
+            box-shadow: 0 4px 20px rgba(212, 168, 101, 0.3);
+          }
+          .divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+            margin: 1.25rem 0;
+          }
+          .disclaimer {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 1.25rem;
+            line-height: 1.5;
+          }
+          .submit-btn {
+            width: 100%;
+            height: 3.25rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 9999px; /* Fully rounded pill shape */
+            color: #000000;
+            background: #D4A865;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(212, 168, 101, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-sizing: border-box;
+            font-family: 'Manrope', sans-serif;
+            transition: all 0.2s ease;
+          }
+          .submit-btn:hover {
+            background: #E3C98B;
+            transform: scale(1.01);
+          }
+          .submit-btn:active {
+            transform: scale(0.99);
+          }
+        </style>
+      </head>
+      <body class="bg-transparent antialiased">
+        <form id="enquiry-form" class="form-container">
+          <div class="relative-z">
+            <div class="badge-row">
+              <svg class="sparkle-icon" viewBox="0 0 24 24" fill="none" stroke="#E3C98B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="height: 1.25rem; width: 1.25rem;">
+                <path d="M12 3c0 4.5-3.5 8-8 8 4.5 0 8 3.5 8 8 0-4.5 3.5-8 8-8-4.5 0-8-3.5-8-8z" />
+                <path d="M6 6c0 1.5-1 2.5-2.5 2.5 1.5 0 2.5 1 2.5 2.5 0-1.5 1-2.5 2.5-2.5-1.5 0-2.5-1-2.5-2.5z" />
+              </svg>
+              <span class="badge-text">PRIORITY ENQUIRY</span>
+            </div>
+            <h3 class="title">
+              Schedule a private<br />consultation.
+            </h3>
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      // Auto-clear after 4 seconds
-      setTimeout(() => {
-        setErrors({});
-      }, 4000);
-      return;
-    }
-
-    setStatus("submitting");
-
-    try {
-      const formData = new FormData(formRef.current);
-      const data = {
-        access_key: "9f7ab840-398a-4101-ba04-b8afd8486f82",
-        subject: "New Property Inquiry Received!",
-        from_name: "Plinth Property Showcase",
-        Message: "A new inquiry has arrived.",
-        Name: formData.get("user_name"),
-        Phone: formData.get("user_phone"),
-        Budget: formData.get("budget"),
-        Purpose: formData.get("purpose"),
-      };
-
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) throw new Error("Failed to send email");
-      setStatus("success");
-      setNameVal("");
-      setPhoneVal("");
-      setErrors({});
-    } catch (error) {
-      console.error("Failed to send email:", error);
-      setStatus("error");
-    }
-  };
-
-  return (
-    <form
-      ref={formRef}
-      noValidate
-      onSubmit={handleSubmit}
-      className="relative w-full rounded-2xl sm:rounded-3xl border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-5 sm:p-6 lg:p-10 shadow-[0_50px_160px_-130px_oklch(0.78_0.13_75/0.75)]"
-    >
-      <div className="pointer-events-none absolute inset-0 rounded-2xl sm:rounded-3xl ring-1 ring-inset ring-[oklch(0.85_0.12_80/0.07)] opacity-70" />
-
-      {status === "success" ? (
-        <div className="h-full flex flex-col items-center justify-center text-center py-10">
-          <div className="h-16 w-16 rounded-full bg-gradient-to-r from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] text-black flex items-center justify-center mb-6 shadow-[0_22px_60px_-40px_oklch(0.78_0.13_75/0.80)]">
-            <Check className="h-8 w-8 text-black" />
-          </div>
-          <h3 className="font-serif text-3xl md:text-4xl text-foreground mb-4">
-            Thank you for submitted!
-          </h3>
-          <p className="text-foreground/70 leading-relaxed mb-8">
-            Your inquiry has been received. Our investment advisor will get in touch with you
-            shortly.
-          </p>
-          <button
-            type="button"
-            onClick={() => setStatus("idle")}
-            className="rounded-full px-8 py-3 border border-[oklch(0.65_0.10_70/0.30)] bg-background/10 backdrop-blur text-foreground/90 font-medium hover:border-[oklch(0.78_0.13_75/0.55)] transition"
-          >
-            Submit Another Enquiry
-          </button>
-        </div>
-      ) : (
-        <>
-          <div className="flex items-center gap-3 mb-3">
-            <Sparkles className="h-4 w-4 text-[#E3C98B]" />
-            <span className="text-xs tracking-[0.3em] text-[#E3C98B]">PRIORITY ENQUIRY</span>
-          </div>
-          <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl text-foreground mb-6 sm:mb-10">
-            Schedule a private consultation.
-          </h3>
-
-          <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
-            <div className="relative">
-              <label className="text-[10px] tracking-[0.3em] text-foreground/70">FULL NAME</label>
-              <div className="relative mt-2.5 sm:mt-3">
+            <div class="grid-layout">
+              <div class="input-group">
+                <label class="label">FULL NAME</label>
                 <input
                   name="user_name"
                   type="text"
                   placeholder="Your name"
-                  value={nameVal}
-                  onChange={(e) => {
-                    setNameVal(e.target.value);
-                    if (errors.name) {
-                      setErrors((prev) => {
-                        const next = { ...prev };
-                        delete next.name;
-                        return next;
-                      });
-                    }
-                  }}
-                  className="w-full rounded-xl border border-[oklch(0.65_0.10_70/0.22)] bg-background/20 px-4 sm:px-5 py-3.5 sm:py-4 text-foreground placeholder:text-foreground/30 shadow-[inset_0_0_0_1px_oklch(0.85_0.12_80/0.05)] focus:outline-none focus:border-[oklch(0.78_0.13_75/0.55)] transition"
+                  autocomplete="name"
+                  required
+                  class="input-field"
                 />
-                <AnimatePresence>
-                  {errors.name && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -5 }}
-                      className="absolute z-[60] left-4 top-[calc(100%+8px)] bg-[#141414] border border-[#C69A57] text-white rounded-xl px-4 py-3 text-xs shadow-[0_15px_35px_rgba(0,0,0,0.8)] flex items-center gap-2 min-w-[200px]"
-                    >
-                      <div className="absolute -top-1.5 left-6 w-3 h-3 bg-[#141414] border-t border-l border-[#C69A57] transform rotate-45" />
-                      <AlertCircle className="h-4 w-4 text-[#E3C98B] shrink-0" />
-                      <span className="font-light tracking-wide text-white/90">{errors.name}</span>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
               </div>
-            </div>
-            <div className="relative">
-              <label className="text-[10px] tracking-[0.3em] text-foreground/70">
-                PHONE NUMBER
-              </label>
-              <div className="relative mt-2.5 sm:mt-3">
+              <div class="input-group">
+                <label class="label">PHONE NUMBER</label>
                 <input
                   name="user_phone"
                   type="tel"
                   placeholder="10 digits only"
-                  inputMode="numeric"
+                  inputmode="numeric"
                   pattern="[0-9]{10}"
-                  maxLength={10}
-                  value={phoneVal}
-                  onKeyPress={(e) => {
-                    if (!/[0-9]/.test(e.key)) {
-                      e.preventDefault();
-                    }
-                  }}
-                  onChange={(e) => {
-                    setPhoneVal(e.target.value.replace(/[^0-9]/g, "").slice(0, 10));
-                    if (errors.phone) {
-                      setErrors((prev) => {
-                        const next = { ...prev };
-                        delete next.phone;
-                        return next;
-                      });
-                    }
-                  }}
-                  className="w-full rounded-xl border border-[oklch(0.65_0.10_70/0.22)] bg-background/20 px-4 sm:px-5 py-3.5 sm:py-4 text-foreground placeholder:text-foreground/30 shadow-[inset_0_0_0_1px_oklch(0.85_0.12_80/0.05)] focus:outline-none focus:border-[oklch(0.78_0.13_75/0.55)] transition"
+                  maxlength="10"
+                  autocomplete="tel"
+                  required
+                  class="input-field"
                 />
-                <AnimatePresence>
-                  {errors.phone && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -5 }}
-                      className="absolute z-[60] left-4 top-[calc(100%+8px)] bg-[#141414] border border-[#C69A57] text-white rounded-xl px-4 py-3 text-xs shadow-[0_15px_35px_rgba(0,0,0,0.8)] flex items-center gap-2 min-w-[200px]"
-                    >
-                      <div className="absolute -top-1.5 left-6 w-3 h-3 bg-[#141414] border-t border-l border-[#C69A57] transform rotate-45" />
-                      <AlertCircle className="h-4 w-4 text-[#E3C98B] shrink-0" />
-                      <span className="font-light tracking-wide text-white/90">{errors.phone}</span>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+              </div>
+              <div class="input-group">
+                <label class="label">EMAIL ADDRESS</label>
+                <input
+                  name="user_email"
+                  type="email"
+                  placeholder="name@example.com"
+                  autocomplete="email"
+                  required
+                  class="input-field"
+                />
+              </div>
+              <div class="input-group">
+                <label class="label">BUDGET RANGE</label>
+                <select name="budget" class="input-field">
+                  <option value="₹65 L - ₹1 Cr">₹65 L - ₹1 Cr</option>
+                  <option value="₹1 Cr - ₹2 Cr">₹1 Cr - ₹2 Cr</option>
+                  <option value="₹2 Cr +">₹2 Cr +</option>
+                </select>
+              </div>
+              <div class="input-group full-width">
+                <label class="label">PURPOSE</label>
+                <input type="hidden" name="purpose" id="purpose-input" value="Investor" />
+                <div class="purpose-container">
+                  <button type="button" id="purpose-investor" class="purpose-btn active" onclick="selectPurpose('Investor')">Investor</button>
+                  <button type="button" id="purpose-enduser" class="purpose-btn" onclick="selectPurpose('End User')">End User</button>
+                </div>
               </div>
             </div>
-            <div className="relative" ref={dropdownRef}>
-              <label className="text-[10px] tracking-[0.3em] text-foreground/70">
-                BUDGET RANGE
-              </label>
-              <input type="hidden" name="budget" value={budget} />
-              
-              {/* Dropdown Toggle Button */}
-              <button
-                type="button"
-                onClick={() => setIsBudgetOpen(!isBudgetOpen)}
-                className="mt-2.5 sm:mt-3 w-full rounded-xl border border-[oklch(0.65_0.10_70/0.22)] bg-[#0A0A0A]/40 px-4 sm:px-5 py-3.5 sm:py-4 text-foreground flex items-center justify-between shadow-[inset_0_0_0_1px_oklch(0.85_0.12_80/0.05)] focus:outline-none focus:border-[oklch(0.78_0.13_75/0.55)] transition text-left cursor-pointer group"
-              >
-                <span className="font-light tracking-wide text-white/95">{budget}</span>
-                <svg
-                  className={`h-4 w-4 text-[#C69A57] transition-transform duration-300 ${
-                    isBudgetOpen ? "transform rotate-180" : ""
-                  }`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
 
-              {/* Dropdown Options Popup */}
-              <AnimatePresence>
-                {isBudgetOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.15 }}
-                    className="absolute z-50 left-0 right-0 mt-2 rounded-xl border border-[#C69A57]/30 bg-[#0E0E0E]/95 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.9)] overflow-hidden"
-                  >
-                    <div className="py-1.5 max-h-60 overflow-y-auto">
-                      {budgetOptions.map((opt) => (
-                        <button
-                          key={opt}
-                          type="button"
-                          onClick={() => {
-                            setBudget(opt);
-                            setIsBudgetOpen(false);
-                          }}
-                          className={`w-full px-5 py-3 text-left text-[14px] transition flex items-center justify-between cursor-pointer hover:bg-gradient-to-r hover:from-[#C69A57]/10 hover:to-transparent ${
-                            budget === opt
-                              ? "text-[#E3C98B] font-medium bg-[#C69A57]/5"
-                              : "text-foreground/80 hover:text-foreground"
-                          }`}
-                        >
-                          <span>{opt}</span>
-                          {budget === opt && (
-                            <Check className="h-4 w-4 text-[#E3C98B]" />
-                          )}
-                        </button>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-            <div>
-              <label className="text-[10px] tracking-[0.3em] text-foreground/70">PURPOSE</label>
-              <input type="hidden" name="purpose" value={purpose} />
-              <div className="mt-2.5 sm:mt-3 grid grid-cols-2 gap-2.5 sm:gap-3">
-                <button
-                  type="button"
-                  onClick={() => setPurpose("Investor")}
-                  className={`rounded-xl py-3.5 sm:py-4 font-medium transition ${purpose === "Investor" ? "bg-gradient-to-r from-[#E3C98B] via-[#D4A865] to-[#C69A57] text-black shadow-[0_0_20px_-5px_rgba(227,201,139,0.4)]" : "bg-gradient-to-r from-[#D4A865]/60 via-[#C69A57]/60 to-[#B58A4A]/60 text-foreground hover:from-[#E3C98B] hover:via-[#D4A865] hover:to-[#C69A57] hover:text-black transition-all"}`}
-                >
-                  Investor
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPurpose("End User")}
-                  className={`rounded-xl py-3.5 sm:py-4 font-medium transition ${purpose === "End User" ? "border border-[oklch(0.78_0.13_75/0.55)] bg-[oklch(0.78_0.13_75/0.08)] text-foreground shadow-[inset_0_0_0_1px_oklch(0.85_0.12_80/0.06)]" : "border border-[oklch(0.65_0.10_70/0.22)] bg-background/20 text-foreground/80 hover:border-[oklch(0.78_0.13_75/0.45)]"}`}
-                >
-                  End User
-                </button>
-              </div>
-            </div>
-          </div>
+            <div class="divider"></div>
 
-          <div className="mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-[#E3C98B]/20">
-            <p className="text-xs text-foreground/60 mb-6">
+            <p class="disclaimer">
               By submitting, you agree to receive project details via phone, WhatsApp &amp; email.
             </p>
-            <PremiumButton
-              type="submit"
-              disabled={status === "submitting"}
-              fullWidth
-              innerClassName="w-full py-4 text-[13px] gap-3 disabled:opacity-70 disabled:cursor-not-allowed"
-            >
-              {status === "submitting" ? "Submitting..." : "Get Complete Investment Details"}
-              {status !== "submitting" && <ArrowRight className="h-4 w-4" />}
-            </PremiumButton>
-            {status === "error" && (
-              <p className="mt-4 text-center text-sm text-red-500">
-                Something went wrong. Please try again.
-              </p>
-            )}
+            <button id="submit-btn" type="submit" class="submit-btn">
+              Get Complete Investment Details →
+            </button>
           </div>
-        </>
-      )}
-    </form>
+        </form>
+
+        <script>
+          (function() {
+            emailjs.init({
+              publicKey: "${publicKey}"
+            });
+          })();
+
+          function selectPurpose(val) {
+            document.getElementById('purpose-input').value = val;
+            if (val === 'Investor') {
+              document.getElementById('purpose-investor').classList.add('active');
+              document.getElementById('purpose-enduser').classList.remove('active');
+            } else {
+              document.getElementById('purpose-enduser').classList.add('active');
+              document.getElementById('purpose-investor').classList.remove('active');
+            }
+          }
+
+          document.getElementById("enquiry-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const btn = document.getElementById("submit-btn");
+            btn.disabled = true;
+            btn.innerHTML = "Submitting...";
+
+            emailjs.sendForm("${serviceId}", "${templateId}", this)
+              .then(function() {
+                document.body.innerHTML = \`
+                  <div class="form-container text-center" style="padding: 5rem 1.25rem;">
+                    <div class="relative-z" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                      <div style="height: 4rem; width: 4rem; border-radius: 9999px; background: #D4A865; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; box-shadow: 0 10px 25px rgba(212, 168, 101, 0.2);">
+                        <svg style="height: 2rem; width: 2rem; color: #000000;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <h3 class="title" style="font-size: 2rem; margin-bottom: 1rem;">
+                        Thank you for submitted!
+                      </h3>
+                      <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.6; margin-bottom: 2rem; max-width: 400px; font-size: 0.95rem;">
+                        Your inquiry has been received. Our investment advisor will get in touch with you shortly.
+                      </p>
+                      <button onclick="window.location.reload()" class="submit-btn" style="width: auto; padding: 0.75rem 2rem; border-radius: 9999px; background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid #2e2a24; box-shadow: none;">
+                        Submit Another Enquiry
+                      </button>
+                    </div>
+                  </div>
+                \`;
+              }, function(error) {
+                console.error("FAILED...", error);
+                const errMsg = error && (error.text || error.message) ? (error.text || error.message) : "Please verify your .env file credentials and restart your dev server.";
+                alert("Failed to send enquiry: " + errMsg);
+                btn.disabled = false;
+                btn.innerHTML = "Get Complete Investment Details →";
+              });
+          });
+        </script>
+      </body>
+    </html>
+  `;
+
+  return (
+    <iframe
+      srcDoc={iframeSrcDoc}
+      className="w-full h-[535px] sm:h-[545px] border-0 overflow-hidden hide-scrollbar bg-transparent"
+      scrolling="no"
+      title="Priority Enquiry Form"
+    />
   );
 }
 
@@ -1843,7 +1593,7 @@ function EnquireNow() {
               exclusive pre-launch offers.
             </p>
 
-            <div className="mt-7 sm:mt-8 rounded-[22px] border border-[oklch(0.65_0.10_70/0.22)] hover:border-[#C69A57] transition-colors duration-300 bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-4 sm:p-5 flex items-start gap-3 sm:gap-4">
+            <div className="mt-7 sm:mt-8 rounded-[22px] border border-[oklch(0.65_0.10_70/0.22)] hover:border-[#C69A57] transition-colors duration-300 bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))]  p-4 sm:p-5 flex items-start gap-3 sm:gap-4">
               <div className="h-10 w-12 rounded-full bg-[linear-gradient(135deg,oklch(0.85_0.12_80),oklch(0.65_0.13_65))] flex items-center justify-center shrink-0 shadow-[0_22px_60px_-40px_oklch(0.78_0.13_75/0.80)]">
                 <AlertCircle className="h-5 w-5 text-[oklch(0.16_0.012_60)]" />
               </div>
@@ -1857,7 +1607,7 @@ function EnquireNow() {
               </div>
             </div>
 
-            <div className="mt-3 rounded-[22px] border border-[oklch(0.65_0.10_70/0.22)] hover:border-[#C69A57] transition-colors duration-300 bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))] backdrop-blur p-4 sm:p-6">
+            <div className="mt-3 rounded-[22px] border border-[oklch(0.65_0.10_70/0.22)] hover:border-[#C69A57] transition-colors duration-300 bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))]  p-4 sm:p-6">
               <div className="text-[10px] tracking-[0.3em] text-[#E3C98B] mb-2">WHY INVEST NOW</div>
               <div className="font-serif leading-[1.1] text-5xl sm:text-7xl md:text-[6rem] lg:text-[6rem] bg-gradient-to-b from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] bg-clip-text text-transparent">
                 15-18<span className="text-5xl sm:text-6xl md:text-[4rem] lg:text-[4rem]">%</span>
@@ -1875,6 +1625,349 @@ function EnquireNow() {
   );
 }
 
+/* ---------- NAVBAR MODAL FORM ---------- */
+
+function NavbarEnquiryForm() {
+  const rawServiceId = (import.meta.env.VITE_EMAILJS_SERVICE_ID || "").trim();
+  const rawTemplateId = (import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "").trim();
+  const rawPublicKey = (import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "").trim();
+
+  const serviceId = rawServiceId && rawServiceId !== "your_service_id" ? rawServiceId : "service_74f661d";
+  const templateId = rawTemplateId && rawTemplateId !== "your_template_id" ? rawTemplateId : "template_a2596on";
+  const publicKey = rawPublicKey && rawPublicKey !== "your_public_key" ? rawPublicKey : "63d0_DVu3zixdIdYV";
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <div className="w-full h-[535px] sm:h-[545px] bg-transparent" />;
+  }
+
+  const iframeSrcDoc = `
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+        <style>
+          body {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            font-family: 'Manrope', 'Inter', sans-serif;
+            color: #ffffff;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+          }
+          .form-container {
+            position: relative;
+            width: 100%;
+            border-radius: 1.5rem; /* 24px */
+            border: 1px solid #1f1b16;
+            background: #0d0b08;
+            padding: 1.25rem;
+            box-sizing: border-box;
+            box-shadow: 0 50px 160px -130px oklch(0.78 0.13 75 / 0.75);
+          }
+          @media (min-width: 640px) {
+            .form-container {
+              padding: 2rem;
+            }
+          }
+          .relative-z {
+            position: relative;
+            z-index: 10;
+          }
+          .badge-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+          }
+          .badge-text {
+            font-size: 0.75rem;
+            letter-spacing: 0.25em;
+            color: #E3C98B;
+            font-weight: 500;
+          }
+          .title {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.75rem; /* 28px */
+            color: #ffffff;
+            margin: 0 0 1.25rem 0;
+            font-weight: 400;
+            line-height: 1.25;
+          }
+          @media (min-width: 640px) {
+            .title {
+              font-size: 2.25rem; /* 36px */
+            }
+          }
+          .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+          }
+          .input-group {
+            position: relative;
+          }
+          .input-group.full-width {
+            grid-column: span 2;
+          }
+          .label {
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.5rem;
+          }
+          .input-field {
+            width: 100%;
+            border-radius: 0.75rem; /* 12px */
+            border: 1px solid #2e2a24;
+            background-color: #0d0b09;
+            padding: 0.875rem 1rem;
+            color: #ffffff;
+            font-size: 0.9rem;
+            outline: none;
+            box-sizing: border-box;
+            font-family: 'Manrope', sans-serif;
+            height: 3.25rem;
+          }
+          .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.25);
+          }
+          .input-field:focus {
+            border-color: #C69A57;
+          }
+          select.input-field {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23C69A57'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1.25rem center;
+            background-size: 1.25rem;
+          }
+          .purpose-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            height: 3.25rem;
+          }
+          .purpose-btn {
+            width: 100%;
+            height: 100%;
+            border-radius: 0.75rem;
+            border: 1px solid #2e2a24;
+            background: transparent;
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'Manrope', sans-serif;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          .purpose-btn.active {
+            background: #D4A865;
+            color: #000000;
+            border-color: #D4A865;
+            box-shadow: 0 4px 20px rgba(212, 168, 101, 0.3);
+          }
+          .divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+            margin: 1.25rem 0;
+          }
+          .disclaimer {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 1.25rem;
+            line-height: 1.5;
+          }
+          .submit-btn {
+            width: 100%;
+            height: 3.25rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 9999px; /* Fully rounded pill shape */
+            color: #000000;
+            background: #D4A865;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(212, 168, 101, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-sizing: border-box;
+            font-family: 'Manrope', sans-serif;
+            transition: all 0.2s ease;
+          }
+          .submit-btn:hover {
+            background: #E3C98B;
+            transform: scale(1.01);
+          }
+          .submit-btn:active {
+            transform: scale(0.99);
+          }
+        </style>
+      </head>
+      <body class="bg-transparent antialiased">
+        <form id="enquiry-form" class="form-container">
+          <div class="relative-z">
+            <div class="badge-row">
+              <svg class="sparkle-icon" viewBox="0 0 24 24" fill="none" stroke="#E3C98B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="height: 1.25rem; width: 1.25rem;">
+                <path d="M12 3c0 4.5-3.5 8-8 8 4.5 0 8 3.5 8 8 0-4.5 3.5-8 8-8-4.5 0-8-3.5-8-8z" />
+                <path d="M6 6c0 1.5-1 2.5-2.5 2.5 1.5 0 2.5 1 2.5 2.5 0-1.5 1-2.5 2.5-2.5-1.5 0-2.5-1-2.5-2.5z" />
+              </svg>
+              <span class="badge-text">PRIORITY ENQUIRY</span>
+            </div>
+            <h3 class="title">
+              Schedule a private<br />consultation.
+            </h3>
+
+            <div class="grid-layout">
+              <div class="input-group">
+                <label class="label">FULL NAME</label>
+                <input
+                  name="user_name"
+                  type="text"
+                  placeholder="Your name"
+                  autocomplete="name"
+                  required
+                  class="input-field"
+                />
+              </div>
+              <div class="input-group">
+                <label class="label">PHONE NUMBER</label>
+                <input
+                  name="user_phone"
+                  type="tel"
+                  placeholder="10 digits only"
+                  inputmode="numeric"
+                  pattern="[0-9]{10}"
+                  maxlength="10"
+                  autocomplete="tel"
+                  required
+                  class="input-field"
+                />
+              </div>
+              <div class="input-group">
+                <label class="label">EMAIL ADDRESS</label>
+                <input
+                  name="user_email"
+                  type="email"
+                  placeholder="name@example.com"
+                  autocomplete="email"
+                  required
+                  class="input-field"
+                />
+              </div>
+              <div class="input-group">
+                <label class="label">BUDGET RANGE</label>
+                <select name="budget" class="input-field">
+                  <option value="₹65 L - ₹1 Cr">₹65 L - ₹1 Cr</option>
+                  <option value="₹1 Cr - ₹2 Cr">₹1 Cr - ₹2 Cr</option>
+                  <option value="₹2 Cr +">₹2 Cr +</option>
+                </select>
+              </div>
+              <div class="input-group full-width">
+                <label class="label">PURPOSE</label>
+                <input type="hidden" name="purpose" id="purpose-input" value="Investor" />
+                <div class="purpose-container">
+                  <button type="button" id="purpose-investor" class="purpose-btn active" onclick="selectPurpose('Investor')">Investor</button>
+                  <button type="button" id="purpose-enduser" class="purpose-btn" onclick="selectPurpose('End User')">End User</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <p class="disclaimer">
+              By submitting, you agree to receive project details via phone, WhatsApp &amp; email.
+            </p>
+            <button id="submit-btn" type="submit" class="submit-btn">
+              Get Complete Investment Details →
+            </button>
+          </div>
+        </form>
+
+        <script>
+          (function() {
+            emailjs.init({
+              publicKey: "${publicKey}"
+            });
+          })();
+
+          function selectPurpose(val) {
+            document.getElementById('purpose-input').value = val;
+            if (val === 'Investor') {
+              document.getElementById('purpose-investor').classList.add('active');
+              document.getElementById('purpose-enduser').classList.remove('active');
+            } else {
+              document.getElementById('purpose-enduser').classList.add('active');
+              document.getElementById('purpose-investor').classList.remove('active');
+            }
+          }
+
+          document.getElementById("enquiry-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const btn = document.getElementById("submit-btn");
+            btn.disabled = true;
+            btn.innerHTML = "Submitting...";
+
+            emailjs.sendForm("${serviceId}", "${templateId}", this)
+              .then(function() {
+                document.body.innerHTML = \`
+                  <div class="form-container text-center" style="padding: 5rem 1.25rem;">
+                    <div class="relative-z" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                      <div style="height: 4rem; width: 4rem; border-radius: 9999px; background: #D4A865; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; box-shadow: 0 10px 25px rgba(212, 168, 101, 0.2);">
+                        <svg style="height: 2rem; width: 2rem; color: #000000;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <h3 class="title" style="font-size: 2rem; margin-bottom: 1rem;">
+                        Thank you for submitted!
+                      </h3>
+                      <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.6; margin-bottom: 2rem; max-width: 400px; font-size: 0.95rem;">
+                        Your inquiry has been received. Our investment advisor will get in touch with you shortly.
+                      </p>
+                      <button onclick="window.location.reload()" class="submit-btn" style="width: auto; padding: 0.75rem 2rem; border-radius: 9999px; background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid #2e2a24; box-shadow: none;">
+                        Submit Another Enquiry
+                      </button>
+                    </div>
+                  </div>
+                \`;
+              }, function(error) {
+                console.error("FAILED...", error);
+                const errMsg = error && (error.text || error.message) ? (error.text || error.message) : "Please verify your .env file credentials and restart your dev server.";
+                alert("Failed to send enquiry: " + errMsg);
+                btn.disabled = false;
+                btn.innerHTML = "Get Complete Investment Details →";
+              });
+          });
+        </script>
+      </body>
+    </html>
+  `;
+
+  return (
+    <iframe
+      srcDoc={iframeSrcDoc}
+      className="w-full h-[535px] sm:h-[545px] border-0 overflow-hidden hide-scrollbar bg-transparent"
+      scrolling="no"
+      title="Priority Enquiry Form Modal"
+    />
+  );
+}
 /* ---------- FOOTER ---------- */
 
 function SiteFooter() {
@@ -1909,7 +2002,7 @@ function SiteFooter() {
                 <a
                   key={i}
                   href="#"
-                  className="h-10 w-10 rounded-full border border-[oklch(0.65_0.10_70/0.24)] bg-background/10 backdrop-blur flex items-center justify-center hover:border-[oklch(0.78_0.13_75/0.55)] hover:bg-[oklch(0.78_0.13_75/0.06)] transition"
+                  className="h-10 w-10 rounded-full border border-[oklch(0.65_0.10_70/0.24)] bg-background/10  flex items-center justify-center hover:border-[oklch(0.78_0.13_75/0.55)] hover:bg-[oklch(0.78_0.13_75/0.06)] transition"
                   aria-label="Social link"
                 >
                   <Icon className="h-4 w-4 text-[#E3C98B]" />
@@ -1968,7 +2061,7 @@ function SiteFooter() {
               </li>
             </ul>
 
-            <div className="mt-6 sm:mt-8 relative rounded-2xl border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.50),oklch(0.17_0.012_60/0.30))] backdrop-blur p-4 sm:p-6 overflow-hidden">
+            <div className="mt-6 sm:mt-8 relative rounded-2xl border border-[oklch(0.65_0.10_70/0.22)] bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.50),oklch(0.17_0.012_60/0.30))]  p-4 sm:p-6 overflow-hidden">
               <div className="pointer-events-none absolute -top-12 -left-12 h-48 w-48 rounded-full transparent_68%)]" />
               <div className="relative text-[9px] sm:text-[10px] tracking-[0.32em] sm:tracking-[0.35em] text-[#E3C98B]/90 mb-2 sm:mb-3">
                 EXPECTED ROI
@@ -1981,9 +2074,9 @@ function SiteFooter() {
         </div>
 
         <div className="mt-10 sm:mt-14 pt-6 sm:pt-8 border-t border-[oklch(0.65_0.10_70/0.16)] flex flex-col md:flex-row items-center md:items-center justify-between gap-3 sm:gap-4 text-xs text-foreground/45 text-center md:text-left">
-          <span>© {new Date().getFullYear()} Sindhu Bhavan. All rights reserved.</span>
+          <span>Â© {new Date().getFullYear()} Sindhu Bhavan. All rights reserved.</span>
           <span className="flex items-center gap-1.5">
-            © {new Date().getFullYear()} Made with
+            Â© {new Date().getFullYear()} Made with
             <Heart className="h-3.5 w-3.5 text-red-500 fill-red-500 animate-pulse" />
             by{" "}
             <a
@@ -2021,139 +2114,37 @@ function SiteFooter() {
 
 /* ---------- PAGE ---------- */
 
-function EnquiryModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
-  if (!isOpen) return null;
+function EnquiryModal({ onClose }: { onClose: () => void }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
-      <div
-        className="absolute inset-0 bg-background/80 backdrop-blur-sm transition-opacity"
+    <div
+      className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6"
+      role="dialog"
+      aria-modal="true"
+    >
+      <button
+        type="button"
+        aria-label="Close dialog"
+        className="absolute inset-0 bg-black/80"
         onClick={onClose}
       />
-      <div className="relative z-10 w-full max-w-2xl animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative z-10 w-full max-w-2xl max-h-[min(90vh,900px)] overflow-y-auto rounded-2xl border border-[oklch(0.65_0.10_70/0.22)] bg-[oklch(0.17_0.012_60)] p-4 pt-10 shadow-xl">
         <button
+          type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 z-20 rounded-full bg-background/20 p-2 text-foreground/60 hover:bg-background/40 hover:text-foreground backdrop-blur border border-[oklch(0.65_0.10_70/0.22)] transition"
+          className="absolute right-3 top-3 z-20 rounded-full border border-white/20 bg-black/50 p-2 text-white/80 hover:text-white"
           aria-label="Close"
         >
           <X className="h-4 w-4" />
         </button>
-        <EnquiryForm />
+        <NavbarEnquiryForm />
       </div>
     </div>
   );
 }
 
-function PlinthLanding() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showScrollPopup, setShowScrollPopup] = useState(false);
-  const [hasTriggeredScroll, setHasTriggeredScroll] = useState(false);
-  const mainRef = useRef<HTMLDivElement>(null);
-
-  const [popupName, setPopupName] = useState("");
-  const [popupPhone, setPopupPhone] = useState("");
-  const [popupEmail, setPopupEmail] = useState("");
-  const [popupErrors, setPopupErrors] = useState<{ name?: string; phone?: string; email?: string }>({});
-  const [popupStatus, setPopupStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
-
-  const handlePopupSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // Custom validation
-    const newErrors: { name?: string; phone?: string; email?: string } = {};
-    if (!popupName.trim()) {
-      newErrors.name = "Please fill out this field.";
-    }
-    if (!popupPhone.trim()) {
-      newErrors.phone = "Please fill out this field.";
-    } else if (!/^\d{10}$/.test(popupPhone)) {
-      newErrors.phone = "Please enter a valid 10-digit phone number.";
-    }
-    if (!popupEmail.trim()) {
-      newErrors.email = "Please fill out this field.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(popupEmail)) {
-      newErrors.email = "Please enter a valid email address.";
-    }
-
-    if (Object.keys(newErrors).length > 0) {
-      setPopupErrors(newErrors);
-      // Auto-clear errors after 4 seconds
-      setTimeout(() => {
-        setPopupErrors({});
-      }, 4000);
-      return;
-    }
-
-    setPopupStatus("submitting");
-
-    try {
-      const data = {
-        access_key: "9f7ab840-398a-4101-ba04-b8afd8486f82",
-        subject: "New Scroll Popup Inquiry Received!",
-        from_name: "Plinth Property Showcase",
-        Message: "A new inquiry from the scroll popup has arrived.",
-        Name: popupName,
-        Phone: popupPhone,
-        Email: popupEmail,
-      };
-
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) throw new Error("Failed to send email");
-      setPopupStatus("success");
-      setPopupName("");
-      setPopupPhone("");
-      setPopupEmail("");
-      setPopupErrors({});
-      // Auto close the popup modal after 2.5 seconds upon success!
-      setTimeout(() => {
-        setShowScrollPopup(false);
-        setPopupStatus("idle");
-      }, 2500);
-    } catch (error) {
-      console.error("Failed to send email:", error);
-      setPopupStatus("error");
-    }
-  };
-
-  // Scroll-based popup trigger
-  useEffect(() => {
-    const handleScroll = () => {
-      if (hasTriggeredScroll) return;
-
-      // Show popup when user scrolls past 500px
-      if (window.scrollY > 500) {
-        setShowScrollPopup(true);
-        setHasTriggeredScroll(true);
-      }
-    };
-
-    // Check on mount in case the page was reloaded already scrolled down
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasTriggeredScroll]);
-
-  // Close popup and prevent re-triggering
-  const handleCloseScrollPopup = () => {
-    setShowScrollPopup(false);
-    // Don't reset hasTriggeredScroll so popup doesn't show again
-  };
-
+function LandingBelowFold() {
   return (
-    <main
-      ref={mainRef}
-      className="relative min-h-screen bg-background overflow-x-hidden hide-scrollbar"
-    >
-      <Nav onEnquireClick={() => setIsModalOpen(true)} />
-      <Hero />
+    <>
       <ROISection />
       <Highlights />
       <Spaces />
@@ -2164,193 +2155,49 @@ function PlinthLanding() {
       <InvestmentCTA />
       <EnquireNow />
       <SiteFooter />
+    </>
+  );
+}
 
-      <EnquiryModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+function PlinthLanding() {
+  const [showBelowFold, setShowBelowFold] = useState(false);
 
-      {/* Scroll Popup Notification */}
-      <AnimatePresence>
-        {showScrollPopup && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            {/* Dark Overlay */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={handleCloseScrollPopup}
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            />
+  useEffect(() => {
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+  }, []);
 
-            {/* Form Card - Fully Responsive with Designer Look */}
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 50 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 50 }}
-              className="relative bg-gradient-to-br from-[#1a1a1a] to-[#2a2a2a] w-full max-w-[350px] sm:max-w-[400px] rounded-2xl p-5 sm:p-6 md:p-8 shadow-2xl border border-[#C69A57]/30"
-            >
-              {/* Decorative Top Border */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C69A57] via-[#E3C98B] to-[#C69A57] rounded-t-2xl" />
+  useEffect(() => {
+    if (showBelowFold) return;
 
-              {/* Close Button */}
-              <button
-                onClick={handleCloseScrollPopup}
-                className="absolute top-3 right-3 sm:top-4 sm:right-4 text-white/40 hover:text-[#E3C98B] p-2 touch-manipulation transition-colors"
-                aria-label="Close"
-              >
-                <X size={20} className="sm:w-6 sm:h-6" />
-              </button>
+    const revealBelowFold = () => {
+      setShowBelowFold((current) => (current ? current : true));
+    };
+    const onScroll = () => {
+      if (window.scrollY > 120) {
+        revealBelowFold();
+        window.removeEventListener("scroll", onScroll);
+      }
+    };
+    const timer = window.setTimeout(revealBelowFold, 2500);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [showBelowFold]);
 
-              {/* Logo/Icon */}
-              <div className="flex items-center gap-2 mb-3">
-                <div className="h-8 w-8 rounded-full bg-gradient-to-br from-[#C69A57] via-[#E3C98B] to-[#C69A57] flex items-center justify-center shadow-lg">
-                  <Building2 className="h-4 w-4 text-black" />
-                </div>
-                <span className="font-serif text-lg tracking-widest text-[#E3C98B]">PLINTH</span>
-              </div>
+  const handleEnquireClick = useCallback(() => {
+    // Ensure below-fold content is rendered before scrolling
+    setShowBelowFold(true);
+  }, []);
 
-              <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 font-serif">
-                Get Exclusive Updates
-              </h3>
-              <p className="text-white/60 mb-5 sm:mb-6 text-sm">
-                Be the first to know about premium opportunities. Book your site visit today.
-              </p>
-
-              {popupStatus === "success" ? (
-                <div className="h-full flex flex-col items-center justify-center text-center py-6">
-                  <div className="h-14 w-14 rounded-full bg-gradient-to-r from-[#F5E9C8] via-[#E3C98B] to-[#C69A57] text-black flex items-center justify-center mb-4 shadow-[0_22px_60px_-40px_oklch(0.78_0.13_75/0.80)]">
-                    <Check className="h-6 w-6 text-black" />
-                  </div>
-                  <h3 className="font-serif text-2xl text-white mb-2">
-                    Thank you!
-                  </h3>
-                  <p className="text-white/70 leading-relaxed text-xs">
-                    Your details have been received successfully.
-                  </p>
-                </div>
-              ) : (
-                <form noValidate onSubmit={handlePopupSubmit} className="space-y-3 sm:space-y-4">
-                  <div className="relative">
-                    <input
-                      type="text"
-                      placeholder="Full Name"
-                      value={popupName}
-                      onChange={(e) => {
-                        setPopupName(e.target.value);
-                        if (popupErrors.name) {
-                          setPopupErrors((prev) => {
-                            const next = { ...prev };
-                            delete next.name;
-                            return next;
-                          });
-                        }
-                      }}
-                      className="w-full bg-black/30 border border-[#C69A57]/20 rounded-lg px-4 py-3 text-white placeholder:text-white/30 focus:ring-2 focus:ring-[#C69A57] focus:border-[#C69A57] outline-none touch-manipulation transition-all"
-                    />
-                    <AnimatePresence>
-                      {popupErrors.name && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -5 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -5 }}
-                          className="absolute z-[110] left-4 top-[calc(100%+8px)] bg-[#141414] border border-[#C69A57] text-white rounded-xl px-4 py-3 text-xs shadow-[0_15px_35px_rgba(0,0,0,0.8)] flex items-center gap-2 min-w-[200px]"
-                        >
-                          <div className="absolute -top-1.5 left-6 w-3 h-3 bg-[#141414] border-t border-l border-[#C69A57] transform rotate-45" />
-                          <AlertCircle className="h-4 w-4 text-[#E3C98B] shrink-0" />
-                          <span className="font-light tracking-wide text-white/90">{popupErrors.name}</span>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                  <div className="relative">
-                    <input
-                      type="tel"
-                      placeholder="Phone Number"
-                      inputMode="numeric"
-                      pattern="[0-9]{10}"
-                      maxLength={10}
-                      value={popupPhone}
-                      onKeyPress={(e) => {
-                        if (!/[0-9]/.test(e.key)) {
-                          e.preventDefault();
-                        }
-                      }}
-                      onChange={(e) => {
-                        setPopupPhone(e.target.value.replace(/[^0-9]/g, "").slice(0, 10));
-                        if (popupErrors.phone) {
-                          setPopupErrors((prev) => {
-                            const next = { ...prev };
-                            delete next.phone;
-                            return next;
-                          });
-                        }
-                      }}
-                      className="w-full bg-black/30 border border-[#C69A57]/20 rounded-lg px-4 py-3 text-white placeholder:text-white/30 focus:ring-2 focus:ring-[#C69A57] focus:border-[#C69A57] outline-none touch-manipulation transition-all"
-                    />
-                    <AnimatePresence>
-                      {popupErrors.phone && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -5 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -5 }}
-                          className="absolute z-[110] left-4 top-[calc(100%+8px)] bg-[#141414] border border-[#C69A57] text-white rounded-xl px-4 py-3 text-xs shadow-[0_15px_35px_rgba(0,0,0,0.8)] flex items-center gap-2 min-w-[200px]"
-                        >
-                          <div className="absolute -top-1.5 left-6 w-3 h-3 bg-[#141414] border-t border-l border-[#C69A57] transform rotate-45" />
-                          <AlertCircle className="h-4 w-4 text-[#E3C98B] shrink-0" />
-                          <span className="font-light tracking-wide text-white/90">{popupErrors.phone}</span>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                  <div className="relative">
-                    <input
-                      type="email"
-                      placeholder="Email Address"
-                      value={popupEmail}
-                      onChange={(e) => {
-                        setPopupEmail(e.target.value);
-                        if (popupErrors.email) {
-                          setPopupErrors((prev) => {
-                            const next = { ...prev };
-                            delete next.email;
-                            return next;
-                          });
-                        }
-                      }}
-                      className="w-full bg-black/30 border border-[#C69A57]/20 rounded-lg px-4 py-3 text-white placeholder:text-white/30 focus:ring-2 focus:ring-[#C69A57] focus:border-[#C69A57] outline-none touch-manipulation transition-all"
-                    />
-                    <AnimatePresence>
-                      {popupErrors.email && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -5 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -5 }}
-                          className="absolute z-[110] left-4 top-[calc(100%+8px)] bg-[#141414] border border-[#C69A57] text-white rounded-xl px-4 py-3 text-xs shadow-[0_15px_35px_rgba(0,0,0,0.8)] flex items-center gap-2 min-w-[200px]"
-                        >
-                          <div className="absolute -top-1.5 left-6 w-3 h-3 bg-[#141414] border-t border-l border-[#C69A57] transform rotate-45" />
-                          <AlertCircle className="h-4 w-4 text-[#E3C98B] shrink-0" />
-                          <span className="font-light tracking-wide text-white/90">{popupErrors.email}</span>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                  <button disabled={popupStatus === "submitting"} className="w-full bg-gradient-to-r from-[#C69A57] via-[#D4A865] to-[#C69A57] text-black font-bold py-3 rounded-lg hover:shadow-[0_0_25px_-5px_rgba(227,201,139,0.5)] transition-all duration-300 touch-manipulation disabled:opacity-70">
-                    {popupStatus === "submitting" ? "Submitting..." : "Get Details"}
-                  </button>
-                  {popupStatus === "error" && (
-                    <p className="text-center text-xs text-red-500 mt-2">
-                      Something went wrong. Please try again.
-                    </p>
-                  )}
-                </form>
-              )}
-
-              {/* Trust indicator */}
-              <p className="text-center text-[10px] text-white/40 mt-4">
-                🔒 Your information is secure with us
-              </p>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+  return (
+    <main className="relative min-h-screen bg-background overflow-x-hidden hide-scrollbar">
+      <Nav onEnquireClick={handleEnquireClick} />
+      <Hero />
+      {showBelowFold && <LandingBelowFold />}
 
       {/* Floating WhatsApp Button */}
       <a
@@ -2361,7 +2208,7 @@ function PlinthLanding() {
         aria-label="Chat on WhatsApp"
       >
         <WhatsAppIcon className="h-7 w-7 text-white" />
-        <span className="absolute right-16 bg-black/80 text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none backdrop-blur-sm border border-white/10">
+        <span className="absolute right-16 bg-black/80 text-white text-xs px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none  border border-white/10">
           Chat with us
         </span>
       </a>

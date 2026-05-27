@@ -136,6 +136,17 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
@@ -157,9 +168,21 @@
 }
 
 /* Global Scrollbar Hiding (Outside layers for production compatibility) */
-html, body {
+html,
+body {
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
+}
+
+/* backdrop-blur is very expensive; use sparingly on low-end devices */
+@media (max-width: 1024px) {
+  .backdrop-blur,
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-xl {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
 }
 
 html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {

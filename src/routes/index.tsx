@@ -64,7 +64,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Invest in Plinth â€” Ahmedabad's most prestigious G+38 storey commercial landmark on Sindhu Bhavan Road. Office spaces from 900 sq.ft & showrooms from 2700 sq.ft. 15â€“18% expected annual ROI. Starting â‚¹65 Lakhs.",
+          "Invest in Plinth — Ahmedabad's most prestigious G+38 storey commercial landmark on Sindhu Bhavan Road. Office spaces from 1265 sq.ft & showrooms from 2700 sq.ft. 15–18% expected annual ROI. Starting ₹91 Lakhs.",
       },
       {
         name: "keywords",
@@ -78,7 +78,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "G+38 landmark commercial tower. Offices from â‚¹65L, 15â€“18% expected annual ROI, IGBC green certified. Book your site visit today.",
+          "G+38 landmark commercial tower. Offices from ₹91L, 15–18% expected annual ROI, IGBC green certified. Book your site visit today.",
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "/favicon.png" },
@@ -302,8 +302,8 @@ const Hero = memo(function Hero() {
           {/* 3 Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 lg:max-w-[480px]">
             {[
-              { icon: TrendingUp, label: "STARTING", v: "â‚¹65 Lakhs" },
-              { icon: Building2, label: "OFFICE FROM", v: "900 Sq.ft" },
+              { icon: TrendingUp, label: "STARTING", v: "₹91 Lakhs" },
+              { icon: Building2, label: "OFFICE FROM", v: "1265 Sq.ft" },
               { icon: Store, label: "SHOWROOM FROM", v: "2700 Sq.ft" },
             ].map(({ icon: Icon, label, v }) => (
               <div
@@ -665,9 +665,9 @@ function Spaces() {
       imgs: [office, plinthOffice, listing1],
       size: "1265",
       unit: "Sq.ft",
-      title: "Starting â‚¹91 Lakhs",
+      title: "Starting ₹91 Lakhs",
       features: [
-        "18 offices per floorÂ· customizable layouts",
+        "18 offices per floor · customizable layouts",
         "11.5 ft ceilings, floor-to-ceiling glass",
         "Dedicated high-speed elevators",
         "Central air-conditioning",
@@ -1973,14 +1973,17 @@ function NavbarEnquiryForm() {
 
 function SiteFooter() {
   const navLinks = [
-    "ROI & Returns",
-    "Project Highlights",
-    "Space Options",
-    "Amenities",
-    "Location",
-    "Contact",
+    { name: "ROI & Returns", href: "#roi" },
+    { name: "Project Highlights", href: "#highlights" },
+    { name: "Space Options", href: "#spaces" },
+    { name: "Amenities", href: "#amenities" },
+    { name: "Location", href: "#location" },
+    { name: "Contact", href: "#contact" },
   ];
-  const socials = [Instagram, Facebook, Linkedin, Youtube];
+  const socials = [
+    { Icon: Instagram, href: "https://www.instagram.com/plinth.reality/", label: "Instagram" },
+    { Icon: Facebook, href: "#", label: "Facebook" },
+  ];
   return (
     <footer className="relative border-t border-[oklch(0.65_0.10_70/0.18)] pt-10 sm:pt-12 pb-10 sm:pb-12 overflow-hidden">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_20%_30%,oklch(0.78_0.13_75/0.08),transparent_60%)]" />
@@ -1999,12 +2002,14 @@ function SiteFooter() {
               4-level basement parking in Ahmedabad's most prestigious business corridor.
             </p>
             <div className="mt-6 sm:mt-8 flex items-center justify-center sm:justify-start gap-3">
-              {socials.map((Icon, i) => (
+              {socials.map(({ Icon, href, label }) => (
                 <a
-                  key={i}
-                  href="#"
+                  key={label}
+                  href={href}
+                  target={href !== "#" ? "_blank" : undefined}
+                  rel={href !== "#" ? "noopener noreferrer" : undefined}
                   className="h-10 w-10 rounded-full border border-[oklch(0.65_0.10_70/0.24)] bg-background/10  flex items-center justify-center hover:border-[oklch(0.78_0.13_75/0.55)] hover:bg-[oklch(0.78_0.13_75/0.06)] transition"
-                  aria-label="Social link"
+                  aria-label={label}
                 >
                   <Icon className="h-4 w-4 text-[#E3C98B]" />
                 </a>
@@ -2017,10 +2022,10 @@ function SiteFooter() {
               NAVIGATE
             </div>
             <ul className="space-y-4 sm:space-y-5 text-sm text-foreground/80">
-              {navLinks.map((l) => (
-                <li key={l}>
-                  <a href="#" className="hover:text-[#E3C98B] transition">
-                    {l}
+              {navLinks.map((link) => (
+                <li key={link.name}>
+                  <a href={link.href} className="hover:text-[#E3C98B] transition">
+                    {link.name}
                   </a>
                 </li>
               ))}

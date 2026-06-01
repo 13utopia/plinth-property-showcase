@@ -1638,12 +1638,12 @@ function EnquiryForm() {
                       <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.6; margin-bottom: 2rem; max-width: 400px; font-size: 0.95rem;">
                         Your inquiry has been received. Our investment advisor will get in touch with you shortly.
                       </p>
-                      <a href="/brouchure.pdf" download="Plinth_Brochure.pdf" target="_blank" class="submit-btn" style="width: auto; padding: 0.75rem 2.5rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; border-radius: 9999px;">
+                      <button onclick="window.parent.postMessage('open-brochure-modal', '*')" class="submit-btn" style="width: auto; padding: 0.75rem 2.5rem; border: none; display: inline-flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; border-radius: 9999px; cursor: pointer; color: #000000; font-family: 'Manrope', sans-serif; font-size: 0.85rem; font-weight: 600;">
                         <svg style="height: 1.2rem; width: 1.2rem; color: #000000;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                         </svg>
                         Download Brochure
-                      </a>
+                      </button>
                       <button onclick="window.location.reload()" class="submit-btn" style="width: auto; padding: 0.75rem 2rem; border-radius: 9999px; background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: none; font-size: 0.8rem; text-transform: none; letter-spacing: normal;">
                         Submit Another Enquiry
                       </button>
@@ -2150,12 +2150,12 @@ function NavbarEnquiryForm() {
                       <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.6; margin-bottom: 2rem; max-width: 400px; font-size: 0.95rem;">
                         Your inquiry has been received. Our investment advisor will get in touch with you shortly.
                       </p>
-                      <a href="/brouchure.pdf" download="Plinth_Brochure.pdf" target="_blank" class="submit-btn" style="width: auto; padding: 0.75rem 2.5rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; border-radius: 9999px;">
+                      <button onclick="window.parent.postMessage('open-brochure-modal', '*')" class="submit-btn" style="width: auto; padding: 0.75rem 2.5rem; border: none; display: inline-flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; border-radius: 9999px; cursor: pointer; color: #000000; font-family: 'Manrope', sans-serif; font-size: 0.85rem; font-weight: 600;">
                         <svg style="height: 1.2rem; width: 1.2rem; color: #000000;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                           <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                         </svg>
                         Download Brochure
-                      </a>
+                      </button>
                       <button onclick="window.location.reload()" class="submit-btn" style="width: auto; padding: 0.75rem 2rem; border-radius: 9999px; background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: none; font-size: 0.8rem; text-transform: none; letter-spacing: normal;">
                         Submit Another Enquiry
                       </button>
@@ -2647,11 +2647,16 @@ function PlinthLanding() {
     const handleMessage = (event: MessageEvent) => {
       if (event.data === "close-brochure-modal") {
         setIsBrochureModalOpen(false);
+      } else if (event.data === "open-brochure-modal") {
+        setIsModalOpen(false);
+        setIsBrochureModalOpen(true);
+        setHasTriggeredScroll(true);
+        setShowBelowFold(true);
       }
     };
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
-  }, []);
+  }, [setIsModalOpen, setIsBrochureModalOpen, setHasTriggeredScroll, setShowBelowFold]);
 
   useEffect(() => {
     if (showBelowFold) return;

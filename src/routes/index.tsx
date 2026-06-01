@@ -229,7 +229,7 @@ function Nav({ onEnquireClick }: { onEnquireClick?: () => void }) {
 
 /* ---------- 2. HERO ---------- */
 
-const Hero = memo(function Hero() {
+const Hero = memo(function Hero({ onBrochureClick }: { onBrochureClick?: () => void }) {
   return (
     <section id="home" className="relative overflow-hidden pt-16 pb-14 lg:pt-24 lg:pb-14">
       {/* radial gold glows */}
@@ -281,21 +281,14 @@ const Hero = memo(function Hero() {
 
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mb-10">
-            <a
-              href="/brouchure.pdf"
-              download="Plinth-Brochure.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+            <PremiumButton
+              onClick={onBrochureClick}
               className="w-full sm:w-auto"
+              innerClassName="w-full px-8 py-4 text-[13px] gap-3"
             >
-              <PremiumButton
-                className="w-full sm:w-auto"
-                innerClassName="w-full px-8 py-4 text-[13px] gap-3"
-              >
-                Download Brochure
-                <Download className="h-3.5 w-3.5" />
-              </PremiumButton>
-            </a>
+              Download Brochure
+              <Download className="h-3.5 w-3.5" />
+            </PremiumButton>
             <a
               href="tel:+919898709370"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full px-7 py-4 text-[13px] font-medium text-white/90 border border-white/20 bg-transparent hover:border-white/40 transition duration-300"
@@ -1171,7 +1164,7 @@ function DeveloperLegacy() {
 
 /* ---------- INVESTMENT OPPORTUNITY CTA ---------- */
 
-function InvestmentCTA() {
+function InvestmentCTA({ onBrochureClick }: { onBrochureClick?: () => void }) {
   return (
     <section className="py-14 lg:py-12 relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_60%_at_50%_50%,oklch(0.78_0.13_75/0.12),transparent_70%)] pointer-events-none" />
@@ -1204,15 +1197,13 @@ function InvestmentCTA() {
               <Calendar className="h-4 w-4" /> Book Site Visit
             </PremiumButton>
           </a>
-          <a
-            href="/brouchure.pdf"
-            download="Plinth_Brochure.pdf"
-            className="w-full sm:w-auto rounded-full px-8 py-4 border border-[oklch(0.65_0.10_70/0.30)] bg-background/10 text-foreground/90 font-medium flex items-center justify-center gap-3 hover:border-[oklch(0.78_0.13_75/0.55)] transition no-underline"
-            style={{ textDecoration: 'none' }}
+          <button
+            onClick={onBrochureClick}
+            className="w-full sm:w-auto rounded-full px-8 py-4 border border-[oklch(0.65_0.10_70/0.30)] bg-background/10 text-foreground/90 font-medium flex items-center justify-center gap-3 hover:border-[oklch(0.78_0.13_75/0.55)] transition cursor-pointer"
           >
             <Download className="h-4 w-4 text-[#E3C98B]" /> Download Brochure{" "}
             <ArrowRight className="h-4 w-4 text-[#E3C98B]" />
-          </a>
+          </button>
         </div>
         <div className="mt-10 text-[10px] tracking-[0.30em] text-foreground/60">
           SINDHU BHAVAN ROAD <span className="text-[#E3C98B]">·</span> AHMEDABAD{" "}
@@ -1567,7 +1558,7 @@ function EnquiryForm() {
             <div class="divider"></div>
 
             <p class="disclaimer">
-              By submitting, you agree to receive project details via phone, WhatsApp &amp; email.
+              By submitting, you agree to receive project details via email.
             </p>
             <button id="submit-btn" type="submit" class="submit-btn">
               Get Complete Investment Details →
@@ -2079,7 +2070,7 @@ function NavbarEnquiryForm() {
             <div class="divider"></div>
 
             <p class="disclaimer">
-              By submitting, you agree to receive project details via phone, WhatsApp &amp; email.
+              By submitting, you agree to receive project details via email.
             </p>
             <button id="submit-btn" type="submit" class="submit-btn">
               Get Complete Investment Details →
@@ -2372,7 +2363,260 @@ function EnquiryModal({ onClose }: { onClose: () => void }) {
   );
 }
 
-function LandingBelowFold() {
+function BrochureModal({ onClose }: { onClose: () => void }) {
+  const rawServiceId = (import.meta.env.VITE_EMAILJS_BROCHURE_SERVICE_ID || import.meta.env.VITE_EMAILJS_SERVICE_ID || "").trim();
+  const rawTemplateId = (import.meta.env.VITE_EMAILJS_BROCHURE_TEMPLATE_ID || import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "").trim();
+  const rawPublicKey = (import.meta.env.VITE_EMAILJS_BROCHURE_PUBLIC_KEY || import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "").trim();
+
+  const serviceId = rawServiceId && rawServiceId !== "your_service_id" && rawServiceId !== "your_brochure_service_id" ? rawServiceId : "service_74f661d";
+  const templateId = rawTemplateId && rawTemplateId !== "your_template_id" && rawTemplateId !== "your_brochure_template_id" ? rawTemplateId : "template_a2596on";
+  const publicKey = rawPublicKey && rawPublicKey !== "your_public_key" && rawPublicKey !== "your_brochure_public_key" ? rawPublicKey : "63d0_DVu3zixdIdYV";
+
+  const brochureIframeSrcDoc = `
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+        <style>
+          body {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            font-family: 'Manrope', 'Inter', sans-serif;
+            color: #ffffff;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+          }
+          .form-container {
+            position: relative;
+            width: 100%;
+            border-radius: 1.5rem; /* 24px */
+            background: #0d0b08;
+            padding: 1rem;
+            box-sizing: border-box;
+          }
+          .badge-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+          }
+          .badge-text {
+            font-size: 0.7rem;
+            letter-spacing: 0.25em;
+            color: #E3C98B;
+            font-weight: 500;
+            text-transform: uppercase;
+          }
+          .title {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.65rem; /* 26px */
+            color: #ffffff;
+            margin: 0 0 1.25rem 0;
+            font-weight: 400;
+            line-height: 1.25;
+            text-transform: uppercase;
+          }
+          .input-group {
+            position: relative;
+            margin-bottom: 1.15rem;
+          }
+          .label {
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.5rem;
+          }
+          .input-field {
+            width: 100%;
+            border-radius: 0.75rem; /* 12px */
+            border: 1px solid #2e2a24;
+            background-color: #0d0b09;
+            padding: 0.875rem 1rem;
+            color: #ffffff;
+            font-size: 0.9rem;
+            outline: none;
+            box-sizing: border-box;
+            font-family: 'Manrope', sans-serif;
+            height: 3.25rem;
+            transition: border-color 0.2s;
+          }
+          .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+          }
+          .input-field:focus {
+            border-color: #C69A57;
+          }
+          .submit-btn {
+            width: 100%;
+            border-radius: 9999px;
+            border: none;
+            background: linear-gradient(90deg, #E3C98B, #D4A865, #C69A57);
+            color: #000000;
+            font-family: 'Manrope', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 1rem;
+            cursor: pointer;
+            box-shadow: 0 20px 40px -15px rgba(227, 201, 139, 0.35);
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+          }
+          .submit-btn:hover {
+            box-shadow: 0 25px 45px -10px rgba(227, 201, 139, 0.5);
+            transform: translateY(-1px);
+          }
+          .submit-btn:active {
+            transform: translateY(1px);
+          }
+          .submit-btn:disabled {
+            background: #2e2a24;
+            color: rgba(255, 255, 255, 0.3);
+            cursor: not-allowed;
+            box-shadow: none;
+          }
+          .disclaimer {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.35);
+            line-height: 1.5;
+            margin: 1.25rem 0;
+            font-weight: 300;
+          }
+          .text-center {
+            text-align: center;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="form-container">
+          <form id="brochure-form">
+            <input type="hidden" name="user_phone" value="N/A (Brochure Request)" />
+            <input type="hidden" name="budget" value="N/A (Brochure Request)" />
+            <input type="hidden" name="purpose" value="Brochure Download Request" />
+            
+            <div class="badge-row">
+              <span style="height: 6px; width: 6px; border-radius: 9999px; background: #E3C98B;"></span>
+              <span class="badge-text">Exclusive Access</span>
+            </div>
+            
+            <h3 class="title">FILL THE FORM FOR BROCHURE</h3>
+            
+            <div class="input-group">
+              <label class="label">Full Name</label>
+              <input type="text" name="user_name" class="input-field" placeholder="Enter your name" required autocomplete="name" />
+            </div>
+            
+            <div class="input-group">
+              <label class="label">Email Address</label>
+              <input type="email" name="user_email" class="input-field" placeholder="name@example.com" required autocomplete="email" />
+            </div>
+            
+            <p class="disclaimer">
+              By submitting, you agree to receive project details via email.
+            </p>
+            
+            <button id="submit-btn" type="submit" class="submit-btn">
+              Send Brochure to Email →
+            </button>
+          </form>
+        </div>
+
+        <script>
+          (function() {
+            emailjs.init({
+              publicKey: "${publicKey}"
+            });
+          })();
+
+          document.getElementById("brochure-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const btn = document.getElementById("submit-btn");
+            btn.disabled = true;
+            btn.innerHTML = "Submitting...";
+
+            emailjs.sendForm("${serviceId}", "${templateId}", this)
+              .then(function() {
+                // Show success view (no direct download, only email message)
+                document.body.innerHTML = \`
+                  <div class="form-container text-center" style="padding: 2.5rem 1.25rem;">
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                      <div style="height: 4rem; width: 4rem; border-radius: 9999px; background: #D4A865; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; box-shadow: 0 10px 25px rgba(212, 168, 101, 0.2);">
+                        <svg style="height: 2rem; width: 2rem; color: #000000;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <h3 class="title" style="font-size: 1.75rem; margin-bottom: 0.75rem;">
+                        Thank You!
+                      </h3>
+                      <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.6; margin-bottom: 2rem; max-width: 400px; font-size: 0.9rem;">
+                        We have sent an email with the download link for the brochure to your email address. Please check your inbox (and spam folder) shortly.
+                      </p>
+                      <button onclick="window.parent.postMessage('close-brochure-modal', '*')" class="submit-btn" style="width: auto; padding: 0.75rem 2.5rem; border-radius: 9999px; text-decoration: none; display: inline-flex; align-items: center; color: #000000;">
+                        Okay, Got It
+                      </button>
+                    </div>
+                  </div>
+                \`;
+              }, function(error) {
+                console.error("FAILED...", error);
+                const errMsg = error && (error.text || error.message) ? (error.text || error.message) : "Please verify your .env file credentials and restart your dev server.";
+                alert("Failed to process request: " + errMsg);
+                btn.disabled = false;
+                btn.innerHTML = "Send Brochure to Email →";
+              });
+          });
+        </script>
+      </body>
+    </html>
+  `;
+
+  return (
+    <div
+      className="fixed inset-0 z-[220] flex items-center justify-center p-4 sm:p-6 animate-fade-in"
+      role="dialog"
+      aria-modal="true"
+    >
+      {/* Backdrop */}
+      <button
+        type="button"
+        aria-label="Close dialog"
+        className="absolute inset-0 bg-black/85 backdrop-blur-md transition-opacity duration-300"
+        onClick={onClose}
+      />
+
+      {/* Modal Content */}
+      <div className="relative z-10 w-full max-w-md rounded-3xl border border-[#C69A57]/30 bg-[#0d0b08] p-2 sm:p-4 shadow-[0_50px_160px_-120px_oklch(0.78_0.13_75/0.85)] overflow-hidden">
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute right-4 top-4 z-20 rounded-full border border-white/10 bg-white/5 p-2 text-white/80 hover:text-white hover:bg-white/10 transition duration-200"
+          aria-label="Close"
+        >
+          <X className="h-4 w-4" />
+        </button>
+
+        <iframe
+          srcDoc={brochureIframeSrcDoc}
+          className="w-full h-[410px] border-0 overflow-hidden hide-scrollbar bg-transparent"
+          scrolling="no"
+          title="Download Brochure Form"
+        />
+      </div>
+    </div>
+  );
+}
+
+function LandingBelowFold({ onBrochureClick }: { onBrochureClick?: () => void }) {
   return (
     <>
       <ROISection />
@@ -2382,7 +2626,7 @@ function LandingBelowFold() {
       <Amenities />
       <Location />
       <DeveloperLegacy />
-      <InvestmentCTA />
+      <InvestmentCTA onBrochureClick={onBrochureClick} />
       <EnquireNow />
       <SiteFooter />
     </>
@@ -2392,12 +2636,21 @@ function LandingBelowFold() {
 function PlinthLanding() {
   const [showBelowFold, setShowBelowFold] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isBrochureModalOpen, setIsBrochureModalOpen] = useState(false);
   const [hasTriggeredScroll, setHasTriggeredScroll] = useState(false);
 
   useEffect(() => {
     if ("scrollRestoration" in history) {
       history.scrollRestoration = "manual";
     }
+
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data === "close-brochure-modal") {
+        setIsBrochureModalOpen(false);
+      }
+    };
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
   }, []);
 
   useEffect(() => {
@@ -2424,6 +2677,7 @@ function PlinthLanding() {
   useEffect(() => {
     const handleScroll = () => {
       if (hasTriggeredScroll) return;
+      if (isBrochureModalOpen || isModalOpen) return;
 
       // Show popup when user scrolls past 150px
       if (window.scrollY > 150) {
@@ -2437,10 +2691,32 @@ function PlinthLanding() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasTriggeredScroll]);
+  }, [hasTriggeredScroll, isBrochureModalOpen, isModalOpen]);
+
+  // Lock body scrolling when a modal is active
+  useEffect(() => {
+    if (isModalOpen || isBrochureModalOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isModalOpen, isBrochureModalOpen]);
 
   const handleEnquireClick = useCallback(() => {
+    setIsBrochureModalOpen(false);
     setIsModalOpen(true);
+    setHasTriggeredScroll(true); // Disable scroll-based popups once engaged
+    // Ensure below-fold content is rendered
+    setShowBelowFold(true);
+  }, []);
+
+  const handleBrochureClick = useCallback(() => {
+    setIsModalOpen(false);
+    setIsBrochureModalOpen(true);
+    setHasTriggeredScroll(true); // Disable scroll-based popups once engaged
     // Ensure below-fold content is rendered
     setShowBelowFold(true);
   }, []);
@@ -2448,8 +2724,8 @@ function PlinthLanding() {
   return (
     <main className="relative min-h-screen bg-background overflow-x-hidden hide-scrollbar">
       <Nav onEnquireClick={handleEnquireClick} />
-      <Hero />
-      {showBelowFold && <LandingBelowFold />}
+      <Hero onBrochureClick={handleBrochureClick} />
+      {showBelowFold && <LandingBelowFold onBrochureClick={handleBrochureClick} />}
 
       {/* Floating WhatsApp Button */}
       <a
@@ -2466,6 +2742,7 @@ function PlinthLanding() {
       </a>
 
       {isModalOpen && <EnquiryModal onClose={() => setIsModalOpen(false)} />}
+      {isBrochureModalOpen && <BrochureModal onClose={() => setIsBrochureModalOpen(false)} />}
     </main>
   );
 }

@@ -165,17 +165,6 @@ function Nav({ onEnquireClick }: { onEnquireClick?: () => void }) {
   const handleEnquireClick = () => {
     setIsMobileMenuOpen(false);
     onEnquireClick?.();
-    // Scroll to the Enquire Now section
-    const scrollToContact = () => {
-      const contactSection = document.getElementById("contact");
-      if (contactSection) {
-        contactSection.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    };
-    // Small delay to ensure below-fold content is rendered
-    requestAnimationFrame(() => {
-      requestAnimationFrame(scrollToContact);
-    });
   };
 
   return (
@@ -1543,7 +1532,13 @@ function EnquiryForm() {
                       <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.6; margin-bottom: 2rem; max-width: 400px; font-size: 0.95rem;">
                         Your inquiry has been received. Our investment advisor will get in touch with you shortly.
                       </p>
-                      <button onclick="window.location.reload()" class="submit-btn" style="width: auto; padding: 0.75rem 2rem; border-radius: 9999px; background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid #2e2a24; box-shadow: none;">
+                      <a href="/brouchure.pdf" download="Plinth_Brochure.pdf" target="_blank" class="submit-btn" style="width: auto; padding: 0.75rem 2.5rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; border-radius: 9999px;">
+                        <svg style="height: 1.2rem; width: 1.2rem; color: #000000;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Download Brochure
+                      </a>
+                      <button onclick="window.location.reload()" class="submit-btn" style="width: auto; padding: 0.75rem 2rem; border-radius: 9999px; background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: none; font-size: 0.8rem; text-transform: none; letter-spacing: normal;">
                         Submit Another Enquiry
                       </button>
                     </div>
@@ -1940,7 +1935,13 @@ function NavbarEnquiryForm() {
                       <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.6; margin-bottom: 2rem; max-width: 400px; font-size: 0.95rem;">
                         Your inquiry has been received. Our investment advisor will get in touch with you shortly.
                       </p>
-                      <button onclick="window.location.reload()" class="submit-btn" style="width: auto; padding: 0.75rem 2rem; border-radius: 9999px; background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid #2e2a24; box-shadow: none;">
+                      <a href="/brouchure.pdf" download="Plinth_Brochure.pdf" target="_blank" class="submit-btn" style="width: auto; padding: 0.75rem 2.5rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; border-radius: 9999px;">
+                        <svg style="height: 1.2rem; width: 1.2rem; color: #000000;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Download Brochure
+                      </a>
+                      <button onclick="window.location.reload()" class="submit-btn" style="width: auto; padding: 0.75rem 2rem; border-radius: 9999px; background: rgba(255, 255, 255, 0.05); color: rgba(255, 255, 255, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: none; font-size: 0.8rem; text-transform: none; letter-spacing: normal;">
                         Submit Another Enquiry
                       </button>
                     </div>
@@ -2161,6 +2162,8 @@ function LandingBelowFold() {
 
 function PlinthLanding() {
   const [showBelowFold, setShowBelowFold] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hasTriggeredScroll, setHasTriggeredScroll] = useState(false);
 
   useEffect(() => {
     if ("scrollRestoration" in history) {
@@ -2188,8 +2191,28 @@ function PlinthLanding() {
     };
   }, [showBelowFold]);
 
+  // Scroll-based popup trigger
+  useEffect(() => {
+    const handleScroll = () => {
+      if (hasTriggeredScroll) return;
+
+      // Show popup when user scrolls past 150px
+      if (window.scrollY > 150) {
+        setIsModalOpen(true);
+        setHasTriggeredScroll(true);
+      }
+    };
+
+    // Check on mount in case the page was reloaded already scrolled down
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasTriggeredScroll]);
+
   const handleEnquireClick = useCallback(() => {
-    // Ensure below-fold content is rendered before scrolling
+    setIsModalOpen(true);
+    // Ensure below-fold content is rendered
     setShowBelowFold(true);
   }, []);
 
@@ -2212,6 +2235,8 @@ function PlinthLanding() {
           Chat with us
         </span>
       </a>
+
+      {isModalOpen && <EnquiryModal onClose={() => setIsModalOpen(false)} />}
     </main>
   );
 }

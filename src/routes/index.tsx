@@ -73,7 +73,7 @@ export const Route = createFileRoute("/")({
       },
       {
         property: "og:title",
-        content: "Plinth | Premium Commercial Property â€” Sindhu Bhavan Road, Ahmedabad",
+        content: "Plinth | Premium Commercial Property — Sindhu Bhavan Road, Ahmedabad",
       },
       {
         property: "og:description",
@@ -83,11 +83,11 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
       { property: "og:image", content: "/favicon.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Plinth | Premium Commercial Space â€” Ahmedabad" },
+      { name: "twitter:title", content: "Plinth | Premium Commercial Space — Ahmedabad" },
       {
         name: "twitter:description",
         content:
-          "G+38 landmark on Sindhu Bhavan Road. Office & showroom spaces with 15â€“18% annual ROI.",
+          "G+38 landmark on Sindhu Bhavan Road. Office & showroom spaces with 15-18% annual ROI.",
       },
       { name: "twitter:image", content: "/favicon.png" },
       { name: "robots", content: "index, follow" },
@@ -253,7 +253,7 @@ const Hero = memo(function Hero() {
           <div className="lg:mt-[-80px] inline-flex items-center gap-2 rounded-full border border-[#E3C98B]/30 bg-[#0A0A0A]/60  px-4 py-2 mb-8">
             <span className="h-1.5 w-1.5 rounded-full bg-[#E3C98B]" />
             <span className="text-[11px] tracking-[0.2em] text-white/70 font-medium">
-              NOW LAUNCHING <span className="mx-1 text-[#E3C98B]/50">Â·</span>{" "}
+              NOW LAUNCHING <span className="mx-1 text-[#E3C98B]/50">·</span>{" "}
               <span className="font-semibold text-[12px] text-white tracking-[0.1em]">
                 SINDHU BHAVAN ROAD
               </span>
@@ -1209,8 +1209,8 @@ function InvestmentCTA() {
           </a>
         </div>
         <div className="mt-10 text-[10px] tracking-[0.30em] text-foreground/60">
-          SINDHU BHAVAN ROAD <span className="text-[#E3C98B]">Â·</span> AHMEDABAD{" "}
-          <span className="text-[#E3C98B]">Â·</span> 380054
+          SINDHU BHAVAN ROAD <span className="text-[#E3C98B]">·</span> AHMEDABAD{" "}
+          <span className="text-[#E3C98B]">·</span> 380054
         </div>
       </div>
     </section>
@@ -1338,12 +1338,80 @@ function EnquiryForm() {
           .input-field:focus {
             border-color: #C69A57;
           }
-          select.input-field {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23C69A57'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 1.25rem center;
-            background-size: 1.25rem;
+          .custom-dropdown {
+            position: relative;
+            width: 100%;
+          }
+          .dropdown-trigger {
+            width: 100%;
+            border-radius: 0.75rem; /* 12px */
+            border: 1px solid #2e2a24;
+            background-color: #0d0b09;
+            padding: 0.875rem 1.25rem;
+            color: #ffffff;
+            font-size: 0.9rem;
+            outline: none;
+            box-sizing: border-box;
+            font-family: 'Manrope', sans-serif;
+            height: 3.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+          }
+          .dropdown-trigger:focus {
+            border-color: #C69A57;
+          }
+          .dropdown-arrow {
+            height: 1.25rem;
+            width: 1.25rem;
+            transition: transform 0.3s ease;
+          }
+          .custom-dropdown.open .dropdown-arrow {
+            transform: rotate(180deg);
+          }
+          .custom-dropdown.open .dropdown-trigger {
+            border-color: #C69A57;
+          }
+          .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            left: 0;
+            width: 100%;
+            background-color: #0f0d0b;
+            border: 1px solid #C69A57;
+            border-radius: 0.75rem;
+            z-index: 100;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+          }
+          .custom-dropdown.open .dropdown-menu {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+          }
+          .dropdown-item {
+            padding: 0.875rem 1.25rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            cursor: pointer;
+            font-family: 'Manrope', sans-serif;
+            transition: all 0.2s ease;
+          }
+          .dropdown-item:hover {
+            background-color: rgba(198, 154, 87, 0.1);
+            color: #E3C98B;
+          }
+          .dropdown-item.active {
+            background-color: rgba(198, 154, 87, 0.2);
+            color: #E3C98B;
+            font-weight: 600;
           }
           .purpose-container {
             display: grid;
@@ -1465,11 +1533,20 @@ function EnquiryForm() {
               </div>
               <div class="input-group">
                 <label class="label">BUDGET RANGE</label>
-                <select name="budget" class="input-field">
-                  <option value="₹65 L - ₹1 Cr">₹65 L - ₹1 Cr</option>
-                  <option value="₹1 Cr - ₹2 Cr">₹1 Cr - ₹2 Cr</option>
-                  <option value="₹2 Cr +">₹2 Cr +</option>
-                </select>
+                <input type="hidden" name="budget" id="budget-input" value="90 Lacs - 1.1 Cr" />
+                <div class="custom-dropdown" id="budget-dropdown">
+                  <button type="button" class="dropdown-trigger" onclick="toggleDropdown(event)">
+                    <span id="dropdown-selected">90 Lacs - 1.1 Cr</span>
+                    <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="#C69A57" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  <div class="dropdown-menu" id="dropdown-menu">
+                    <div class="dropdown-item active" onclick="selectOption('90 Lacs - 1.1 Cr', event)">90 Lacs - 1.1 Cr</div>
+                    <div class="dropdown-item" onclick="selectOption('1.1 Cr - 1.5 Cr', event)">1.1 Cr - 1.5 Cr</div>
+                    <div class="dropdown-item" onclick="selectOption('1.5 Cr+', event)">1.5 Cr+</div>
+                  </div>
+                </div>
               </div>
               <div class="input-group full-width">
                 <label class="label">PURPOSE</label>
@@ -1509,6 +1586,38 @@ function EnquiryForm() {
               document.getElementById('purpose-investor').classList.remove('active');
             }
           }
+
+          function toggleDropdown(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('budget-dropdown');
+            dropdown.classList.toggle('open');
+          }
+          
+          function selectOption(val, e) {
+            e.stopPropagation();
+            document.getElementById('budget-input').value = val;
+            document.getElementById('dropdown-selected').innerText = val;
+            
+            const menu = document.getElementById('dropdown-menu');
+            const items = menu.getElementsByClassName('dropdown-item');
+            for (let item of items) {
+              if (item.innerText === val) {
+                item.classList.add('active');
+              } else {
+                item.classList.remove('active');
+              }
+            }
+            
+            document.getElementById('budget-dropdown').classList.remove('open');
+          }
+
+          // Close dropdown when clicking outside
+          window.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('budget-dropdown');
+            if (dropdown) {
+              dropdown.classList.remove('open');
+            }
+          });
 
           document.getElementById("enquiry-form").addEventListener("submit", function(event) {
             event.preventDefault();
@@ -1741,12 +1850,80 @@ function NavbarEnquiryForm() {
           .input-field:focus {
             border-color: #C69A57;
           }
-          select.input-field {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23C69A57'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 1.25rem center;
-            background-size: 1.25rem;
+          .custom-dropdown {
+            position: relative;
+            width: 100%;
+          }
+          .dropdown-trigger {
+            width: 100%;
+            border-radius: 0.75rem; /* 12px */
+            border: 1px solid #2e2a24;
+            background-color: #0d0b09;
+            padding: 0.875rem 1.25rem;
+            color: #ffffff;
+            font-size: 0.9rem;
+            outline: none;
+            box-sizing: border-box;
+            font-family: 'Manrope', sans-serif;
+            height: 3.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+          }
+          .dropdown-trigger:focus {
+            border-color: #C69A57;
+          }
+          .dropdown-arrow {
+            height: 1.25rem;
+            width: 1.25rem;
+            transition: transform 0.3s ease;
+          }
+          .custom-dropdown.open .dropdown-arrow {
+            transform: rotate(180deg);
+          }
+          .custom-dropdown.open .dropdown-trigger {
+            border-color: #C69A57;
+          }
+          .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            left: 0;
+            width: 100%;
+            background-color: #0f0d0b;
+            border: 1px solid #C69A57;
+            border-radius: 0.75rem;
+            z-index: 100;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+          }
+          .custom-dropdown.open .dropdown-menu {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+          }
+          .dropdown-item {
+            padding: 0.875rem 1.25rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            cursor: pointer;
+            font-family: 'Manrope', sans-serif;
+            transition: all 0.2s ease;
+          }
+          .dropdown-item:hover {
+            background-color: rgba(198, 154, 87, 0.1);
+            color: #E3C98B;
+          }
+          .dropdown-item.active {
+            background-color: rgba(198, 154, 87, 0.2);
+            color: #E3C98B;
+            font-weight: 600;
           }
           .purpose-container {
             display: grid;
@@ -1868,11 +2045,20 @@ function NavbarEnquiryForm() {
               </div>
               <div class="input-group">
                 <label class="label">BUDGET RANGE</label>
-                <select name="budget" class="input-field">
-                  <option value="₹65 L - ₹1 Cr">₹65 L - ₹1 Cr</option>
-                  <option value="₹1 Cr - ₹2 Cr">₹1 Cr - ₹2 Cr</option>
-                  <option value="₹2 Cr +">₹2 Cr +</option>
-                </select>
+                <input type="hidden" name="budget" id="budget-input" value="90 Lacs - 1.1 Cr" />
+                <div class="custom-dropdown" id="budget-dropdown">
+                  <button type="button" class="dropdown-trigger" onclick="toggleDropdown(event)">
+                    <span id="dropdown-selected">90 Lacs - 1.1 Cr</span>
+                    <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="#C69A57" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  <div class="dropdown-menu" id="dropdown-menu">
+                    <div class="dropdown-item active" onclick="selectOption('90 Lacs - 1.1 Cr', event)">90 Lacs - 1.1 Cr</div>
+                    <div class="dropdown-item" onclick="selectOption('1.1 Cr - 1.5 Cr', event)">1.1 Cr - 1.5 Cr</div>
+                    <div class="dropdown-item" onclick="selectOption('1.5 Cr+', event)">1.5 Cr+</div>
+                  </div>
+                </div>
               </div>
               <div class="input-group full-width">
                 <label class="label">PURPOSE</label>
@@ -1912,6 +2098,38 @@ function NavbarEnquiryForm() {
               document.getElementById('purpose-investor').classList.remove('active');
             }
           }
+
+          function toggleDropdown(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('budget-dropdown');
+            dropdown.classList.toggle('open');
+          }
+          
+          function selectOption(val, e) {
+            e.stopPropagation();
+            document.getElementById('budget-input').value = val;
+            document.getElementById('dropdown-selected').innerText = val;
+            
+            const menu = document.getElementById('dropdown-menu');
+            const items = menu.getElementsByClassName('dropdown-item');
+            for (let item of items) {
+              if (item.innerText === val) {
+                item.classList.add('active');
+              } else {
+                item.classList.remove('active');
+              }
+            }
+            
+            document.getElementById('budget-dropdown').classList.remove('open');
+          }
+
+          // Close dropdown when clicking outside
+          window.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('budget-dropdown');
+            if (dropdown) {
+              dropdown.classList.remove('open');
+            }
+          });
 
           document.getElementById("enquiry-form").addEventListener("submit", function(event) {
             event.preventDefault();
@@ -2080,9 +2298,9 @@ function SiteFooter() {
         </div>
 
         <div className="mt-10 sm:mt-14 pt-6 sm:pt-8 border-t border-[oklch(0.65_0.10_70/0.16)] flex flex-col md:flex-row items-center md:items-center justify-between gap-3 sm:gap-4 text-xs text-foreground/45 text-center md:text-left">
-          <span>Â© {new Date().getFullYear()} Sindhu Bhavan. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Sindhu Bhavan. All rights reserved.</span>
           <span className="flex items-center gap-1.5">
-            Â© {new Date().getFullYear()} Made with
+            © {new Date().getFullYear()} Made with
             <Heart className="h-3.5 w-3.5 text-red-500 fill-red-500 animate-pulse" />
             by{" "}
             <a

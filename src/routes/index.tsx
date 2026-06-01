@@ -281,13 +281,19 @@ const Hero = memo(function Hero() {
 
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mb-10">
-            <a href="#contact" className="w-full sm:w-auto">
+            <a
+              href="/brouchure.pdf"
+              download="Plinth-Brochure.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto"
+            >
               <PremiumButton
                 className="w-full sm:w-auto"
                 innerClassName="w-full px-8 py-4 text-[13px] gap-3"
               >
-                Get Pricing &amp; ROI Details
-                <ArrowRight className="h-3.5 w-3.5" />
+                Download Brochure
+                <Download className="h-3.5 w-3.5" />
               </PremiumButton>
             </a>
             <a

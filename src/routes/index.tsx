@@ -1479,6 +1479,8 @@ function EnquiryForm() {
       </head>
       <body class="bg-transparent antialiased">
         <form id="enquiry-form" class="form-container">
+          <input type="hidden" name="name" id="hidden-name" />
+          <input type="hidden" name="email" id="hidden-email" />
           <div class="relative-z">
             <div class="badge-row">
               <svg class="sparkle-icon" viewBox="0 0 24 24" fill="none" stroke="#E3C98B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="height: 1.25rem; width: 1.25rem;">
@@ -1618,6 +1620,11 @@ function EnquiryForm() {
 
           document.getElementById("enquiry-form").addEventListener("submit", function(event) {
             event.preventDefault();
+            
+            // Sync fallback fields to support both {{name}}/{{user_name}} and {{email}}/{{user_email}} in EmailJS
+            document.getElementById("hidden-name").value = this.elements["user_name"].value;
+            document.getElementById("hidden-email").value = this.elements["user_email"].value;
+
             const btn = document.getElementById("submit-btn");
             btn.disabled = true;
             btn.innerHTML = "Submitting...";
@@ -1991,6 +1998,8 @@ function NavbarEnquiryForm() {
       </head>
       <body class="bg-transparent antialiased">
         <form id="enquiry-form" class="form-container">
+          <input type="hidden" name="name" id="hidden-name" />
+          <input type="hidden" name="email" id="hidden-email" />
           <div class="relative-z">
             <div class="badge-row">
               <svg class="sparkle-icon" viewBox="0 0 24 24" fill="none" stroke="#E3C98B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="height: 1.25rem; width: 1.25rem;">
@@ -2130,6 +2139,11 @@ function NavbarEnquiryForm() {
 
           document.getElementById("enquiry-form").addEventListener("submit", function(event) {
             event.preventDefault();
+            
+            // Sync fallback fields to support both {{name}}/{{user_name}} and {{email}}/{{user_email}} in EmailJS
+            document.getElementById("hidden-name").value = this.elements["user_name"].value;
+            document.getElementById("hidden-email").value = this.elements["user_email"].value;
+
             const btn = document.getElementById("submit-btn");
             btn.disabled = true;
             btn.innerHTML = "Submitting...";
@@ -2503,22 +2517,24 @@ function BrochureModal({ onClose }: { onClose: () => void }) {
             <input type="hidden" name="user_phone" value="N/A (Brochure Request)" />
             <input type="hidden" name="budget" value="N/A (Brochure Request)" />
             <input type="hidden" name="purpose" value="Brochure Download Request" />
+            <input type="hidden" name="user_name" id="hidden-user-name" />
+            <input type="hidden" name="user_email" id="hidden-user-email" />
             
             <div class="badge-row">
               <span style="height: 6px; width: 6px; border-radius: 9999px; background: #E3C98B;"></span>
               <span class="badge-text">Exclusive Access</span>
             </div>
             
-            <h3 class="title">FILL THE FORM FOR BROCHURE</h3>
+            <h3 class="title">GET YOUR EXCLUSIVE BROCHURE</h3>
             
             <div class="input-group">
               <label class="label">Full Name</label>
-              <input type="text" name="user_name" class="input-field" placeholder="Enter your name" required autocomplete="name" />
+              <input type="text" name="name" class="input-field" placeholder="Enter your name" required autocomplete="name" />
             </div>
             
             <div class="input-group">
               <label class="label">Email Address</label>
-              <input type="email" name="user_email" class="input-field" placeholder="name@example.com" required autocomplete="email" />
+              <input type="email" name="email" class="input-field" placeholder="name@example.com" required autocomplete="email" />
             </div>
             
             <p class="disclaimer">
@@ -2540,6 +2556,11 @@ function BrochureModal({ onClose }: { onClose: () => void }) {
 
           document.getElementById("brochure-form").addEventListener("submit", function(event) {
             event.preventDefault();
+            
+            // Sync values to hidden inputs to support both {{name}}/{{user_name}} and {{email}}/{{user_email}} in EmailJS
+            document.getElementById("hidden-user-name").value = this.elements["name"].value;
+            document.getElementById("hidden-user-email").value = this.elements["email"].value;
+
             const btn = document.getElementById("submit-btn");
             btn.disabled = true;
             btn.innerHTML = "Submitting...";
@@ -2559,7 +2580,7 @@ function BrochureModal({ onClose }: { onClose: () => void }) {
                         Thank You!
                       </h3>
                       <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.6; margin-bottom: 2rem; max-width: 400px; font-size: 0.9rem;">
-                        We have sent an email with the download link for the brochure to your email address. Please check your inbox (and spam folder) shortly.
+                        We have sent an email with the download link for the brochure to your email address. Please check your inbox shortly.
                       </p>
                       <button onclick="window.parent.postMessage('close-brochure-modal', '*')" class="submit-btn" style="width: auto; padding: 0.75rem 2.5rem; border-radius: 9999px; text-decoration: none; display: inline-flex; align-items: center; color: #000000;">
                         Okay, Got It
@@ -2570,9 +2591,26 @@ function BrochureModal({ onClose }: { onClose: () => void }) {
               }, function(error) {
                 console.error("FAILED...", error);
                 const errMsg = error && (error.text || error.message) ? (error.text || error.message) : "Please verify your .env file credentials and restart your dev server.";
-                alert("Failed to process request: " + errMsg);
-                btn.disabled = false;
-                btn.innerHTML = "Send Brochure to Email →";
+                document.body.innerHTML = \`
+                  <div class="form-container text-center" style="padding: 2.5rem 1.25rem;">
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                      <div style="height: 4rem; width: 4rem; border-radius: 9999px; background: #ea3838; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; box-shadow: 0 10px 25px rgba(234, 56, 56, 0.2);">
+                        <svg style="height: 2rem; width: 2rem; color: #ffffff;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                      </div>
+                      <h3 class="title" style="font-size: 1.5rem; margin-bottom: 0.75rem; color: #ea3838; text-transform: uppercase;">
+                        Submission Failed
+                      </h3>
+                      <p style="color: rgba(255, 255, 255, 0.7); line-height: 1.6; margin-bottom: 2rem; max-width: 400px; font-size: 0.9rem;">
+                        \${errMsg}
+                      </p>
+                      <button onclick="window.location.reload()" class="submit-btn" style="width: auto; padding: 0.75rem 2.5rem; border-radius: 9999px; background: #2e2a24; color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.1); cursor: pointer; display: inline-flex; align-items: center;">
+                        Try Again
+                      </button>
+                    </div>
+                  </div>
+                \`;
               });
           });
         </script>

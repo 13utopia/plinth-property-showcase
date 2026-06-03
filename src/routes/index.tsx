@@ -50,7 +50,6 @@ import listing1 from "@/assets/listing-1.jpg";
 import plinthShowroom from "@/assets/plinth-showroom.jpg";
 import listing2 from "@/assets/listing-2.jpg";
 
-
 export const Route = createFileRoute("/")({
   component: PlinthLanding,
   head: () => ({
@@ -115,11 +114,7 @@ function TiltCard({
   ...rest
 }: React.HTMLAttributes<HTMLDivElement> & { className?: string }) {
   return (
-    <div
-      className={className}
-      style={style}
-      {...rest}
-    >
+    <div className={className} style={style} {...rest}>
       {children}
     </div>
   );
@@ -761,10 +756,7 @@ function Spaces() {
                 </ul>
 
                 <a href="#contact" className="w-full mt-4 flex">
-                  <PremiumButton
-                    fullWidth
-                    innerClassName="w-full py-2.5 text-[12px] gap-2"
-                  >
+                  <PremiumButton fullWidth innerClassName="w-full py-2.5 text-[12px] gap-2">
                     Check Availability <ArrowRight className="h-4 w-4" />
                   </PremiumButton>
                 </a>
@@ -1221,9 +1213,12 @@ function EnquiryForm() {
   const rawTemplateId = (import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "").trim();
   const rawPublicKey = (import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "").trim();
 
-  const serviceId = rawServiceId && rawServiceId !== "your_service_id" ? rawServiceId : "service_74f661d";
-  const templateId = rawTemplateId && rawTemplateId !== "your_template_id" ? rawTemplateId : "template_a2596on";
-  const publicKey = rawPublicKey && rawPublicKey !== "your_public_key" ? rawPublicKey : "63d0_DVu3zixdIdYV";
+  const serviceId =
+    rawServiceId && rawServiceId !== "your_service_id" ? rawServiceId : "service_74f661d";
+  const templateId =
+    rawTemplateId && rawTemplateId !== "your_template_id" ? rawTemplateId : "template_a2596on";
+  const publicKey =
+    rawPublicKey && rawPublicKey !== "your_public_key" ? rawPublicKey : "63d0_DVu3zixdIdYV";
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -1697,8 +1692,8 @@ function EnquireNow() {
               Investment Details.
             </h2>
             <p className="mt-4 sm:mt-5 text-foreground/70 leading-relaxed text-base sm:text-lg max-w-xl">
-              Priority access to pricing, floor plans, rental projections &amp;
-              exclusive pre-launch offers.
+              Priority access to pricing, floor plans, rental projections &amp; exclusive pre-launch
+              offers.
             </p>
 
             <div className="mt-7 sm:mt-8 rounded-[22px] border border-[oklch(0.65_0.10_70/0.22)] hover:border-[#C69A57] transition-colors duration-300 bg-[linear-gradient(180deg,oklch(0.20_0.014_60/0.55),oklch(0.17_0.012_60/0.35))]  p-4 sm:p-5 flex items-start gap-3 sm:gap-4">
@@ -1740,9 +1735,12 @@ function NavbarEnquiryForm() {
   const rawTemplateId = (import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "").trim();
   const rawPublicKey = (import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "").trim();
 
-  const serviceId = rawServiceId && rawServiceId !== "your_service_id" ? rawServiceId : "service_74f661d";
-  const templateId = rawTemplateId && rawTemplateId !== "your_template_id" ? rawTemplateId : "template_a2596on";
-  const publicKey = rawPublicKey && rawPublicKey !== "your_public_key" ? rawPublicKey : "63d0_DVu3zixdIdYV";
+  const serviceId =
+    rawServiceId && rawServiceId !== "your_service_id" ? rawServiceId : "service_74f661d";
+  const templateId =
+    rawTemplateId && rawTemplateId !== "your_template_id" ? rawTemplateId : "template_a2596on";
+  const publicKey =
+    rawPublicKey && rawPublicKey !== "your_public_key" ? rawPublicKey : "63d0_DVu3zixdIdYV";
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -2378,13 +2376,47 @@ function EnquiryModal({ onClose }: { onClose: () => void }) {
 }
 
 function BrochureModal({ onClose }: { onClose: () => void }) {
-  const rawServiceId = (import.meta.env.VITE_EMAILJS_BROCHURE_SERVICE_ID || import.meta.env.VITE_EMAILJS_SERVICE_ID || "").trim();
-  const rawTemplateId = (import.meta.env.VITE_EMAILJS_BROCHURE_TEMPLATE_ID || import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "").trim();
-  const rawPublicKey = (import.meta.env.VITE_EMAILJS_BROCHURE_PUBLIC_KEY || import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "").trim();
+  const rawServiceId = (
+    import.meta.env.VITE_EMAILJS_BROCHURE_SERVICE_ID ||
+    import.meta.env.VITE_EMAILJS_SERVICE_ID ||
+    ""
+  ).trim();
+  const rawTemplateId = (
+    import.meta.env.VITE_EMAILJS_BROCHURE_TEMPLATE_ID ||
+    import.meta.env.VITE_EMAILJS_TEMPLATE_ID ||
+    ""
+  ).trim();
+  const rawClientTemplateId = (
+    import.meta.env.VITE_EMAILJS_BROCHURE_CLIENT_TEMPLATE_ID || ""
+  ).trim();
+  const rawPublicKey = (
+    import.meta.env.VITE_EMAILJS_BROCHURE_PUBLIC_KEY ||
+    import.meta.env.VITE_EMAILJS_PUBLIC_KEY ||
+    ""
+  ).trim();
 
-  const serviceId = rawServiceId && rawServiceId !== "your_service_id" && rawServiceId !== "your_brochure_service_id" ? rawServiceId : "service_74f661d";
-  const templateId = rawTemplateId && rawTemplateId !== "your_template_id" && rawTemplateId !== "your_brochure_template_id" ? rawTemplateId : "template_a2596on";
-  const publicKey = rawPublicKey && rawPublicKey !== "your_public_key" && rawPublicKey !== "your_brochure_public_key" ? rawPublicKey : "63d0_DVu3zixdIdYV";
+  const serviceId =
+    rawServiceId &&
+    rawServiceId !== "your_service_id" &&
+    rawServiceId !== "your_brochure_service_id"
+      ? rawServiceId
+      : "service_74f661d";
+  const templateId =
+    rawTemplateId &&
+    rawTemplateId !== "your_template_id" &&
+    rawTemplateId !== "your_brochure_template_id"
+      ? rawTemplateId
+      : "template_a2596on";
+  const clientTemplateId =
+    rawClientTemplateId && rawClientTemplateId !== "your_brochure_client_template_id"
+      ? rawClientTemplateId
+      : "";
+  const publicKey =
+    rawPublicKey &&
+    rawPublicKey !== "your_public_key" &&
+    rawPublicKey !== "your_brochure_public_key"
+      ? rawPublicKey
+      : "63d0_DVu3zixdIdYV";
 
   const brochureIframeSrcDoc = `
     <!DOCTYPE html>
@@ -2514,7 +2546,7 @@ function BrochureModal({ onClose }: { onClose: () => void }) {
       <body>
         <div class="form-container">
           <form id="brochure-form">
-            <input type="hidden" name="user_phone" value="N/A (Brochure Request)" />
+            <input type="hidden" name="user_phone" id="hidden-user-phone" />
             <input type="hidden" name="budget" value="N/A (Brochure Request)" />
             <input type="hidden" name="purpose" value="Brochure Download Request" />
             <input type="hidden" name="user_name" id="hidden-user-name" />
@@ -2530,6 +2562,11 @@ function BrochureModal({ onClose }: { onClose: () => void }) {
             <div class="input-group">
               <label class="label">Full Name</label>
               <input type="text" name="name" class="input-field" placeholder="Enter your name" required autocomplete="name" />
+            </div>
+
+            <div class="input-group">
+              <label class="label">Phone Number</label>
+              <input type="tel" name="phone" class="input-field" placeholder="10 digits only" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" required autocomplete="tel" />
             </div>
             
             <div class="input-group">
@@ -2557,16 +2594,28 @@ function BrochureModal({ onClose }: { onClose: () => void }) {
           document.getElementById("brochure-form").addEventListener("submit", function(event) {
             event.preventDefault();
             
-            // Sync values to hidden inputs to support both {{name}}/{{user_name}} and {{email}}/{{user_email}} in EmailJS
+            // Sync values to hidden inputs to support both {{name}}/{{user_name}}, {{email}}/{{user_email}}, and {{phone}}/{{user_phone}} in EmailJS
             document.getElementById("hidden-user-name").value = this.elements["name"].value;
             document.getElementById("hidden-user-email").value = this.elements["email"].value;
+            document.getElementById("hidden-user-phone").value = this.elements["phone"].value;
 
             const btn = document.getElementById("submit-btn");
             btn.disabled = true;
             btn.innerHTML = "Submitting...";
 
-            emailjs.sendForm("${serviceId}", "${templateId}", this)
+            const serviceId = "${serviceId}";
+            const templateId = "${templateId}";
+            const clientTemplateId = "${clientTemplateId}";
+
+            emailjs.sendForm(serviceId, templateId, this)
               .then(function() {
+                // If client template ID is configured, send the lead notification to the client in the background
+                if (clientTemplateId) {
+                  emailjs.sendForm(serviceId, clientTemplateId, document.getElementById("brochure-form"))
+                    .catch(function(error) {
+                      console.error("Client notification failed...", error);
+                    });
+                }
                 // Show success view (no direct download, only email message)
                 document.body.innerHTML = \`
                   <div class="form-container text-center" style="padding: 2.5rem 1.25rem;">
@@ -2645,7 +2694,7 @@ function BrochureModal({ onClose }: { onClose: () => void }) {
 
         <iframe
           srcDoc={brochureIframeSrcDoc}
-          className="w-full h-[410px] border-0 overflow-hidden hide-scrollbar bg-transparent"
+          className="w-full h-[495px] border-0 overflow-hidden hide-scrollbar bg-transparent"
           scrolling="no"
           title="Download Brochure Form"
         />

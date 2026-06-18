@@ -2584,9 +2584,8 @@ function LandingBelowFold({ onBrochureClick }: { onBrochureClick?: () => void })
 
 function PlinthLanding() {
   const [showBelowFold, setShowBelowFold] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(true);
   const [isBrochureModalOpen, setIsBrochureModalOpen] = useState(false);
-  const [hasTriggeredScroll, setHasTriggeredScroll] = useState(false);
 
   useEffect(() => {
     if ("scrollRestoration" in history) {
@@ -2599,13 +2598,12 @@ function PlinthLanding() {
       } else if (event.data === "open-brochure-modal") {
         setIsModalOpen(false);
         setIsBrochureModalOpen(true);
-        setHasTriggeredScroll(true);
         setShowBelowFold(true);
       }
     };
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
-  }, [setIsModalOpen, setIsBrochureModalOpen, setHasTriggeredScroll, setShowBelowFold]);
+  }, [setIsModalOpen, setIsBrochureModalOpen, setShowBelowFold]);
 
   useEffect(() => {
     if (showBelowFold) return;
@@ -2627,26 +2625,6 @@ function PlinthLanding() {
     };
   }, [showBelowFold]);
 
-  // Scroll-based popup trigger
-  useEffect(() => {
-    const handleScroll = () => {
-      if (hasTriggeredScroll) return;
-      if (isBrochureModalOpen || isModalOpen) return;
-
-      // Show popup when user scrolls past 150px
-      if (window.scrollY > 150) {
-        setIsModalOpen(true);
-        setHasTriggeredScroll(true);
-      }
-    };
-
-    // Check on mount in case the page was reloaded already scrolled down
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasTriggeredScroll, isBrochureModalOpen, isModalOpen]);
-
   // Lock body scrolling when a modal is active
   useEffect(() => {
     if (isModalOpen || isBrochureModalOpen) {
@@ -2662,16 +2640,12 @@ function PlinthLanding() {
   const handleEnquireClick = useCallback(() => {
     setIsBrochureModalOpen(false);
     setIsModalOpen(true);
-    setHasTriggeredScroll(true); // Disable scroll-based popups once engaged
-    // Ensure below-fold content is rendered
     setShowBelowFold(true);
   }, []);
 
   const handleBrochureClick = useCallback(() => {
     setIsModalOpen(false);
     setIsBrochureModalOpen(true);
-    setHasTriggeredScroll(true); // Disable scroll-based popups once engaged
-    // Ensure below-fold content is rendered
     setShowBelowFold(true);
   }, []);
 

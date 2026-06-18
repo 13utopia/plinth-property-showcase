@@ -276,20 +276,21 @@ const Hero = memo(function Hero({ onBrochureClick }: { onBrochureClick?: () => v
 
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mb-10">
-            <PremiumButton
+            <button
               onClick={onBrochureClick}
-              className="w-full sm:w-auto"
-              innerClassName="w-full px-8 py-4 text-[13px] gap-3"
-            >
-              Download Brochure
-              <Download className="h-3.5 w-3.5" />
-            </PremiumButton>
-            <a
-              href="tel:+919898709370"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-full px-7 py-4 text-[13px] font-medium text-white/90 border border-white/20 bg-transparent hover:border-white/40 transition duration-300"
             >
-              <PhoneIcon className="h-3.5 w-3.5 text-white/70" />
-              Talk to Advisor
+              Download Brochure
+              <Download className="h-3.5 w-3.5 text-white/70" />
+            </button>
+            <a
+              href="tel:+919898709370"
+              className="group relative overflow-hidden rounded-full bg-gradient-to-r from-[#E3C98B] via-[#D4A865] to-[#C69A57] p-[1.5px] transition-all hover:shadow-[0_0_30px_-5px_rgba(227,201,139,0.6)] active:scale-[0.98] w-full sm:w-auto"
+            >
+              <div className="relative flex h-full w-full items-center justify-center gap-3 rounded-full bg-gradient-to-r from-[#E3C98B] via-[#D4A865] to-[#C69A57] text-black font-semibold transition-colors group-hover:from-[#F5E9C8] group-hover:via-[#E3C98B] group-hover:to-[#D4A865] group-hover:text-black w-full px-8 py-4 text-[13px]">
+                <PhoneIcon className="h-3.5 w-3.5" />
+                Talk to Advisor
+              </div>
             </a>
           </div>
 
@@ -1330,108 +1331,42 @@ function EnquiryForm() {
           .input-field:focus {
             border-color: #C69A57;
           }
-          .custom-dropdown {
-            position: relative;
-            width: 100%;
+          .budget-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
           }
-          .dropdown-trigger {
-            width: 100%;
-            border-radius: 0.75rem; /* 12px */
-            border: 1px solid #2e2a24;
-            background-color: #0d0b09;
-            padding: 0.875rem 1.25rem;
-            color: #ffffff;
-            font-size: 0.9rem;
-            outline: none;
-            box-sizing: border-box;
-            font-family: 'Manrope', sans-serif;
-            height: 3.25rem;
+          .budget-option {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            text-align: left;
-            transition: all 0.2s ease;
-          }
-          .dropdown-trigger:focus {
-            border-color: #C69A57;
-          }
-          .dropdown-arrow {
-            height: 1.25rem;
-            width: 1.25rem;
-            transition: transform 0.3s ease;
-          }
-          .custom-dropdown.open .dropdown-arrow {
-            transform: rotate(180deg);
-          }
-          .custom-dropdown.open .dropdown-trigger {
-            border-color: #C69A57;
-          }
-          .dropdown-menu {
-            position: absolute;
-            top: calc(100% + 0.5rem);
-            left: 0;
-            width: 100%;
-            background-color: #0f0d0b;
-            border: 1px solid #C69A57;
-            border-radius: 0.75rem;
-            z-index: 100;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-            opacity: 0;
-            transform: translateY(-10px);
-            pointer-events: none;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-          }
-          .custom-dropdown.open .dropdown-menu {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-          }
-          .dropdown-item {
-            padding: 0.875rem 1.25rem;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
-            cursor: pointer;
-            font-family: 'Manrope', sans-serif;
-            transition: all 0.2s ease;
-          }
-          .dropdown-item:hover {
-            background-color: rgba(198, 154, 87, 0.1);
-            color: #E3C98B;
-          }
-          .dropdown-item.active {
-            background-color: rgba(198, 154, 87, 0.2);
-            color: #E3C98B;
-            font-weight: 600;
-          }
-          .purpose-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
-            height: 3.25rem;
-          }
-          .purpose-btn {
-            width: 100%;
-            height: 100%;
+            gap: 0.75rem;
             border-radius: 0.75rem;
             border: 1px solid #2e2a24;
             background: transparent;
-            color: #ffffff;
-            font-size: 0.9rem;
-            font-weight: 500;
+            padding: 0.875rem 1rem;
             cursor: pointer;
-            font-family: 'Manrope', sans-serif;
             transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-family: 'Manrope', sans-serif;
           }
-          .purpose-btn.active {
-            background: #D4A865;
-            color: #000000;
+          .budget-option:has(input:checked) {
             border-color: #D4A865;
-            box-shadow: 0 4px 20px rgba(212, 168, 101, 0.3);
+            background: rgba(212, 168, 101, 0.1);
+          }
+          .budget-option input[type="radio"] {
+            width: 1rem;
+            height: 1rem;
+            margin: 0;
+            accent-color: #D4A865;
+            flex-shrink: 0;
+            cursor: pointer;
+          }
+          .budget-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+          }
+          .budget-option:has(input:checked) .budget-label {
+            color: #E3C98B;
+            font-weight: 600;
           }
           .divider {
             height: 1px;
@@ -1475,7 +1410,6 @@ function EnquiryForm() {
       <body class="bg-transparent antialiased">
         <form id="enquiry-form" class="form-container">
           <input type="hidden" name="name" id="hidden-name" />
-          <input type="hidden" name="email" id="hidden-email" />
           <div class="relative-z">
             <div class="badge-row">
               <svg class="sparkle-icon" viewBox="0 0 24 24" fill="none" stroke="#E3C98B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="height: 1.25rem; width: 1.25rem;">
@@ -1485,7 +1419,7 @@ function EnquiryForm() {
               <span class="badge-text">PRIORITY ENQUIRY</span>
             </div>
             <h3 class="title">
-              Schedule a private<br />consultation.
+              Get Pre-Launch Pricing Advantage Now
             </h3>
 
             <div class="grid-layout">
@@ -1514,40 +1448,21 @@ function EnquiryForm() {
                   class="input-field"
                 />
               </div>
-              <div class="input-group">
-                <label class="label">EMAIL ADDRESS</label>
-                <input
-                  name="user_email"
-                  type="email"
-                  placeholder="name@example.com"
-                  autocomplete="email"
-                  required
-                  class="input-field"
-                />
-              </div>
-              <div class="input-group">
-                <label class="label">BUDGET RANGE</label>
-                <input type="hidden" name="budget" id="budget-input" value="90 Lacs - 1.1 Cr" />
-                <div class="custom-dropdown" id="budget-dropdown">
-                  <button type="button" class="dropdown-trigger" onclick="toggleDropdown(event)">
-                    <span id="dropdown-selected">90 Lacs - 1.1 Cr</span>
-                    <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="#C69A57" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  <div class="dropdown-menu" id="dropdown-menu">
-                    <div class="dropdown-item active" onclick="selectOption('90 Lacs - 1.1 Cr', event)">90 Lacs - 1.1 Cr</div>
-                    <div class="dropdown-item" onclick="selectOption('1.1 Cr - 1.5 Cr', event)">1.1 Cr - 1.5 Cr</div>
-                    <div class="dropdown-item" onclick="selectOption('1.5 Cr+', event)">1.5 Cr+</div>
-                  </div>
-                </div>
-              </div>
               <div class="input-group full-width">
-                <label class="label">PURPOSE</label>
-                <input type="hidden" name="purpose" id="purpose-input" value="Investor" />
-                <div class="purpose-container">
-                  <button type="button" id="purpose-investor" class="purpose-btn active" onclick="selectPurpose('Investor')">Investor</button>
-                  <button type="button" id="purpose-enduser" class="purpose-btn" onclick="selectPurpose('End User')">End User</button>
+                <label class="label">BUDGET RANGE</label>
+                <div class="budget-container">
+                  <label class="budget-option">
+                    <input type="radio" name="budget" value="90 Lacs - 1.1 Cr" checked required />
+                    <span class="budget-label">90 Lacs - 1.1 Cr</span>
+                  </label>
+                  <label class="budget-option">
+                    <input type="radio" name="budget" value="1.1 Cr - 1.5 Cr" required />
+                    <span class="budget-label">1.1 Cr - 1.5 Cr</span>
+                  </label>
+                  <label class="budget-option">
+                    <input type="radio" name="budget" value="1.5 Cr+" required />
+                    <span class="budget-label">1.5 Cr+</span>
+                  </label>
                 </div>
               </div>
             </div>
@@ -1570,55 +1485,10 @@ function EnquiryForm() {
             });
           })();
 
-          function selectPurpose(val) {
-            document.getElementById('purpose-input').value = val;
-            if (val === 'Investor') {
-              document.getElementById('purpose-investor').classList.add('active');
-              document.getElementById('purpose-enduser').classList.remove('active');
-            } else {
-              document.getElementById('purpose-enduser').classList.add('active');
-              document.getElementById('purpose-investor').classList.remove('active');
-            }
-          }
-
-          function toggleDropdown(e) {
-            e.stopPropagation();
-            const dropdown = document.getElementById('budget-dropdown');
-            dropdown.classList.toggle('open');
-          }
-          
-          function selectOption(val, e) {
-            e.stopPropagation();
-            document.getElementById('budget-input').value = val;
-            document.getElementById('dropdown-selected').innerText = val;
-            
-            const menu = document.getElementById('dropdown-menu');
-            const items = menu.getElementsByClassName('dropdown-item');
-            for (let item of items) {
-              if (item.innerText === val) {
-                item.classList.add('active');
-              } else {
-                item.classList.remove('active');
-              }
-            }
-            
-            document.getElementById('budget-dropdown').classList.remove('open');
-          }
-
-          // Close dropdown when clicking outside
-          window.addEventListener('click', function(e) {
-            const dropdown = document.getElementById('budget-dropdown');
-            if (dropdown) {
-              dropdown.classList.remove('open');
-            }
-          });
-
           document.getElementById("enquiry-form").addEventListener("submit", function(event) {
             event.preventDefault();
             
-            // Sync fallback fields to support both {{name}}/{{user_name}} and {{email}}/{{user_email}} in EmailJS
             document.getElementById("hidden-name").value = this.elements["user_name"].value;
-            document.getElementById("hidden-email").value = this.elements["user_email"].value;
 
             const btn = document.getElementById("submit-btn");
             btn.disabled = true;
@@ -1852,108 +1722,42 @@ function NavbarEnquiryForm() {
           .input-field:focus {
             border-color: #C69A57;
           }
-          .custom-dropdown {
-            position: relative;
-            width: 100%;
+          .budget-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
           }
-          .dropdown-trigger {
-            width: 100%;
-            border-radius: 0.75rem; /* 12px */
-            border: 1px solid #2e2a24;
-            background-color: #0d0b09;
-            padding: 0.875rem 1.25rem;
-            color: #ffffff;
-            font-size: 0.9rem;
-            outline: none;
-            box-sizing: border-box;
-            font-family: 'Manrope', sans-serif;
-            height: 3.25rem;
+          .budget-option {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            text-align: left;
-            transition: all 0.2s ease;
-          }
-          .dropdown-trigger:focus {
-            border-color: #C69A57;
-          }
-          .dropdown-arrow {
-            height: 1.25rem;
-            width: 1.25rem;
-            transition: transform 0.3s ease;
-          }
-          .custom-dropdown.open .dropdown-arrow {
-            transform: rotate(180deg);
-          }
-          .custom-dropdown.open .dropdown-trigger {
-            border-color: #C69A57;
-          }
-          .dropdown-menu {
-            position: absolute;
-            top: calc(100% + 0.5rem);
-            left: 0;
-            width: 100%;
-            background-color: #0f0d0b;
-            border: 1px solid #C69A57;
-            border-radius: 0.75rem;
-            z-index: 100;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-            opacity: 0;
-            transform: translateY(-10px);
-            pointer-events: none;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-          }
-          .custom-dropdown.open .dropdown-menu {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-          }
-          .dropdown-item {
-            padding: 0.875rem 1.25rem;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
-            cursor: pointer;
-            font-family: 'Manrope', sans-serif;
-            transition: all 0.2s ease;
-          }
-          .dropdown-item:hover {
-            background-color: rgba(198, 154, 87, 0.1);
-            color: #E3C98B;
-          }
-          .dropdown-item.active {
-            background-color: rgba(198, 154, 87, 0.2);
-            color: #E3C98B;
-            font-weight: 600;
-          }
-          .purpose-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
-            height: 3.25rem;
-          }
-          .purpose-btn {
-            width: 100%;
-            height: 100%;
+            gap: 0.75rem;
             border-radius: 0.75rem;
             border: 1px solid #2e2a24;
             background: transparent;
-            color: #ffffff;
-            font-size: 0.9rem;
-            font-weight: 500;
+            padding: 0.875rem 1rem;
             cursor: pointer;
-            font-family: 'Manrope', sans-serif;
             transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-family: 'Manrope', sans-serif;
           }
-          .purpose-btn.active {
-            background: #D4A865;
-            color: #000000;
+          .budget-option:has(input:checked) {
             border-color: #D4A865;
-            box-shadow: 0 4px 20px rgba(212, 168, 101, 0.3);
+            background: rgba(212, 168, 101, 0.1);
+          }
+          .budget-option input[type="radio"] {
+            width: 1rem;
+            height: 1rem;
+            margin: 0;
+            accent-color: #D4A865;
+            flex-shrink: 0;
+            cursor: pointer;
+          }
+          .budget-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.9rem;
+          }
+          .budget-option:has(input:checked) .budget-label {
+            color: #E3C98B;
+            font-weight: 600;
           }
           .divider {
             height: 1px;
@@ -1997,7 +1801,6 @@ function NavbarEnquiryForm() {
       <body class="bg-transparent antialiased">
         <form id="enquiry-form" class="form-container">
           <input type="hidden" name="name" id="hidden-name" />
-          <input type="hidden" name="email" id="hidden-email" />
           <div class="relative-z">
             <div class="badge-row">
               <svg class="sparkle-icon" viewBox="0 0 24 24" fill="none" stroke="#E3C98B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="height: 1.25rem; width: 1.25rem;">
@@ -2007,7 +1810,7 @@ function NavbarEnquiryForm() {
               <span class="badge-text">PRIORITY ENQUIRY</span>
             </div>
             <h3 class="title">
-              Schedule a private<br />consultation.
+              Get Pre-Launch Pricing Advantage Now
             </h3>
 
             <div class="grid-layout">
@@ -2036,40 +1839,21 @@ function NavbarEnquiryForm() {
                   class="input-field"
                 />
               </div>
-              <div class="input-group">
-                <label class="label">EMAIL ADDRESS</label>
-                <input
-                  name="user_email"
-                  type="email"
-                  placeholder="name@example.com"
-                  autocomplete="email"
-                  required
-                  class="input-field"
-                />
-              </div>
-              <div class="input-group">
-                <label class="label">BUDGET RANGE</label>
-                <input type="hidden" name="budget" id="budget-input" value="90 Lacs - 1.1 Cr" />
-                <div class="custom-dropdown" id="budget-dropdown">
-                  <button type="button" class="dropdown-trigger" onclick="toggleDropdown(event)">
-                    <span id="dropdown-selected">90 Lacs - 1.1 Cr</span>
-                    <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="#C69A57" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  <div class="dropdown-menu" id="dropdown-menu">
-                    <div class="dropdown-item active" onclick="selectOption('90 Lacs - 1.1 Cr', event)">90 Lacs - 1.1 Cr</div>
-                    <div class="dropdown-item" onclick="selectOption('1.1 Cr - 1.5 Cr', event)">1.1 Cr - 1.5 Cr</div>
-                    <div class="dropdown-item" onclick="selectOption('1.5 Cr+', event)">1.5 Cr+</div>
-                  </div>
-                </div>
-              </div>
               <div class="input-group full-width">
-                <label class="label">PURPOSE</label>
-                <input type="hidden" name="purpose" id="purpose-input" value="Investor" />
-                <div class="purpose-container">
-                  <button type="button" id="purpose-investor" class="purpose-btn active" onclick="selectPurpose('Investor')">Investor</button>
-                  <button type="button" id="purpose-enduser" class="purpose-btn" onclick="selectPurpose('End User')">End User</button>
+                <label class="label">BUDGET RANGE</label>
+                <div class="budget-container">
+                  <label class="budget-option">
+                    <input type="radio" name="budget" value="90 Lacs - 1.1 Cr" checked required />
+                    <span class="budget-label">90 Lacs - 1.1 Cr</span>
+                  </label>
+                  <label class="budget-option">
+                    <input type="radio" name="budget" value="1.1 Cr - 1.5 Cr" required />
+                    <span class="budget-label">1.1 Cr - 1.5 Cr</span>
+                  </label>
+                  <label class="budget-option">
+                    <input type="radio" name="budget" value="1.5 Cr+" required />
+                    <span class="budget-label">1.5 Cr+</span>
+                  </label>
                 </div>
               </div>
             </div>
@@ -2092,55 +1876,10 @@ function NavbarEnquiryForm() {
             });
           })();
 
-          function selectPurpose(val) {
-            document.getElementById('purpose-input').value = val;
-            if (val === 'Investor') {
-              document.getElementById('purpose-investor').classList.add('active');
-              document.getElementById('purpose-enduser').classList.remove('active');
-            } else {
-              document.getElementById('purpose-enduser').classList.add('active');
-              document.getElementById('purpose-investor').classList.remove('active');
-            }
-          }
-
-          function toggleDropdown(e) {
-            e.stopPropagation();
-            const dropdown = document.getElementById('budget-dropdown');
-            dropdown.classList.toggle('open');
-          }
-          
-          function selectOption(val, e) {
-            e.stopPropagation();
-            document.getElementById('budget-input').value = val;
-            document.getElementById('dropdown-selected').innerText = val;
-            
-            const menu = document.getElementById('dropdown-menu');
-            const items = menu.getElementsByClassName('dropdown-item');
-            for (let item of items) {
-              if (item.innerText === val) {
-                item.classList.add('active');
-              } else {
-                item.classList.remove('active');
-              }
-            }
-            
-            document.getElementById('budget-dropdown').classList.remove('open');
-          }
-
-          // Close dropdown when clicking outside
-          window.addEventListener('click', function(e) {
-            const dropdown = document.getElementById('budget-dropdown');
-            if (dropdown) {
-              dropdown.classList.remove('open');
-            }
-          });
-
           document.getElementById("enquiry-form").addEventListener("submit", function(event) {
             event.preventDefault();
             
-            // Sync fallback fields to support both {{name}}/{{user_name}} and {{email}}/{{user_email}} in EmailJS
             document.getElementById("hidden-name").value = this.elements["user_name"].value;
-            document.getElementById("hidden-email").value = this.elements["user_email"].value;
 
             const btn = document.getElementById("submit-btn");
             btn.disabled = true;

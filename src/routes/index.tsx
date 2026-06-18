@@ -1222,12 +1222,29 @@ function EnquiryForm() {
     rawPublicKey && rawPublicKey !== "your_public_key" ? rawPublicKey : "63d0_DVu3zixdIdYV";
 
   const [mounted, setMounted] = useState(false);
+  const formResizeId = "main";
+  const [iframeHeight, setIframeHeight] = useState(720);
+
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      if (
+        event.data?.type === "enquiry-form-resize" &&
+        event.data?.id === formResizeId &&
+        typeof event.data.height === "number"
+      ) {
+        setIframeHeight(event.data.height);
+      }
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
+
   if (!mounted) {
-    return <div className="w-full h-[535px] sm:h-[545px] bg-transparent" />;
+    return <div className="w-full min-h-[720px] bg-transparent" />;
   }
 
   const iframeSrcDoc = `
@@ -1245,7 +1262,8 @@ function EnquiryForm() {
             background: transparent;
             font-family: 'Manrope', 'Inter', sans-serif;
             color: #ffffff;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: visible;
             -webkit-font-smoothing: antialiased;
           }
           .form-container {
@@ -1296,6 +1314,34 @@ function EnquiryForm() {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
+          }
+          @media (max-width: 639px) {
+            .grid-layout {
+              grid-template-columns: 1fr;
+            }
+            .input-group.full-width {
+              grid-column: span 1;
+            }
+            .form-container {
+              padding-bottom: 1.5rem;
+            }
+            .title {
+              font-size: 1.5rem;
+              margin-bottom: 1rem;
+            }
+            .divider {
+              margin: 1rem 0;
+            }
+            .disclaimer {
+              margin-bottom: 1rem;
+            }
+            .submit-btn {
+              height: auto;
+              min-height: 3.25rem;
+              padding: 0.875rem 1rem;
+              font-size: 0.85rem;
+              line-height: 1.35;
+            }
           }
           .input-group {
             position: relative;
@@ -1485,6 +1531,20 @@ function EnquiryForm() {
             });
           })();
 
+          function postFormHeight() {
+            const height = Math.max(
+              document.body.scrollHeight,
+              document.documentElement.scrollHeight
+            );
+            window.parent.postMessage({ type: "enquiry-form-resize", id: "${formResizeId}", height: height + 12 }, "*");
+          }
+          postFormHeight();
+          window.addEventListener("load", postFormHeight);
+          window.addEventListener("resize", postFormHeight);
+          if (typeof ResizeObserver !== "undefined") {
+            new ResizeObserver(postFormHeight).observe(document.documentElement);
+          }
+
           document.getElementById("enquiry-form").addEventListener("submit", function(event) {
             event.preventDefault();
             
@@ -1538,7 +1598,8 @@ function EnquiryForm() {
   return (
     <iframe
       srcDoc={iframeSrcDoc}
-      className="w-full h-[535px] sm:h-[545px] border-0 overflow-hidden hide-scrollbar bg-transparent"
+      style={{ height: iframeHeight }}
+      className="w-full border-0 overflow-hidden hide-scrollbar bg-transparent"
       scrolling="no"
       title="Priority Enquiry Form"
     />
@@ -1613,12 +1674,29 @@ function NavbarEnquiryForm() {
     rawPublicKey && rawPublicKey !== "your_public_key" ? rawPublicKey : "63d0_DVu3zixdIdYV";
 
   const [mounted, setMounted] = useState(false);
+  const formResizeId = "modal";
+  const [iframeHeight, setIframeHeight] = useState(720);
+
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      if (
+        event.data?.type === "enquiry-form-resize" &&
+        event.data?.id === formResizeId &&
+        typeof event.data.height === "number"
+      ) {
+        setIframeHeight(event.data.height);
+      }
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
+
   if (!mounted) {
-    return <div className="w-full h-[535px] sm:h-[545px] bg-transparent" />;
+    return <div className="w-full min-h-[720px] bg-transparent" />;
   }
 
   const iframeSrcDoc = `
@@ -1636,7 +1714,8 @@ function NavbarEnquiryForm() {
             background: transparent;
             font-family: 'Manrope', 'Inter', sans-serif;
             color: #ffffff;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: visible;
             -webkit-font-smoothing: antialiased;
           }
           .form-container {
@@ -1687,6 +1766,34 @@ function NavbarEnquiryForm() {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
+          }
+          @media (max-width: 639px) {
+            .grid-layout {
+              grid-template-columns: 1fr;
+            }
+            .input-group.full-width {
+              grid-column: span 1;
+            }
+            .form-container {
+              padding-bottom: 1.5rem;
+            }
+            .title {
+              font-size: 1.5rem;
+              margin-bottom: 1rem;
+            }
+            .divider {
+              margin: 1rem 0;
+            }
+            .disclaimer {
+              margin-bottom: 1rem;
+            }
+            .submit-btn {
+              height: auto;
+              min-height: 3.25rem;
+              padding: 0.875rem 1rem;
+              font-size: 0.85rem;
+              line-height: 1.35;
+            }
           }
           .input-group {
             position: relative;
@@ -1876,6 +1983,20 @@ function NavbarEnquiryForm() {
             });
           })();
 
+          function postFormHeight() {
+            const height = Math.max(
+              document.body.scrollHeight,
+              document.documentElement.scrollHeight
+            );
+            window.parent.postMessage({ type: "enquiry-form-resize", id: "${formResizeId}", height: height + 12 }, "*");
+          }
+          postFormHeight();
+          window.addEventListener("load", postFormHeight);
+          window.addEventListener("resize", postFormHeight);
+          if (typeof ResizeObserver !== "undefined") {
+            new ResizeObserver(postFormHeight).observe(document.documentElement);
+          }
+
           document.getElementById("enquiry-form").addEventListener("submit", function(event) {
             event.preventDefault();
             
@@ -1929,7 +2050,8 @@ function NavbarEnquiryForm() {
   return (
     <iframe
       srcDoc={iframeSrcDoc}
-      className="w-full h-[535px] sm:h-[545px] border-0 overflow-hidden hide-scrollbar bg-transparent"
+      style={{ height: iframeHeight }}
+      className="w-full border-0 overflow-hidden hide-scrollbar bg-transparent"
       scrolling="no"
       title="Priority Enquiry Form Modal"
     />
@@ -2099,7 +2221,7 @@ function EnquiryModal({ onClose }: { onClose: () => void }) {
         className="absolute inset-0 bg-black/80"
         onClick={onClose}
       />
-      <div className="relative z-10 w-full max-w-2xl max-h-[min(90vh,900px)] overflow-y-auto rounded-2xl border border-[oklch(0.65_0.10_70/0.22)] bg-[oklch(0.17_0.012_60)] p-4 pt-10 shadow-xl">
+      <div className="relative z-10 w-full max-w-2xl max-h-[min(92vh,900px)] overflow-y-auto rounded-2xl border border-[oklch(0.65_0.10_70/0.22)] bg-[oklch(0.17_0.012_60)] p-4 pb-6 pt-10 shadow-xl">
         <button
           type="button"
           onClick={onClose}
@@ -2172,7 +2294,8 @@ function BrochureModal({ onClose }: { onClose: () => void }) {
             background: transparent;
             font-family: 'Manrope', 'Inter', sans-serif;
             color: #ffffff;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: visible;
             -webkit-font-smoothing: antialiased;
           }
           .form-container {

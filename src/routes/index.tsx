@@ -1223,7 +1223,7 @@ function EnquiryForm() {
 
   const [mounted, setMounted] = useState(false);
   const formResizeId = "main";
-  const [iframeHeight, setIframeHeight] = useState(720);
+  const [iframeHeight, setIframeHeight] = useState(620);
 
   useEffect(() => {
     setMounted(true);
@@ -1236,7 +1236,7 @@ function EnquiryForm() {
         event.data?.id === formResizeId &&
         typeof event.data.height === "number"
       ) {
-        setIframeHeight(event.data.height);
+        setIframeHeight(Math.min(Math.max(event.data.height, 480), 760));
       }
     };
     window.addEventListener("message", onMessage);
@@ -1244,7 +1244,7 @@ function EnquiryForm() {
   }, []);
 
   if (!mounted) {
-    return <div className="w-full min-h-[720px] bg-transparent" />;
+    return <div className="w-full min-h-[620px] bg-transparent" />;
   }
 
   const iframeSrcDoc = `
@@ -1532,17 +1532,17 @@ function EnquiryForm() {
           })();
 
           function postFormHeight() {
-            const height = Math.max(
-              document.body.scrollHeight,
-              document.documentElement.scrollHeight
-            );
-            window.parent.postMessage({ type: "enquiry-form-resize", id: "${formResizeId}", height: height + 12 }, "*");
+            const form = document.querySelector(".form-container");
+            if (!form) return;
+            const height = form.getBoundingClientRect().height;
+            window.parent.postMessage({ type: "enquiry-form-resize", id: "${formResizeId}", height: Math.ceil(height) + 8 }, "*");
           }
           postFormHeight();
           window.addEventListener("load", postFormHeight);
           window.addEventListener("resize", postFormHeight);
           if (typeof ResizeObserver !== "undefined") {
-            new ResizeObserver(postFormHeight).observe(document.documentElement);
+            const form = document.querySelector(".form-container");
+            if (form) new ResizeObserver(postFormHeight).observe(form);
           }
 
           document.getElementById("enquiry-form").addEventListener("submit", function(event) {
@@ -1612,7 +1612,7 @@ function EnquireNow() {
       <div className="mx-auto max-w-[1120px] px-4 lg:px-6 xl:px-8">
         <SectionLabel n="09" t="ENQUIRE NOW" />
 
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-14">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-start">
           <div>
             <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-6xl leading-[1.05] text-foreground">
               Get{" "}
@@ -1675,7 +1675,7 @@ function NavbarEnquiryForm() {
 
   const [mounted, setMounted] = useState(false);
   const formResizeId = "modal";
-  const [iframeHeight, setIframeHeight] = useState(720);
+  const [iframeHeight, setIframeHeight] = useState(620);
 
   useEffect(() => {
     setMounted(true);
@@ -1688,7 +1688,7 @@ function NavbarEnquiryForm() {
         event.data?.id === formResizeId &&
         typeof event.data.height === "number"
       ) {
-        setIframeHeight(event.data.height);
+        setIframeHeight(Math.min(Math.max(event.data.height, 480), 760));
       }
     };
     window.addEventListener("message", onMessage);
@@ -1696,7 +1696,7 @@ function NavbarEnquiryForm() {
   }, []);
 
   if (!mounted) {
-    return <div className="w-full min-h-[720px] bg-transparent" />;
+    return <div className="w-full min-h-[620px] bg-transparent" />;
   }
 
   const iframeSrcDoc = `
@@ -1984,17 +1984,17 @@ function NavbarEnquiryForm() {
           })();
 
           function postFormHeight() {
-            const height = Math.max(
-              document.body.scrollHeight,
-              document.documentElement.scrollHeight
-            );
-            window.parent.postMessage({ type: "enquiry-form-resize", id: "${formResizeId}", height: height + 12 }, "*");
+            const form = document.querySelector(".form-container");
+            if (!form) return;
+            const height = form.getBoundingClientRect().height;
+            window.parent.postMessage({ type: "enquiry-form-resize", id: "${formResizeId}", height: Math.ceil(height) + 8 }, "*");
           }
           postFormHeight();
           window.addEventListener("load", postFormHeight);
           window.addEventListener("resize", postFormHeight);
           if (typeof ResizeObserver !== "undefined") {
-            new ResizeObserver(postFormHeight).observe(document.documentElement);
+            const form = document.querySelector(".form-container");
+            if (form) new ResizeObserver(postFormHeight).observe(form);
           }
 
           document.getElementById("enquiry-form").addEventListener("submit", function(event) {
